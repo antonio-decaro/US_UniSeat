@@ -1,2 +1,10 @@
 # US_UniSeat
-Progetto di Ingegneria del Software, anno accademico "05/12/2019"
+Anno accademico 05/12/2019, Università degli Studi di Salerno - UNISA
+Progetto di "Ingegneria del Software";
+Professoressa "Ferrucci Filomena";
+Autori:
+  - De Caro Antonio
+  - De Santis Marco
+  - Capozzoli Lorenzo
+  - Spinelli Gianluca
+  - Rocco Simone Pasquale
