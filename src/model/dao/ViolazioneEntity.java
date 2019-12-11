@@ -1,4 +1,4 @@
-package model.daos;
+package model.dao;
 
 /**
  * Questa eccezione viene lanciata quando si verifica una violazione di un entità di qualunque tipo.
