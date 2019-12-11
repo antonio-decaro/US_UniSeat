@@ -7,7 +7,6 @@ import java.util.Set;
  * Questa classe modella il concetto di "Aula" all'interno del sistema.
  * @author De Caro Antonio
  * @version 0.1
- * ciao
  * */
 public class Aula {
 
