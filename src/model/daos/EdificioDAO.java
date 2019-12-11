@@ -1,4 +1,4 @@
-package model.dao;
+package model.daos;
 
 import model.pojo.Edificio;
 

@@ -43,9 +43,13 @@ public class Prenotazione {
         return oraInizio;
     }
 
-    public void setOraInizio(Time oraInizio) { this.oraInizio = oraInizio; }
+    public void setOraInizio(Time oraInizio) {
+        this.oraInizio = oraInizio;
+    }
 
-    public Time getOraFine() { return oraFine; }
+    public Time getOraFine() {
+        return oraFine;
+    }
 
     public void setOraFine(Time oraFine) {
         this.oraFine = oraFine;
