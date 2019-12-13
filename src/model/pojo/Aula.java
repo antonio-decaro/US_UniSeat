@@ -5,12 +5,22 @@ import java.util.Set;
 
 /**
  * Questa classe modella il concetto di "Aula" all'interno del sistema.
+ *
  * @author De Caro Antonio
  * @version 0.1
- * */
+ */
 public class Aula {
 
-    public Aula(){}
+    private int id;
+    private String nome;
+    private int nPostiLiberi;
+    private int nPosti;
+    private String disponibilita;
+    private Edificio edificio;
+    private Set<Servizio> servizi;
+
+    public Aula() {
+    }
 
     public Aula(int id, String nome, int nPostiLiberi, int nPosti, String disponibilita) {
         this.id = id;
@@ -76,12 +86,4 @@ public class Aula {
     public void setServizi(Set<Servizio> servizi) {
         this.servizi = servizi;
     }
-
-    private int id;
-    private String nome;
-    private int nPostiLiberi;
-    private int nPosti;
-    private String disponibilita;
-    private Edificio edificio;
-    private Set<Servizio> servizi;
 }

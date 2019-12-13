@@ -1,19 +1,31 @@
 package model.pojo;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.Date;
 import java.sql.Time;
 
 /**
  * Questa classe modella il concetto di "Prenotazione" all'interno del sistema.
+ *
  * @author De Caro Antonio
  * @version 0.1
- * */
+ */
 public class Prenotazione {
 
-    public Prenotazione(){}
+    private int id;
+    private Date date;
+    private Time oraInizio;
+    private Time oraFine;
+    private TipoPrenotazione tipoPrenotazione;
+    private Aula aula;
+    private Utente utente;
 
-    public Prenotazione(int id, Date date, Time oraInizio, Time oraFine, TipoPrenotazione tipoPrenotazione,
-                        Aula aula, Utente utente) {
+    public Prenotazione() {
+    }
+
+    public Prenotazione(int id, @NotNull Date date, @NotNull Time oraInizio, @NotNull Time oraFine,
+                        @NotNull TipoPrenotazione tipoPrenotazione, @NotNull Aula aula, @NotNull Utente utente) {
         this.id = id;
         this.date = date;
         this.oraInizio = oraInizio;
@@ -35,7 +47,7 @@ public class Prenotazione {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(@NotNull Date date) {
         this.date = date;
     }
 
@@ -43,7 +55,7 @@ public class Prenotazione {
         return oraInizio;
     }
 
-    public void setOraInizio(Time oraInizio) {
+    public void setOraInizio(@NotNull Time oraInizio) {
         this.oraInizio = oraInizio;
     }
 
@@ -51,7 +63,7 @@ public class Prenotazione {
         return oraFine;
     }
 
-    public void setOraFine(Time oraFine) {
+    public void setOraFine(@NotNull Time oraFine) {
         this.oraFine = oraFine;
     }
 
@@ -59,7 +71,7 @@ public class Prenotazione {
         return tipoPrenotazione;
     }
 
-    public void setTipoPrenotazione(TipoPrenotazione tipoPrenotazione) {
+    public void setTipoPrenotazione(@NotNull TipoPrenotazione tipoPrenotazione) {
         this.tipoPrenotazione = tipoPrenotazione;
     }
 
@@ -67,7 +79,7 @@ public class Prenotazione {
         return aula;
     }
 
-    public void setAula(Aula aula) {
+    public void setAula(@NotNull Aula aula) {
         this.aula = aula;
     }
 
@@ -75,15 +87,7 @@ public class Prenotazione {
         return utente;
     }
 
-    public void setUtente(Utente utente) {
+    public void setUtente(@NotNull Utente utente) {
         this.utente = utente;
     }
-
-    private int id;
-    private Date date;
-    private Time oraInizio;
-    private Time oraFine;
-    private TipoPrenotazione tipoPrenotazione;
-    private Aula aula;
-    private Utente utente;
 }
