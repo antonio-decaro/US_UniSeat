@@ -1,7 +1,7 @@
 package model.dao;
 
-import model.pojo.Aula;
-import model.pojo.Edificio;
+import pojo.Aula;
+import pojo.Edificio;
 
 import java.util.Set;
 
@@ -10,7 +10,7 @@ import java.util.Set;
  *
  * @author De Caro Antonio
  * @version 0.1
- * @see model.pojo.Aula
+ * @see Aula
  */
 public interface AulaDAO {
     /**

@@ -1,4 +1,4 @@
-package model.pojo;
+package pojo;
 
 /**
  * Questa classe modella il concetto di "tipo di una prenotazione" all'interno sistema

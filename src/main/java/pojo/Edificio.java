@@ -1,4 +1,4 @@
-package model.pojo;
+package pojo;
 
 import java.util.Set;
 import java.util.TreeSet;

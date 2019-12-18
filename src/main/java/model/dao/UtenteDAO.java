@@ -1,6 +1,7 @@
 package model.dao;
 
-import model.pojo.Utente;
+import pojo.Edificio;
+import pojo.Utente;
 
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import java.util.Set;
  *
  * @author De Caro Antonio
  * @version 0.1
- * @see model.pojo.Edificio
+ * @see Edificio
  */
 public interface UtenteDAO {
     /**

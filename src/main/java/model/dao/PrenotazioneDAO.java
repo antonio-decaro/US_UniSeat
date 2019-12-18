@@ -1,8 +1,7 @@
 package model.dao;
 
-import model.pojo.Aula;
-import model.pojo.Prenotazione;
-import model.pojo.Utente;
+import pojo.*;
+import pojo.Utente;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -13,7 +12,7 @@ import java.util.List;
  *
  * @author De Caro Antonio
  * @version 0.1
- * @see model.pojo.Edificio
+ * @see Edificio
  */
 public interface PrenotazioneDAO {
     /**
