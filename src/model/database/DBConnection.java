@@ -1,24 +1,38 @@
 package model.database;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Questa classe instanzia un oggetto Singleton che verrà condiviso da tutte le componenti che accederanno all DataBase.
  */
 public class DBConnection {
 
-    private static Connection dbConnection;
+    private static Logger logger = Logger.getLogger(DBConnection.class.getName());
+    private static DataSource dataSource;
 
     static {
-        //TODO instanziazione oggetto dbConnection
+        try {
+            Context ctx = new InitialContext();
+            dataSource = (DataSource) ctx.lookup("jdbc/UniSeatDB");
+
+        } catch(NamingException e){
+            logger.log(Level.SEVERE, "{0}", e.getMessage());
+        }
     }
 
     /**
-     * Ritorna l'oggetto singleton Connection attraverso il quale sarà possibile interrogare il database.
+     * Ritorna un oggetto Connection attraverso il quale sarà possibile interagire con il database.
      *
      * @return la connessione al database.
      */
-    public static Connection getInstance() {
-        return dbConnection;
+    public static Connection getInstance() throws SQLException {
+        return dataSource.getConnection();
     }
 }
