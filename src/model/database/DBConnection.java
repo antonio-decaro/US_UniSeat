@@ -15,14 +15,15 @@ import java.util.logging.Logger;
 public class DBConnection {
 
     private static Logger logger = Logger.getLogger(DBConnection.class.getName());
-    private static DataSource dataSource;
+    private static Connection dbConnection;
 
     static {
         try {
             Context ctx = new InitialContext();
-            dataSource = (DataSource) ctx.lookup("jdbc/UniSeatDB");
+            DataSource dataSource = (DataSource) ctx.lookup("jdbc/UniSeatDB");
+            dbConnection = dataSource.getConnection();
 
-        } catch(NamingException e){
+        } catch(NamingException | SQLException e){
             logger.log(Level.SEVERE, "{0}", e.getMessage());
         }
     }
@@ -33,6 +34,6 @@ public class DBConnection {
      * @return la connessione al database.
      */
     public static Connection getInstance() throws SQLException {
-        return dataSource.getConnection();
+        return dbConnection;
     }
 }
