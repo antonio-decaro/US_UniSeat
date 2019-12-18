@@ -11,10 +11,6 @@ import java.util.Set;
  */
 public class Aula {
 
-    /**
-     * @HasGetter
-     * @HasSetter
-     */
     private int id;
     private String nome;
     private int nPostiLiberi;
