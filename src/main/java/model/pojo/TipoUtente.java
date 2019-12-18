@@ -1,4 +1,4 @@
-package pojo;
+package model.pojo;
 
 /**
  * Questa classe modella il concetto di "tipo di utente" all'interno del sistema

@@ -1,6 +1,6 @@
 package model.dao;
 
-import pojo.Edificio;
+import model.pojo.Edificio;
 
 /**
  * Questa interfaccia fornisce le operazioni effettuabili da un Data Access Object (DAO) che accede agli oggeti di tipo Edificio

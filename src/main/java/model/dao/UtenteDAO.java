@@ -1,7 +1,7 @@
 package model.dao;
 
-import pojo.Edificio;
-import pojo.Utente;
+import model.pojo.Edificio;
+import model.pojo.Utente;
 
 import java.util.Set;
 

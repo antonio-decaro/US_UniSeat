@@ -1,7 +1,7 @@
 package model.dao;
 
-import pojo.Aula;
-import pojo.Edificio;
+import model.pojo.Aula;
+import model.pojo.Edificio;
 
 import java.util.Set;
 

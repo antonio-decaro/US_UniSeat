@@ -1,4 +1,4 @@
-package database;
+package model.database;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

@@ -1,4 +1,4 @@
-package pojo;
+package model.pojo;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,7 +1,7 @@
 package model.dao;
 
-import pojo.*;
-import pojo.Utente;
+import model.pojo.*;
+import model.pojo.Utente;
 
 import java.sql.Date;
 import java.sql.Time;

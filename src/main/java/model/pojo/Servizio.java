@@ -1,4 +1,4 @@
-package pojo;
+package model.pojo;
 
 /**
  * Questa classe modella il concetto di "servizi offerti da un aula" all'interno sistema
