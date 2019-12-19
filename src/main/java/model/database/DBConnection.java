@@ -15,16 +15,15 @@ import java.util.logging.Logger;
 public class DBConnection {
 
     private static Logger logger = Logger.getLogger(DBConnection.class.getName());
-    private static Connection dbConnection;
+    private static DBConnection dbConnection;
 
     static {
+        dbConnection = new DBConnection();
         try {
             Context ctx = new InitialContext();
-            DataSource dataSource = (DataSource) ctx.lookup("jdbc/UniSeatDB");
-            dbConnection = dataSource.getConnection();
-
-        } catch(NamingException | SQLException e){
-            logger.log(Level.SEVERE, "{0}", e.getMessage());
+            dbConnection.setDataSource((DataSource) ctx.lookup("jdbc/UniSeatDB"));
+        } catch (NamingException e) {
+            logger.log(Level.SEVERE, "{0}", e.toString());
         }
     }
 
@@ -33,7 +32,63 @@ public class DBConnection {
      *
      * @return la connessione al database.
      */
-    public static Connection getInstance() throws SQLException {
+    public static DBConnection getInstance() {
         return dbConnection;
+    }
+
+    private Context context;
+    private DataSource dataSource;
+    private Connection connection;
+
+    private DBConnection(){
+    }
+
+    /**
+     * Ritorna il DataSource a cui accede.
+     *
+     * @return il DataSource
+     * */
+    public DataSource getDataSource(){
+        return dataSource;
+}
+
+    /**
+     * Setta il DataSource a cui accedere
+     *
+     * @param dataSource il DataSource a cui accedere.
+     * */
+    public void setDataSource(DataSource dataSource){
+        this.dataSource = dataSource;
+        resetConnection();
+    }
+
+    /**
+     * Ritorna la connessione al database
+     *
+     * @return la connessiona al database
+     */
+    public Connection getConnection() {
+        try {
+            if (this.dataSource == null){
+                logger.log(Level.SEVERE, "Devi settare il DataSource prima di accedere ad una connessione.");
+                return null;
+            }
+            if (connection == null) {
+                connection = this.dataSource.getConnection();
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+        }
+        return connection;
+    }
+
+    private void resetConnection(){
+        try {
+            if (connection != null)
+                this.connection.close();
+        } catch (SQLException e) {
+            logger.log(Level.WARNING, "{0}", e);
+        }
+        this.connection = null;
     }
 }

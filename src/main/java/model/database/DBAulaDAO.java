@@ -31,7 +31,7 @@ public class DBAulaDAO implements AulaDAO {
     public static AulaDAO getInstance(){
         if (dao == null){
             try {
-                dao = new DBAulaDAO(DBConnection.getInstance());
+                dao = new DBAulaDAO(DBConnection.getInstance().getConnection());
             } catch (SQLException e){
                 logger.log(Level.SEVERE, "{0}", e);
             }
@@ -40,7 +40,7 @@ public class DBAulaDAO implements AulaDAO {
     }
 
     private DBAulaDAO(Connection connection) throws SQLException {
-        this.connection = DBConnection.getInstance();
+        this.connection = connection;
     }
 
     private Connection connection;

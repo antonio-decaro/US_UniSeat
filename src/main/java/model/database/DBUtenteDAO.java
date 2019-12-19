@@ -30,7 +30,7 @@ public class DBUtenteDAO implements UtenteDAO {
     public static UtenteDAO getInstance(){
         if (dao == null){
             try {
-                dao = new DBUtenteDAO(DBConnection.getInstance());
+                dao = new DBUtenteDAO(DBConnection.getInstance().getConnection());
             } catch (SQLException e){
                 logger.log(Level.SEVERE, "{0}", e);
             }
@@ -39,7 +39,7 @@ public class DBUtenteDAO implements UtenteDAO {
     }
 
     private DBUtenteDAO(Connection connection) throws SQLException {
-        this.connection = DBConnection.getInstance();
+        this.connection = connection;
     }
 
     private Connection connection;

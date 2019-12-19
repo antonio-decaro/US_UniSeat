@@ -33,7 +33,7 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     public static PrenotazioneDAO getInstance(){
         if (dao == null){
             try {
-                dao = new DBPrenotazioneDAO(DBConnection.getInstance());
+                dao = new DBPrenotazioneDAO(DBConnection.getInstance().getConnection());
             } catch (SQLException e){
                 logger.log(Level.SEVERE, "{0}", e);
             }
@@ -42,7 +42,7 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     }
 
     private DBPrenotazioneDAO(Connection connection) throws SQLException {
-        this.connection = DBConnection.getInstance();
+        this.connection = connection;
     }
 
     private Connection connection;

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="mockito-all-1.10.19">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/mockito-all-1.10.19.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mockito-generator.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-17.0-rc2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mysql-connector-java-8.0.12.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/mockito-all-1.10.19.jar!/" />
+    </SOURCES>
+  </library>
+</component>
