@@ -5,12 +5,10 @@ import model.dao.PrenotazioneDAO;
 import model.dao.ViolazioneEntityException;
 import model.pojo.Aula;
 import model.pojo.Prenotazione;
+import model.pojo.TipoPrenotazione;
 import model.pojo.Utente;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.sql.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,8 +48,24 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
 
     @Override
     public Prenotazione retriveById(int id) throws IllegalArgumentException {
-        return null;
-        //TODO implement
+        final String QUERY = "SELECT * FROM prenotazione WHERE id = ?";
+
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setInt(1, id);
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            if (!rs.next())
+                throw new IllegalArgumentException(String.format("L'id %d non corrisponde a nessuna prenotazione.", id));
+
+
+
+            return ret;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
     }
 
     @Override
@@ -92,5 +106,18 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     public List<Prenotazione> retriveAll() {
         //TODO implement
         return null;
+    }
+
+    private Prenotazione getAulaFromResultSet(ResultSet rs) throws SQLException {
+        Prenotazione ret = new Prenotazione();
+        ret.setId(rs.getInt("id"));
+        ret.setData
+        ret.setOraInizio(rs.getTime("oraInizio"));
+        ret.setOraFine(rs.getTime("oraFine"));
+        ret.setTipoPrenotazione(TipoPrenotazione.valueOf(rs.getString("tipo")));
+        ret.setAula(DBAulaDAO.getInstance().retriveById(rs.getInt("aula")));
+        ret.setUtente(DBUtenteDAO.getInstance().retriveByEmail(rs.getString("utente")));
+        ret.
+        return ret;
     }
 }

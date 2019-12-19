@@ -14,7 +14,7 @@ import java.sql.Time;
 public class Prenotazione {
 
     private int id;
-    private Date date;
+    private Date data;
     private Time oraInizio;
     private Time oraFine;
     private TipoPrenotazione tipoPrenotazione;
@@ -24,10 +24,10 @@ public class Prenotazione {
     public Prenotazione() {
     }
 
-    public Prenotazione(int id, @NotNull Date date, @NotNull Time oraInizio, @NotNull Time oraFine,
+    public Prenotazione(int id, @NotNull Date data, @NotNull Time oraInizio, @NotNull Time oraFine,
                         @NotNull TipoPrenotazione tipoPrenotazione, @NotNull Aula aula, @NotNull Utente utente) {
         this.id = id;
-        this.date = date;
+        this.data = data;
         this.oraInizio = oraInizio;
         this.oraFine = oraFine;
         this.tipoPrenotazione = tipoPrenotazione;
@@ -43,12 +43,12 @@ public class Prenotazione {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getData() {
+        return data;
     }
 
-    public void setDate(@NotNull Date date) {
-        this.date = date;
+    public void setData(@NotNull Date date) {
+        this.data = date;
     }
 
     public Time getOraInizio() {
