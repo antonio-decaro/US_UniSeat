@@ -2,6 +2,8 @@ package model.dao;
 
 import model.pojo.Edificio;
 
+import java.util.List;
+
 /**
  * Questa interfaccia fornisce le operazioni effettuabili da un Data Access Object (DAO) che accede agli oggeti di tipo Edificio
  *
@@ -19,4 +21,11 @@ public interface EdificioDAO {
      * @since ver 0.1
      */
     Edificio retriveByName(String nome);
+
+    /**
+     * Recupera tutti gli edifici
+     *
+     * @return l'insieme degli edifici presenti nel gestore della persistenza
+     * */
+    List<Edificio> retriveAll();
 }

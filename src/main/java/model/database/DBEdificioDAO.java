@@ -5,6 +5,7 @@ import model.pojo.Edificio;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +44,12 @@ public class DBEdificioDAO implements EdificioDAO {
 
     @Override
     public Edificio retriveByName(String nome) {
+        //TODO implement
+        return null;
+    }
+
+    @Override
+    public List<Edificio> retriveAll() {
         //TODO implement
         return null;
     }
