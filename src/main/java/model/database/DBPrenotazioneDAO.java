@@ -59,9 +59,7 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
             if (!rs.next())
                 throw new IllegalArgumentException(String.format("L'id %d non corrisponde a nessuna prenotazione.", id));
 
-
-
-            return ret;
+            return getAulaFromResultSet(rs);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "{0}", e);
             return null;
@@ -111,13 +109,13 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     private Prenotazione getAulaFromResultSet(ResultSet rs) throws SQLException {
         Prenotazione ret = new Prenotazione();
         ret.setId(rs.getInt("id"));
-        ret.setData
+        ret.setData(rs.getDate("data"));
         ret.setOraInizio(rs.getTime("oraInizio"));
         ret.setOraFine(rs.getTime("oraFine"));
         ret.setTipoPrenotazione(TipoPrenotazione.valueOf(rs.getString("tipo")));
         ret.setAula(DBAulaDAO.getInstance().retriveById(rs.getInt("aula")));
         ret.setUtente(DBUtenteDAO.getInstance().retriveByEmail(rs.getString("utente")));
-        ret.
+
         return ret;
     }
 }
