@@ -1,14 +1,15 @@
 package model.database;
 
-import model.dao.EdificioDAO;
-import model.dao.PrenotazioneDAO;
-import model.dao.ViolazioneEntityException;
+import model.dao.*;
 import model.pojo.Aula;
 import model.pojo.Prenotazione;
 import model.pojo.TipoPrenotazione;
 import model.pojo.Utente;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,6 +51,9 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     public Prenotazione retriveById(int id) throws IllegalArgumentException {
         final String QUERY = "SELECT * FROM prenotazione WHERE id = ?";
 
+        if (id < 0)
+            throw new IllegalArgumentException(String.format("L'id %d non è valido.", id));
+
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);
             stm.setInt(1, id);
@@ -57,9 +61,8 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
 
             ResultSet rs = stm.getResultSet();
             if (!rs.next())
-                throw new IllegalArgumentException(String.format("L'id %d non corrisponde a nessuna prenotazione.", id));
-
-            return getAulaFromResultSet(rs);
+                return null;
+            return getPrenotazioneFromResultSet(rs);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "{0}", e);
             return null;
@@ -68,54 +71,175 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
 
     @Override
     public List<Prenotazione> retriveByData(Date data) throws IllegalArgumentException {
-        return null;
-        //TODO implement
+        final String QUERY = "SELECT * FROM prenotazione WHERE data = ?";
+
+        if (data.after(Date.valueOf(LocalDate.now()))) // controlla la precondizione
+            throw new IllegalArgumentException(String.format("La data %s ancora deve avvenire", data.toString()));
+
+        List<Prenotazione> ret = new LinkedList<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setDate(1, data);
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            while(rs.next()){
+                ret.add(getPrenotazioneFromResultSet(rs));
+            }
+
+            return ret;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
     }
 
     @Override
     public List<Prenotazione> retriveByDataOra(Date data, Time ora) throws IllegalArgumentException {
-        return null;
-        //TODO implement
+        final String QUERY = "SELECT * FROM prenotazione WHERE data=? AND ora_inizio=?";
+
+        if (data.after(Date.valueOf(LocalDate.now())) && ora.after(Time.valueOf(LocalTime.now())))
+            throw new IllegalArgumentException(String.format("La data %s ancora deve avvenire", data.toString()));
+
+        List<Prenotazione> ret = new LinkedList<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setDate(1, data);
+            stm.setTime(2, ora);
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            while(rs.next()){
+                ret.add(getPrenotazioneFromResultSet(rs));
+            }
+
+            return ret;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
     }
 
     @Override
     public List<Prenotazione> retriveByUtente(Utente utente) throws ViolazioneEntityException {
-        return null;
-        //TODO implement
+        final String QUERY = "SELECT * FROM prenotazione WHERE utente=?";
+
+        if (DBUtenteDAO.getInstance().retriveByEmail(utente.getEmail()) == null)
+            throw new ViolazioneEntityException(String.format("Non esiste l'utente %s nel database", utente));
+
+        List<Prenotazione> ret = new LinkedList<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setString(1, utente.getEmail());
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            while(rs.next()){
+                ret.add(getPrenotazioneFromResultSet(rs));
+            }
+            return ret;
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
     }
 
     @Override
     public List<Prenotazione> retriveByAula(Aula aula) throws ViolazioneEntityException {
-        return null;
-        //TODO implement
+        final String QUERY = "SELECT * FROM prenotazione WHERE aula=?";
+
+        if (DBAulaDAO.getInstance().retriveById(aula.getId()) == null)
+            throw new ViolazioneEntityException(String.format("Non esiste l'aula %s nel database", aula));
+
+        List<Prenotazione> ret = new LinkedList<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setInt(1, aula.getId());
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            while(rs.next()){
+                ret.add(getPrenotazioneFromResultSet(rs));
+            }
+            return ret;
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
     }
 
     @Override
     public void insert(Prenotazione prenotazione) throws ViolazioneEntityException {
-        //TODO implement
+        final String QUERY = "INSERT INTO prenotazione(utente, aula, data, ora_inizio, ora_fine, tipo)  " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setString(1, prenotazione.getUtente().getEmail());
+            stm.setInt(2, prenotazione.getAula().getId());
+            stm.setDate(3, prenotazione.getData());
+            stm.setTime(4, prenotazione.getOraInizio());
+            stm.setTime(5, prenotazione.getOraFine());
+            stm.setString(6, prenotazione.getTipoPrenotazione().toString().toUpperCase());
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            throw new ViolazioneEntityException(e.getMessage());
+        }
     }
 
     @Override
     public void delete(Prenotazione prenotazione) {
-        //TODO implement
+        final String QUERY = "DELETE FROM prenotazione WHERE id=?";
+
+        if (DBPrenotazioneDAO.getInstance().retriveById(prenotazione.getId()) == null)
+            throw new ViolazioneEntityException(String.format("Non esiste la prenotazione %s nel database", prenotazione));
+
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setInt(1, prenotazione.getId());
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+        }
     }
 
     @Override
     public List<Prenotazione> retriveAll() {
-        //TODO implement
-        return null;
+        final String QUERY = "SELECT * FROM prenotazione";
+
+        List<Prenotazione> ret = new LinkedList<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            while(rs.next()){
+                ret.add(getPrenotazioneFromResultSet(rs));
+            }
+            return ret;
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
     }
 
-    private Prenotazione getAulaFromResultSet(ResultSet rs) throws SQLException {
+    private Prenotazione getPrenotazioneFromResultSet(ResultSet rs) throws SQLException {
+        AulaDAO aulaDAO = DBAulaDAO.getInstance();
+        UtenteDAO utenteDAO = DBUtenteDAO.getInstance();
         Prenotazione ret = new Prenotazione();
         ret.setId(rs.getInt("id"));
         ret.setData(rs.getDate("data"));
         ret.setOraInizio(rs.getTime("oraInizio"));
         ret.setOraFine(rs.getTime("oraFine"));
         ret.setTipoPrenotazione(TipoPrenotazione.valueOf(rs.getString("tipo")));
-        ret.setAula(DBAulaDAO.getInstance().retriveById(rs.getInt("aula")));
-        ret.setUtente(DBUtenteDAO.getInstance().retriveByEmail(rs.getString("utente")));
-
+        ret.setAula(aulaDAO.retriveById(rs.getInt("aula")));
+        ret.setUtente(utenteDAO.retriveByEmail(rs.getString("utente")));
         return ret;
     }
 }
