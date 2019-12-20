@@ -3,6 +3,11 @@
     <output-path>$PROJECT_DIR$/out/artifacts/UniSeat</output-path>
     <root id="archive" name="UniSeat.war">
       <element id="artifact" artifact-name="UniSeat:war_exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="mockito-all-1.10.19" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>

@@ -1,7 +1,7 @@
 package model.pojo;
 
 
-import java.util.Set;
+import java.util.ArrayList;
 
 /**
  * Questa classe modella il concetto di "Aula" all'interno del sistema.
@@ -17,7 +17,7 @@ public class Aula {
     private int nPosti;
     private String disponibilita;
     private Edificio edificio;
-    private Set<Servizio> servizi;
+    private ArrayList<Servizio> servizi;
 
     public Aula() {
     }
@@ -79,11 +79,11 @@ public class Aula {
         this.edificio = edificio;
     }
 
-    public Set<Servizio> getServizi() {
+    public ArrayList<Servizio> getServizi() {
         return servizi;
     }
 
-    public void setServizi(Set<Servizio> servizi) {
+    public void setServizi(ArrayList<Servizio> servizi) {
         this.servizi = servizi;
     }
 }

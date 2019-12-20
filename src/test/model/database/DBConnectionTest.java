@@ -1,7 +1,6 @@
 package model.database;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import model.database.DBConnection;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
