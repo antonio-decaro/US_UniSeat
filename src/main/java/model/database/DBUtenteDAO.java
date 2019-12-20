@@ -152,7 +152,6 @@ public class DBUtenteDAO implements UtenteDAO {
     }
 
     private Utente getUtenteFromResultSet(ResultSet rs) throws SQLException {
-        UtenteDAO utenteDAO = DBUtenteDAO.getInstance();
         Utente ret = new Utente();
         ret.setEmail(rs.getString("email"));
         ret.setCognome(rs.getString("cognome"));
