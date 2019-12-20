@@ -1,7 +1,5 @@
 package model.pojo;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.sql.Date;
 import java.sql.Time;
 
@@ -24,8 +22,8 @@ public class Prenotazione {
     public Prenotazione() {
     }
 
-    public Prenotazione(int id, @NotNull Date data, @NotNull Time oraInizio, @NotNull Time oraFine,
-                        @NotNull TipoPrenotazione tipoPrenotazione, @NotNull Aula aula, @NotNull Utente utente) {
+    public Prenotazione(int id, Date data, Time oraInizio, Time oraFine, TipoPrenotazione tipoPrenotazione,
+                        Aula aula, Utente utente) {
         this.id = id;
         this.data = data;
         this.oraInizio = oraInizio;
@@ -47,7 +45,7 @@ public class Prenotazione {
         return data;
     }
 
-    public void setData(@NotNull Date date) {
+    public void setData(Date date) {
         this.data = date;
     }
 
@@ -55,7 +53,7 @@ public class Prenotazione {
         return oraInizio;
     }
 
-    public void setOraInizio(@NotNull Time oraInizio) {
+    public void setOraInizio(Time oraInizio) {
         this.oraInizio = oraInizio;
     }
 
@@ -63,7 +61,7 @@ public class Prenotazione {
         return oraFine;
     }
 
-    public void setOraFine(@NotNull Time oraFine) {
+    public void setOraFine(Time oraFine) {
         this.oraFine = oraFine;
     }
 
@@ -71,7 +69,7 @@ public class Prenotazione {
         return tipoPrenotazione;
     }
 
-    public void setTipoPrenotazione(@NotNull TipoPrenotazione tipoPrenotazione) {
+    public void setTipoPrenotazione(TipoPrenotazione tipoPrenotazione) {
         this.tipoPrenotazione = tipoPrenotazione;
     }
 
@@ -79,7 +77,7 @@ public class Prenotazione {
         return aula;
     }
 
-    public void setAula(@NotNull Aula aula) {
+    public void setAula(Aula aula) {
         this.aula = aula;
     }
 
@@ -87,7 +85,7 @@ public class Prenotazione {
         return utente;
     }
 
-    public void setUtente(@NotNull Utente utente) {
+    public void setUtente(Utente utente) {
         this.utente = utente;
     }
 }
