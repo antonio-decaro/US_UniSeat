@@ -36,16 +36,12 @@ public class DBAulaDAO implements AulaDAO {
      * */
     public static AulaDAO getInstance(){
         if (dao == null){
-            try {
-                dao = new DBAulaDAO(DBConnection.getInstance().getConnection());
-            } catch (SQLException e){
-                logger.log(Level.SEVERE, "{0}", e);
-            }
+            dao = new DBAulaDAO(DBConnection.getInstance().getConnection());
         }
         return dao;
     }
 
-    private DBAulaDAO(Connection connection) throws SQLException {
+    private DBAulaDAO(Connection connection) {
         this.connection = connection;
     }
 

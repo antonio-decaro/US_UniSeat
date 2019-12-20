@@ -32,16 +32,12 @@ public class DBUtenteDAO implements UtenteDAO {
      * */
     public static UtenteDAO getInstance(){
         if (dao == null){
-            try {
-                dao = new DBUtenteDAO(DBConnection.getInstance().getConnection());
-            } catch (SQLException e){
-                logger.log(Level.SEVERE, "{0}", e);
-            }
+            dao = new DBUtenteDAO(DBConnection.getInstance().getConnection());
         }
         return dao;
     }
 
-    private DBUtenteDAO(Connection connection) throws SQLException {
+    private DBUtenteDAO(Connection connection) {
         this.connection = connection;
     }
 

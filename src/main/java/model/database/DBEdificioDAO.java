@@ -27,16 +27,12 @@ public class DBEdificioDAO implements EdificioDAO {
      * */
     public static EdificioDAO getInstance(){
         if (dao == null){
-            try {
-                dao = new DBEdificioDAO(DBConnection.getInstance().getConnection());
-            } catch (SQLException e){
-                logger.log(Level.SEVERE, "{0}", e);
-            }
+            dao = new DBEdificioDAO(DBConnection.getInstance().getConnection());
         }
         return dao;
     }
 
-    private DBEdificioDAO(Connection connection) throws SQLException {
+    private DBEdificioDAO(Connection connection) {
         this.connection = connection;
     }
 
