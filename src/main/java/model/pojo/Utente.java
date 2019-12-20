@@ -62,7 +62,7 @@ public class Utente {
         this.password = password;
     }
 
-    public TipoUtente getUtente() {
+    public String getUtente() {
         return utente;
     }
 

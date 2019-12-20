@@ -94,6 +94,7 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
         }
     }
 
+
     @Override
     public List<Prenotazione> retriveByDataOra(Date data, Time ora) throws IllegalArgumentException {
         final String QUERY = "SELECT * FROM prenotazione WHERE data=? AND ora_inizio=?";

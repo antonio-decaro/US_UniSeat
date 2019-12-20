@@ -3,6 +3,8 @@ package model.dao;
 import model.pojo.Edificio;
 import model.pojo.Utente;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -55,5 +57,7 @@ public interface UtenteDAO {
      * @return l'insieme degli utenti presenti nel gestore della persistenza
      * @since ver 0.1
      */
-    Set<Utente> retriveAll();
+    List<Utente> retriveAll();
+
+    //Object login(Utente u) throws SQLException;
 }
