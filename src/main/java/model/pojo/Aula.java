@@ -13,19 +13,23 @@ public class Aula {
 
     private int id;
     private String nome;
-    private int nPostiLiberi;
+    private int nPostiOccupati;
     private int nPosti;
     private String disponibilita;
     private Edificio edificio;
     private ArrayList<Servizio> servizi;
 
+    {
+        this.servizi = new ArrayList<>();
+    }
+
     public Aula() {
     }
 
-    public Aula(int id, String nome, int nPostiLiberi, int nPosti, String disponibilita) {
+    public Aula(int id, String nome, int nPostiOccupati, int nPosti, String disponibilita) {
         this.id = id;
         this.nome = nome;
-        this.nPostiLiberi = nPostiLiberi;
+        this.nPostiOccupati = nPostiOccupati;
         this.nPosti = nPosti;
         this.disponibilita = disponibilita;
         this.edificio = null;
@@ -47,12 +51,12 @@ public class Aula {
         this.nome = nome;
     }
 
-    public int getPostiLiberi() {
-        return nPostiLiberi;
+    public int getPostiOccupati() {
+        return nPostiOccupati;
     }
 
-    public void setPostiLiberi(int nPostiLiberi) {
-        this.nPostiLiberi = nPostiLiberi;
+    public void setPostiOccupati(int nPostiLiberi) {
+        this.nPostiOccupati = nPostiLiberi;
     }
 
     public int getPosti() {

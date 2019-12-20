@@ -1,12 +1,18 @@
 package model.database;
 
 import model.dao.AulaDAO;
+import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
 import model.pojo.Aula;
 import model.pojo.Edificio;
+import model.pojo.Servizio;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,29 +53,132 @@ public class DBAulaDAO implements AulaDAO {
 
     @Override
     public Aula retriveById(int id) {
-        //TODO implement
-        return null;
+        final String QUERY = "SELECT * FROM aula WHERE id = ?";
+
+        if (id < 0)
+            throw new IllegalArgumentException(String.format("L'id %d non è valido.", id));
+
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setInt(1, id);
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            if (!rs.next())
+                return null;
+            return getAulaFromResultSet(rs);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
     }
 
     @Override
     public void update(Aula aula) throws ViolazioneEntityException {
-        //TODO implement
+        final String QUERY="UPDATE aula SET id = ?, nome = ?, edificio = ?,n_posti = ?,n_posti_occupati = ?,servizi = ?,disponiblita = ? WHERE id = ?";
+        if(DBEdificioDAO.getInstance().retriveByName(aula.getEdificio().getNome()) == null)
+            throw new ViolazioneEntityException(String.format("Non esiste l'edificio %s nel database",aula.getEdificio().getNome()));
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+
+            stm.setInt(1,aula.getId());
+            stm.setString(2,aula.getNome());
+            stm.setString(3,aula.getEdificio().getNome());
+            stm.setInt(4,aula.getPosti());
+            stm.setInt(5,aula.getPostiOccupati());
+            stm.setString(6, aula.getServizi().toString());
+            stm.setString(7,aula.getDisponibilita());
+            stm.setInt(8,aula.getId());
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+        }
+
     }
 
     @Override
     public void insert(Aula aula) throws ViolazioneEntityException {
-        //TODO implement
+        final String QUERY = "INSERT INTO aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponiblita)  " +
+                "VALUES (?, ?, ?, ?, ?, ?,?)";
+
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setInt(1, aula.getId());
+            stm.setString(2, aula.getNome());
+            stm.setString(3, aula.getEdificio().getNome());
+            stm.setInt(4, aula.getPosti());
+            stm.setInt(5, aula.getPostiOccupati());
+            stm.setString(6, aula.getServizi().toString());
+            stm.setString(7,aula.getDisponibilita());
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            throw new ViolazioneEntityException(e.getMessage());
+        }
     }
 
     @Override
     public Set<Aula> retriveAll() {
-        //TODO implement
-        return null;
+        final String QUERY = "SELECT * FROM aula";
+
+        Set<Aula> ret = new HashSet<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            while(rs.next()){
+                ret.add(getAulaFromResultSet(rs));
+            }
+            return ret;
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
     }
 
     @Override
     public Set<Aula> retriveByEdificio(Edificio edificio) {
-        //TODO implement
-        return null;
+        final String QUERY = "SELECT * FROM aula WHERE edificio = ?";
+
+        if (edificio == null)
+            throw new IllegalArgumentException(String.format("L'edificio %d non è valido.", edificio));
+
+        if(DBEdificioDAO.getInstance().retriveByName(edificio.getNome()) == null)
+            throw new ViolazioneEntityException(String.format("Non esiste l'edificio %s nel database",edificio.getNome()));
+
+        Set<Aula> ret = new HashSet<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setString(1, edificio.getNome());
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            while(rs.next()){
+                ret.add(getAulaFromResultSet(rs));
+            }
+            return ret;
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
+    }
+
+    private Aula getAulaFromResultSet(ResultSet rs) throws SQLException {
+        AulaDAO aulaDAO = DBAulaDAO.getInstance();
+        UtenteDAO utenteDAO = DBUtenteDAO.getInstance();
+        Aula a = new Aula();
+        a.setId(rs.getInt("id"));
+        a.setNome(rs.getString("nome"));
+        a.setEdificio((Edificio) rs.getObject("edificio"));
+        a.setPosti(rs.getInt("n_posti"));
+        a.setDisponibilita(rs.getString("disponiblita"));
+        a.setPostiOccupati(rs.getInt("n_posti_occupati"));
+        a.setServizi((ArrayList<Servizio>) rs.getObject("servizi"));
+
+        return a;
     }
 }
