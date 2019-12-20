@@ -1,7 +1,5 @@
 package model.pojo;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Questa classe modella il concetto di "Utente" all'interno del sistema.
  *
@@ -21,8 +19,7 @@ public class Utente {
     public Utente() {
     }
 
-    public Utente(@NotNull String email, @NotNull String nome, @NotNull String cognome,
-                  @NotNull String password, @NotNull TipoUtente utente) {
+    public Utente(String email,String nome,String cognome, String password,TipoUtente utente) {
         this.email = email;
         this.nome = nome;
         this.cognome = cognome;
@@ -34,7 +31,7 @@ public class Utente {
         return email;
     }
 
-    public void setEmail(@NotNull String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -42,7 +39,7 @@ public class Utente {
         return nome;
     }
 
-    public void setNome(@NotNull String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -50,7 +47,7 @@ public class Utente {
         return cognome;
     }
 
-    public void setCognome(@NotNull String cognome) {
+    public void setCognome(String cognome) {
         this.cognome = cognome;
     }
 
@@ -58,7 +55,7 @@ public class Utente {
         return password;
     }
 
-    public void setPassword(@NotNull String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -66,7 +63,7 @@ public class Utente {
         return utente;
     }
 
-    public void setTipoUtente(@NotNull TipoUtente utente) {
+    public void setTipoUtente(TipoUtente utente) {
         this.utente = utente;
     }
 }
