@@ -1,4 +1,4 @@
-package model.database.test;
+package model.database;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import model.database.DBConnection;

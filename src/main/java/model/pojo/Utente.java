@@ -62,11 +62,11 @@ public class Utente {
         this.password = password;
     }
 
-    public String getUtente() {
+    public TipoUtente getTipoUtente() {
         return utente;
     }
 
-    public void setUtente(@NotNull TipoUtente utente) {
+    public void setTipoUtente(@NotNull TipoUtente utente) {
         this.utente = utente;
     }
 }

@@ -1,11 +1,7 @@
 package model.database;
 
-import model.dao.AulaDAO;
-import model.dao.PrenotazioneDAO;
 import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
-import model.pojo.Prenotazione;
-import model.pojo.TipoPrenotazione;
 import model.pojo.TipoUtente;
 import model.pojo.Utente;
 
@@ -15,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -83,15 +78,12 @@ public class DBUtenteDAO implements UtenteDAO {
             stm.setString(1, utente.getEmail());
             stm.setString(2, utente.getNome());
             stm.setString(3, utente.getCognome());
-            stm.setString(4, utente.getUtente());
+            stm.setString(4, utente.getTipoUtente().toString());
             stm.setString(5, utente.getPassword());
             stm.setString(6, utente.getEmail());
 
             if (DBUtenteDAO.getInstance().retriveByEmail(utente.getEmail()) == null)
                 throw new ViolazioneEntityException(String.format("Non esiste l'utente %s nel database", utente));
-
-            if (!utente.getUtente().equals(TipoUtente.ADMIN) || !utente.getUtente().equals(TipoUtente.DOCENTE) || !utente.getUtente().equals(TipoUtente.STUDENTE))
-                throw new ViolazioneEntityException(String.format("Non esiste questo tipo di utente %s nel database", utente));
 
             stm.executeUpdate();
 
@@ -112,7 +104,7 @@ public class DBUtenteDAO implements UtenteDAO {
             stm.setString(2, utente.getCognome());
             stm.setString(3, utente.getEmail());
             stm.setString(4, utente.getPassword());
-            stm.setString(5, utente.getUtente());
+            stm.setString(5, utente.getTipoUtente().toString());
             stm.executeUpdate();
 
         } catch (SQLException e) {
@@ -166,7 +158,7 @@ public class DBUtenteDAO implements UtenteDAO {
         ret.setCognome(rs.getString("cognome"));
         ret.setNome(rs.getString("nome"));
         ret.setPassword(rs.getString("password"));
-        ret.setUtente(TipoUtente.valueOf(rs.getString("utente")));
+        ret.setTipoUtente(TipoUtente.valueOf(rs.getString("utente")));
         return ret;
     }
 }
