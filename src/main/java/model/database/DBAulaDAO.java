@@ -7,10 +7,7 @@ import model.pojo.Aula;
 import model.pojo.Edificio;
 import model.pojo.Servizio;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -82,7 +79,12 @@ public class DBAulaDAO implements AulaDAO {
             stm.setString(3,aula.getEdificio().getNome());
             stm.setInt(4,aula.getPosti());
             stm.setInt(5,aula.getPostiOccupati());
-            stm.setString(6, aula.getServizi().toString());
+            StringBuilder servizi_db = new StringBuilder();
+            for (Servizio s : aula.getServizi()){
+                servizi_db.append(s.name());
+                servizi_db.append(";");
+            }
+            stm.setString(6,servizi_db.toString());
             stm.setString(7,aula.getDisponibilita());
             stm.setInt(8,aula.getId());
             stm.executeUpdate();
@@ -104,7 +106,12 @@ public class DBAulaDAO implements AulaDAO {
             stm.setString(3, aula.getEdificio().getNome());
             stm.setInt(4, aula.getPosti());
             stm.setInt(5, aula.getPostiOccupati());
-            stm.setString(6, aula.getServizi().toString());
+            StringBuilder servizi_db = new StringBuilder();
+            for (Servizio s : aula.getServizi()){
+                servizi_db.append(s.name());
+                servizi_db.append(";");
+            }
+            stm.setString(6,servizi_db.toString());
             stm.setString(7,aula.getDisponibilita());
             stm.executeUpdate();
 
@@ -173,8 +180,10 @@ public class DBAulaDAO implements AulaDAO {
         a.setPosti(rs.getInt("n_posti"));
         a.setDisponibilita(rs.getString("disponiblita"));
         a.setPostiOccupati(rs.getInt("n_posti_occupati"));
-        a.setServizi((ArrayList<Servizio>) rs.getObject("servizi"));
-
+        ArrayList<Servizio> servizi = new ArrayList<>();
+        for (String s : rs.getString("servizi").split(";"))
+            servizi.add(Servizio.valueOf(s));
+        a.setServizi(servizi);
         return a;
     }
 }
