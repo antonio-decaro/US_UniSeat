@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author De Caro Antonio
  * @version 0.1
  */
-public class Aula {
+public class Aula implements Comparable<Aula>{
 
     private int id;
     private String nome;
@@ -102,5 +102,11 @@ public class Aula {
                 ", edificio=" + edificio +
                 ", servizi=" + servizi +
                 '}';
+    }
+
+
+    @Override
+    public int compareTo(Aula o) {
+        return Integer.compare(this.id, o.id);
     }
 }

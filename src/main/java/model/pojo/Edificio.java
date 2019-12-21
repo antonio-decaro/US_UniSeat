@@ -15,14 +15,13 @@ public class Edificio {
     private Set<Aula> aule;
 
     {
-        this.aule = new TreeSet<Aula>();
+        this.aule = new TreeSet<>();
     }
 
     public Edificio() {
     }
 
     public Edificio(String nome) {
-        this();
         this.nome = nome;
     }
 
