@@ -49,4 +49,12 @@ public class Edificio {
     public void removeAula(Aula aula){
         this.aule.remove(aula);
     }
+
+    @Override
+    public String toString() {
+        return "Edificio{" +
+                "nome='" + nome + '\'' +
+                ", aule=" + aule +
+                '}';
+    }
 }

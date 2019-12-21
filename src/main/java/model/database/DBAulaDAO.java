@@ -1,6 +1,7 @@
 package model.database;
 
 import model.dao.AulaDAO;
+import model.dao.EdificioDAO;
 import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
 import model.pojo.Aula;
@@ -143,14 +144,11 @@ public class DBAulaDAO implements AulaDAO {
     }
 
     @Override
-    public Set<Aula> retriveByEdificio(Edificio edificio) {
+    public Set<Aula> retriveByEdificio(Edificio edificio) throws ViolazioneEntityException{
         final String QUERY = "SELECT * FROM aula WHERE edificio = ?";
 
-        if (edificio == null)
-            throw new IllegalArgumentException(String.format("L'edificio %d non è valido.", edificio));
-
         if(DBEdificioDAO.getInstance().retriveByName(edificio.getNome()) == null)
-            throw new ViolazioneEntityException(String.format("Non esiste l'edificio %s nel database",edificio.getNome()));
+            throw new ViolazioneEntityException(String.format("Non esiste l'edificio %s nel database",edificio.toString()));
 
         Set<Aula> ret = new HashSet<>();
         try {
@@ -171,12 +169,11 @@ public class DBAulaDAO implements AulaDAO {
     }
 
     private Aula getAulaFromResultSet(ResultSet rs) throws SQLException {
-        AulaDAO aulaDAO = DBAulaDAO.getInstance();
-        UtenteDAO utenteDAO = DBUtenteDAO.getInstance();
+        EdificioDAO edificioDAO = DBEdificioDAO.getInstance();
         Aula a = new Aula();
         a.setId(rs.getInt("id"));
         a.setNome(rs.getString("nome"));
-        a.setEdificio((Edificio) rs.getObject("edificio"));
+        a.setEdificio(edificioDAO.retriveByName(rs.getString("edificio")));
         a.setPosti(rs.getInt("n_posti"));
         a.setDisponibilita(rs.getString("disponiblita"));
         a.setPostiOccupati(rs.getInt("n_posti_occupati"));

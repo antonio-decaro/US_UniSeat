@@ -56,5 +56,5 @@ public interface AulaDAO {
      * @return L'insieme delle aule dell'edificio passato come parametro presenti nel supporto di memorizzazione.
      * @since ver 0.1
      */
-    Set<Aula> retriveByEdificio(Edificio edificio);
+    Set<Aula> retriveByEdificio(Edificio edificio) throws ViolazioneEntityException;
 }

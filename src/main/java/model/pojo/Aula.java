@@ -90,4 +90,17 @@ public class Aula {
     public void setServizi(ArrayList<Servizio> servizi) {
         this.servizi = servizi;
     }
+
+    @Override
+    public String toString() {
+        return "Aula{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", nPostiOccupati=" + nPostiOccupati +
+                ", nPosti=" + nPosti +
+                ", disponibilita='" + disponibilita + '\'' +
+                ", edificio=" + edificio +
+                ", servizi=" + servizi +
+                '}';
+    }
 }

@@ -66,4 +66,15 @@ public class Utente {
     public void setTipoUtente(TipoUtente utente) {
         this.utente = utente;
     }
+
+    @Override
+    public String toString() {
+        return "Utente{" +
+                "email='" + email + '\'' +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", password='" + password + '\'' +
+                ", utente=" + utente +
+                '}';
+    }
 }

@@ -88,4 +88,17 @@ public class Prenotazione {
     public void setUtente(Utente utente) {
         this.utente = utente;
     }
+
+    @Override
+    public String toString() {
+        return "Prenotazione{" +
+                "id=" + id +
+                ", data=" + data +
+                ", oraInizio=" + oraInizio +
+                ", oraFine=" + oraFine +
+                ", tipoPrenotazione=" + tipoPrenotazione +
+                ", aula=" + aula +
+                ", utente=" + utente +
+                '}';
+    }
 }
