@@ -57,4 +57,5 @@ public interface AulaDAO {
      * @since ver 0.1
      */
     Set<Aula> retriveByEdificio(Edificio edificio) throws ViolazioneEntityException;
+
 }
