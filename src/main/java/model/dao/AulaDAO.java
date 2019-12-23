@@ -39,7 +39,7 @@ public interface AulaDAO {
      * @throws ViolazioneEntityException se retriveById(aula.getId ()) != null
      * @since ver 0.1
      */
-    void insert(Aula aula) throws ViolazioneEntityException;
+    boolean insert(Aula aula) throws ViolazioneEntityException;
 
     /**
      * Cerca tutte le aule presenti all'interno del gestore della persistenza.
