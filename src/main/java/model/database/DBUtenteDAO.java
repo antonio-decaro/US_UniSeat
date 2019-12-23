@@ -66,7 +66,8 @@ public class DBUtenteDAO implements UtenteDAO {
 
     @Override
     public void update(Utente utente) throws ViolazioneEntityException {
-        final String QUERY = "UPDATE utente SET email = ?, nome = ?, cognome = ?, utente = ?, password = ? WHERE email = ?";
+        final String QUERY = "UPDATE utente SET email = ?, nome = ?, cognome = ?, utente = ?, password = ?, " +
+                "codice_verifica = ? WHERE email = ?";
 
         try {
 
@@ -76,7 +77,8 @@ public class DBUtenteDAO implements UtenteDAO {
             stm.setString(3, utente.getCognome());
             stm.setString(4, utente.getTipoUtente().toString());
             stm.setString(5, utente.getPassword());
-            stm.setString(6, utente.getEmail());
+            stm.setLong(6, utente.getCodiceVerifica());
+            stm.setString(7, utente.getEmail());
 
             if (DBUtenteDAO.getInstance().retriveByEmail(utente.getEmail()) == null)
                 throw new ViolazioneEntityException(String.format("Non esiste l'utente %s nel database", utente));
@@ -91,8 +93,8 @@ public class DBUtenteDAO implements UtenteDAO {
 
     @Override
     public void insert(Utente utente) throws ViolazioneEntityException {
-        final String QUERY = "INSERT INTO utente(nome, cognome, email, password, tipo)  " +
-                "VALUES (?, ?, ?, ?, ?)";
+        final String QUERY = "INSERT INTO utente(nome, cognome, email, password, tipo, codice_verifica)  " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);
@@ -101,6 +103,7 @@ public class DBUtenteDAO implements UtenteDAO {
             stm.setString(3, utente.getEmail());
             stm.setString(4, utente.getPassword());
             stm.setString(5, utente.getTipoUtente().toString());
+            stm.setLong(6, utente.getCodiceVerifica());
             stm.executeUpdate();
 
         } catch (SQLException e) {
@@ -154,6 +157,7 @@ public class DBUtenteDAO implements UtenteDAO {
         ret.setNome(rs.getString("nome"));
         ret.setPassword(rs.getString("password"));
         ret.setTipoUtente(TipoUtente.valueOf(rs.getString("utente")));
+        ret.setCodiceVerifica(rs.getLong("codice_verifica"));
         return ret;
     }
 }
