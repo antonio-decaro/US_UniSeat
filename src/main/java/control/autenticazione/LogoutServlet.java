@@ -11,24 +11,16 @@ import javax.servlet.http.*;
 public class LogoutServlet extends HttpServlet {
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-        getServletContext().setAttribute(UTENTE_DAO_PARAM, DBUtenteDAO.getInstance());
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         request.getSession().invalidate();
         response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doGet(request, response);
     }
 
     private static final long serialVersionUID = 1L;
-    private static final String UTENTE_DAO_PARAM = "LogoutServlet.UtenteDAO";
 }
