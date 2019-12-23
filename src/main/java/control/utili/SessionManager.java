@@ -16,13 +16,13 @@ public class SessionManager {
     /**
      * Questa classe controlla se, data una sessione, un utente è già autenticato ad essa.
      *
-     * @param session sessione da controllare
+     * @param sessione sessione da controllare
      * @return true se la sessione è di un utente attivo, false altrimenti
      * @author De Caro Antonio
      * @since 0.1
      * */
-    public static boolean isAlradyAuthenticated(HttpSession session){
-        return session.getAttribute(USER) != null;
+    public static boolean isAlradyAuthenticated(HttpSession sessione){
+        return sessione.getAttribute(USER) != null;
     }
 
     /**
@@ -34,19 +34,19 @@ public class SessionManager {
      * @since 0.1
      * */
     public static void autentica(HttpSession session, Utente utente){
-
+        session.setAttribute(USER, utente);
     }
 
     /**
      * Questa classe ritorna un utente data una sessione.
      *
-     * @param session sessione da cui prelevare l'utente
+     * @param sessione sessione da cui prelevare l'utente
      * @return l'utente salvato in quella session o null se nessun utente è salvato nella sessione
      * @author De Caro Antonio
      * @since 0.1
      * */
-    public Utente getUtente(HttpSession session){
-        Object obj = session.getAttribute(USER);
+    public Utente getUtente(HttpSession sessione){
+        Object obj = sessione.getAttribute(USER);
         if (obj instanceof Utente)
             return (Utente) obj;
         else
