@@ -2,19 +2,14 @@ package model.database;
 
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
-import model.pojo.Aula;
-import model.pojo.Edificio;
-import model.pojo.TipoUtente;
-import model.pojo.Utente;
+import model.dao.ViolazioneEntityException;
+import model.pojo.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,14 +61,6 @@ public class DBEdificioDAO implements EdificioDAO {
         }
     }
 
-    private Edificio getEdificioFromResultSet(ResultSet rs) throws SQLException {
-        AulaDAO aulaDAO = DBAulaDAO.getInstance();
-        Edificio ret = new Edificio();
-        ret.setNome(rs.getString("nome"));
-        ret.setAule(aulaDAO.retriveByEdificio(retriveByName(rs.getString("nome"))));
-        return ret;
-    }
-
     @Override
     public List<Edificio> retriveAll() {
         final String QUERY = "SELECT * FROM edificio";
@@ -93,5 +80,48 @@ public class DBEdificioDAO implements EdificioDAO {
             logger.log(Level.SEVERE, "{0}", e);
             return null;
         }
+    }
+
+    private Edificio getEdificioFromResultSet(ResultSet rs) throws SQLException {
+        Edificio ret = new Edificio();
+        ret.setNome(rs.getString("nome"));
+        ret.setAule(getAule(ret));
+        return ret;
+    }
+
+    private Set<Aula> getAule(Edificio edificio){
+        final String QUERY = "SELECT * FROM aula WHERE edificio = ?";
+
+        Set<Aula> ret = new HashSet<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setString(1, edificio.getNome());
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            while(rs.next()){
+                ret.add(getAulaFromResultSet(rs, edificio));
+            }
+            return ret;
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
+    }
+
+    private Aula getAulaFromResultSet(ResultSet rs, Edificio edificio) throws SQLException {
+        Aula a = new Aula();
+        a.setId(rs.getInt("id"));
+        a.setNome(rs.getString("nome"));
+        a.setEdificio(edificio);
+        a.setPosti(rs.getInt("n_posti"));
+        a.setDisponibilita(rs.getString("disponibilita"));
+        a.setPostiOccupati(rs.getInt("n_posti_occupati"));
+        ArrayList<Servizio> servizi = new ArrayList<>();
+        for (String s : rs.getString("servizi").split(";"))
+            servizi.add(Servizio.valueOf(s));
+        a.setServizi(servizi);
+        return a;
     }
 }

@@ -99,7 +99,7 @@ public class Aula implements Comparable<Aula>{
                 ", nPostiOccupati=" + nPostiOccupati +
                 ", nPosti=" + nPosti +
                 ", disponibilita='" + disponibilita + '\'' +
-                ", edificio=" + edificio +
+                ", edificio=" + edificio.getNome() +
                 ", servizi=" + servizi +
                 '}';
     }
