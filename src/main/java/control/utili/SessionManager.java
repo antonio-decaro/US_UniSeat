@@ -53,5 +53,41 @@ public class SessionManager {
             return null;
     }
 
+    /**
+     * Questa classe setta un errore all'interno della sessione.
+     *
+     * @param sessione sessione in cui settare l'errore
+     * @param errore messaggio di errore da inserire
+     * @author De Caro Antonio
+     * @since 0.1
+     * */
+    public static void setError(HttpSession sessione, String errore) {
+        sessione.setAttribute(ERROR, errore);
+    }
+
+    /**
+     * Questa classe prende, se presente, l'errore dalla sessione
+     *
+     * @param sessione sessione in cui prendere l'errore
+     * @return la stringa di errore, o null se non è presente alcun errore
+     * @author De Caro Antonio
+     * @since 0.1
+     * */
+    public static String getError(HttpSession sessione) {
+        return sessione.getAttribute(ERROR).toString();
+    }
+
+    /**
+     * Questa classe pulisce la sessione dagli errori
+     *
+     * @param sessione sessione da pulire
+     * @author De Caro Antonio
+     * @since 0.1
+     * */
+    public static void cleanError(HttpSession sessione) {
+        sessione.removeAttribute(ERROR);
+    }
+
     private static final String USER = "SessionManager.user";
+    private static final String ERROR = "SessionManager.error";
 }
