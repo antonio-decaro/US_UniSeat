@@ -1,5 +1,6 @@
 package model.pojo;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -47,6 +48,19 @@ public class Edificio {
 
     public void removeAula(Aula aula){
         this.aule.remove(aula);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Edificio edificio = (Edificio) o;
+        return nome.equals(edificio.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
     }
 
     @Override

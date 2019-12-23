@@ -108,7 +108,7 @@ public class DBUtenteDAO implements UtenteDAO {
 
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "{0}", e);
-            throw new ViolazioneEntityException(e.getMessage());
+            throw new ViolazioneEntityException("Utente già esistente");
         }
     }
 
