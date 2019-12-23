@@ -1,5 +1,7 @@
 package model.pojo;
 
+import java.util.Objects;
+
 /**
  * Questa classe modella il concetto di "Utente" all'interno del sistema.
  *
@@ -84,6 +86,19 @@ public class Utente {
      * */
     public boolean isVerificato() {
         return this.codiceVerifica == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Utente utente = (Utente) o;
+        return email.equals(utente.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
     }
 
     @Override

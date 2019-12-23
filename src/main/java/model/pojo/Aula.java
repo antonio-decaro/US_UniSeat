@@ -2,6 +2,7 @@ package model.pojo;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Questa classe modella il concetto di "Aula" all'interno del sistema.
@@ -89,6 +90,19 @@ public class Aula implements Comparable<Aula>{
 
     public void setServizi(ArrayList<Servizio> servizi) {
         this.servizi = servizi;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Aula aula = (Aula) o;
+        return id == aula.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

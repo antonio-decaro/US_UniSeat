@@ -2,6 +2,7 @@ package model.pojo;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Objects;
 
 /**
  * Questa classe modella il concetto di "Prenotazione" all'interno del sistema.
@@ -87,6 +88,19 @@ public class Prenotazione {
 
     public void setUtente(Utente utente) {
         this.utente = utente;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Prenotazione that = (Prenotazione) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

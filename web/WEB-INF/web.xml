@@ -10,4 +10,9 @@
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
+	<context-param>
+		<description>Indirizzo IP/Hostname del server</description>
+		<param-name>hostname</param-name>
+		<param-value>localhost/JamAmmo</param-value>
+	</context-param>
 </web-app>
