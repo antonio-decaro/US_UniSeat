@@ -23,7 +23,7 @@ CREATE TABLE Aula (
     n_posti          INT           NOT NULL,
     n_posti_occupati INT           NOT NULL DEFAULT 0,
     servizi          VARCHAR(1024),
-    disponiblita     VARCHAR(1024) NOT NULL,
+    disponibilita     VARCHAR(1024) NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (edificio)
