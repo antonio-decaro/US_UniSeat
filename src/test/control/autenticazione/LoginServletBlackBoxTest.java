@@ -1,6 +1,5 @@
 package control.autenticazione;
 
-import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.database.UtenteDAOStub;
 import org.junit.jupiter.api.AfterEach;
@@ -32,7 +31,7 @@ class LoginServletBlackBoxTest {
     @Mock private HttpSession session;
     private UtenteDAO utenteDAO = new UtenteDAOStub();
     private LoginServlet servlet;
-    private Map<String,Object> attributes = new HashMap<String,Object>();
+    private Map<String,Object> attributes = new HashMap<>();
 
     @BeforeEach
     void setUp() throws Exception{

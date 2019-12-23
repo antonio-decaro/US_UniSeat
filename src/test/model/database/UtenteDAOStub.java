@@ -44,6 +44,8 @@ public class UtenteDAOStub implements UtenteDAO {
     public void insert(Utente utente) throws ViolazioneEntityException {
         if (!utenti.contains(utente))
             utenti.add(utente);
+        else
+            throw new ViolazioneEntityException("Utente già esistente");
     }
 
     @Override
