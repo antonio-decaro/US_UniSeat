@@ -32,7 +32,7 @@ public class DBConnection {
      *
      * @return la connessione al database.
      */
-    static DBConnection getInstance() {
+    public static DBConnection getInstance() {
         return dbConnection;
     }
 
@@ -57,7 +57,7 @@ public class DBConnection {
      *
      * @param dataSource il DataSource a cui accedere.
      * */
-    void setDataSource(DataSource dataSource){
+    public void setDataSource(DataSource dataSource){
         this.dataSource = dataSource;
         resetConnection();
     }

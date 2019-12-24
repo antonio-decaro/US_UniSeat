@@ -66,8 +66,7 @@ public class DBUtenteDAO implements UtenteDAO {
 
     @Override
     public void update(Utente utente) throws ViolazioneEntityException {
-        final String QUERY = "UPDATE utente SET email = ?, nome = ?, cognome = ?, utente = ?, password = ?, " +
-                "codice_verifica = ? WHERE email = ?";
+        final String QUERY = "UPDATE utente SET email = ?, nome = ?, cognome = ?, tipo = ?, password = ?, codice_verifica = ? WHERE email = ?";
 
         try {
 

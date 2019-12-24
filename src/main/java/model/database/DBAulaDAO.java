@@ -68,6 +68,28 @@ public class DBAulaDAO implements AulaDAO {
     }
 
     @Override
+    public Aula retriveByName(String name) {
+        final String QUERY = "SELECT * FROM aula WHERE nome = ?";
+
+        if (name == null)
+            throw new IllegalArgumentException(String.format("Nome %s non è valido.", name));
+
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setString(1, name);
+            stm.execute();
+
+            ResultSet rs = stm.getResultSet();
+            if (!rs.next())
+                return null;
+            return getAulaFromResultSet(rs);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+            return null;
+        }
+    }
+
+    @Override
     public void update(Aula aula) throws ViolazioneEntityException {
         final String QUERY="UPDATE aula SET id = ?, nome = ?, edificio = ?,n_posti = ?,n_posti_occupati = ?,servizi = ?,disponiblita = ? WHERE id = ?";
         if(DBEdificioDAO.getInstance().retriveByName(aula.getEdificio().getNome()) == null)

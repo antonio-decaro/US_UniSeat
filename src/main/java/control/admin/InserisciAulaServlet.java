@@ -1,19 +1,17 @@
 package control.admin;
 
+import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
 import model.dao.ViolazioneEntityException;
 import model.database.DBAulaDAO;
 import model.database.DBEdificioDAO;
-import model.pojo.Aula;
-import model.pojo.Edificio;
-import model.pojo.Servizio;
+import model.pojo.*;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Questa servlet permette all'admin di inserire una nuova aula all'interno del database
@@ -34,27 +32,39 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
     }
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        String edificio = (String) request.getParameter("edificio");
-        String nome = (String) request.getParameter("nome_edificio");
-        String num_posti = (String) request.getParameter("numero_posti");
+        HttpSession session = request.getSession();
+        SessionManager sm = new SessionManager();
+        Utente u = sm.getUtente(session);
+        if (session.isNew() || !u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { // se non è admin o non è loggato
+            response.getWriter().print(400);
+            response.sendRedirect("Login.jsp");
+            return;
+        }
+
+        String edificio = request.getParameter("edificio");
+        String nome = request.getParameter("nome_aula");
+        String num_posti = request.getParameter("numero_posti");
         int n_posti = Integer.parseInt(num_posti);
-        String disponibilità = (String) request.getParameter("disp_aula");
+        String disponibilità = request.getParameter("disp_aula");
 
         if (edificio == null)
         {
             response.getWriter().print(400);
-            request.setAttribute("erroreEdificioNull", "Edificio non selezionato");
+            request.setAttribute("erroreInserimentoAula", "Edificio non selezionato");
+            return;
         }
 
         if (n_posti < 20 || n_posti > 300) {
 
             response.getWriter().print(400);
-            request.setAttribute("erroreNumeroPostiSize", "Numero posti non corretto");
+            request.setAttribute("erroreInserimentoAula", "Numero posti non corretto");
+            return;
 
         } else if (!num_posti.matches("[0-9]")) {
 
             response.getWriter().print(400);
-            request.setAttribute("erroreNumeroPostiFormato", "Formato numero posti non valido");
+            request.setAttribute("erroreInserimentoAula", "Formato numero posti non valido");
+            return;
         }
 
         EdificioDAO edificioDAO = (EdificioDAO) getServletContext().getAttribute(EDIFICIO_DAO_PARAM);
@@ -62,64 +72,70 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         if (ed == null) {
 
             response.getWriter().print(400);
-            request.setAttribute("errorEdificio", "Edificio non trovato");
+            request.setAttribute("erroreInserimentoAula", "Edificio non trovato");
+            return;
 
         } else {
 
             Aula nuova_aula = new Aula(nome, 0, n_posti, disponibilità, ed);
-            String servizi_extra_prese = (String) request.getParameter("servizi_extra_prese");
-            String servizi_extra_computer = (String) request.getParameter("servizi_extra_computer");
+            String servizi_extra_prese = request.getParameter("servizi_extra_prese");
+            String servizi_extra_computer = request.getParameter("servizi_extra_computer");
             Servizio servizi_extra;
 
-            if (servizi_extra_computer != null || servizi_extra_prese != null) {
+            ArrayList<Servizio> servizi = new ArrayList<>();
 
-                if (servizi_extra_computer.equals(Servizio.COMPUTER) || servizi_extra_prese.equals(Servizio.PRESE)) {
+            if ( servizi_extra_computer != null && servizi_extra_computer.equals(Servizio.COMPUTER.toString())) {
 
-                    response.getWriter().print(400);
-                    request.setAttribute("errorServizi", "Servizi non validi");
+                servizi_extra = Servizio.COMPUTER;
+                servizi.add(servizi_extra);
 
-                } else {
-
-                    ArrayList<Servizio> servizi = new ArrayList<>();
-
-                    if (servizi_extra_computer != null) {
-
-                        servizi_extra = Servizio.COMPUTER;
-                        servizi.add(servizi_extra);
-                    }
-                    if (servizi_extra_prese != null) {
-
-                        servizi_extra = Servizio.PRESE;
-                        servizi.add(servizi_extra);
-                    }
-
-                    nuova_aula.setServizi(servizi);
-                }
+            } else if (!servizi_extra_computer.equals(Servizio.COMPUTER.toString()) && servizi_extra_computer != null) {
+                response.getWriter().print(400);
+                request.setAttribute("erroreInserimentoAula", "Servizi non validi");
+                return;
             }
+            if (servizi_extra_prese != null && servizi_extra_prese.equals(Servizio.PRESE.toString())) {
+
+                servizi_extra = Servizio.PRESE;
+                servizi.add(servizi_extra);
+
+            } else if (!servizi_extra_prese.equals(Servizio.PRESE.toString()) && servizi_extra_prese != null) {
+                response.getWriter().print(400);
+                request.setAttribute("erroreInserimentoAula", "Servizi non validi");
+                return;
+            }
+
+            nuova_aula.setServizi(servizi);
 
             if (disponibilità == null) {
 
                 response.getWriter().print(400);
-                request.setAttribute("errorDisponibilità", "Orari di disponibilità errati");
+                request.setAttribute("erroreInserimentoAula", "Orari di disponibilità errati");
+                return;
             }
 
             if (nome.length() < 1 || nome.length() > 16) {
 
                 response.getWriter().print(400);
-                request.setAttribute("erroreNomeEdificioSize", "Nome edificio non valido");
+                request.setAttribute("erroreInserimentoAula", "Nome aula non valido");
+                return;
 
             } else if (!nome.matches("[^A-Za-z0-9]")) {
 
                 response.getWriter().print(400);
-                request.setAttribute("erroreNomeEdificioFormato", "Nome edificio non rispetta il formato");
+                request.setAttribute("erroreInserimentoAula", "Nome aula non rispetta il formato");
+                return;
 
             } else {
                 AulaDAO aulaDAO = (AulaDAO) getServletContext().getAttribute(AULA_DAO_PARAM);
-                Boolean result = aulaDAO.insert(nuova_aula);
-                if (result == false) {
+                boolean result = aulaDAO.insert(nuova_aula);
+                if (!result) {
                     response.getWriter().print(400);
-                    request.setAttribute("errurAulaE", "Aula già esistente!");
+                    request.setAttribute("erroreInserimentoAula", "Aula già esistente!");
+                    return;
                 }
+                response.getWriter().print(200);
+
             }
 
         }
@@ -130,6 +146,6 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         doPost(request,response);
     }
 
-    private static final String AULA_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
-    private static final String EDIFICIO_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
+    public static final String AULA_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
+    public static final String EDIFICIO_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
 }
