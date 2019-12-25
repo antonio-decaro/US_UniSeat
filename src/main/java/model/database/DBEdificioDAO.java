@@ -36,7 +36,7 @@ public class DBEdificioDAO implements EdificioDAO {
         return dao;
     }
 
-    private DBEdificioDAO(Connection connection) {
+    public DBEdificioDAO(Connection connection) {
         this.connection = connection;
     }
 

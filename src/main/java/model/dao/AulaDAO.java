@@ -24,6 +24,13 @@ public interface AulaDAO {
     Aula retriveById(int id);
 
     /**
+     * Ricerca un'aula dato il suo nome
+     * @param name nome dell'aula da cercare
+     * @return l'aula che il nome specificato, null se non esiste alcuna aula con quell'id
+     */
+    Aula retriveByName(String name);
+
+    /**
      * Aggiorna una determinata aula passata come parametro
      *
      * @param aula aula aggiornata
@@ -39,7 +46,7 @@ public interface AulaDAO {
      * @throws ViolazioneEntityException se retriveById(aula.getId ()) != null
      * @since ver 0.1
      */
-    void insert(Aula aula) throws ViolazioneEntityException;
+    boolean insert(Aula aula) throws ViolazioneEntityException;
 
     /**
      * Cerca tutte le aule presenti all'interno del gestore della persistenza.
