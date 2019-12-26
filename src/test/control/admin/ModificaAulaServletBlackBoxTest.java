@@ -1,12 +1,10 @@
 package control.admin;
 
-import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
 import model.database.AulaDAOStub;
 import model.database.EdificioDAOStub;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,25 +16,17 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-
-
-/**
- * Classe per testare la servlet InserisciAula con la tecnica del category partition
- * @author Spinelli Gianluca
- */
-
-class InserisciAulaServletBlackBoxTest {
+class ModificaAulaServletBlackBoxTest {
 
     @Mock
     private HttpServletRequest req;
@@ -58,8 +48,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
         when(session.isNew()).thenReturn(false);
-        doNothing().when(res).sendRedirect(anyString());
-        //doNothing().when(res).getWriter().print(anyString());
+        doNothing().when(res).getWriter().print(anyString());
 
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
@@ -81,15 +70,14 @@ class InserisciAulaServletBlackBoxTest {
 
     @Test
     void TC_5_1() throws Exception {
-        when(req.getParameter("edificio")).thenReturn("");
+        when(req.getParameter("edificio")).thenReturn(null);
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("150");
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Edificio non selezionato",
-                session.getAttribute("SessionManager.error"));
-        Assertions.assertNull(aulaDAO.retriveByName("P22"));
+                req.getParameter("erroreInserimentoAula"));
     }
 
     @Test
@@ -217,6 +205,4 @@ class InserisciAulaServletBlackBoxTest {
         servlet.doPost(req, res);
         assertEquals("P22", aulaDAO.retriveByName("P22").getNome());
     }
-
-
 }

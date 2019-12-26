@@ -3,26 +3,29 @@ package control.admin;
 import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
-import model.dao.ViolazioneEntityException;
 import model.database.DBAulaDAO;
 import model.database.DBEdificioDAO;
 import model.pojo.*;
 
+import javax.jms.Session;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Questa servlet permette all'admin di inserire una nuova aula all'interno del database
+ * Questa servlet permette all'admin di modificare un'aula all'interno del database
  * @author Spinelli Gianluca
  * @version 0.1
  * @see model.pojo.Aula
  * @see model.dao.AulaDAO
  */
-
-@javax.servlet.annotation.WebServlet(name = "InserisciAulaServlet")
-public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
+@WebServlet(name = "ModificaAulaServlet")
+public class ModificaAulaServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
@@ -31,14 +34,18 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         getServletContext().setAttribute(EDIFICIO_DAO_PARAM, DBEdificioDAO.getInstance());
     }
 
-    protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         SessionManager sm = new SessionManager();
         Utente u = sm.getUtente(session);
-        if (u == null || !u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { // se non è admin o non è loggato
-            //response.getWriter().print(400);
+        if (!sm.isAlradyAuthenticated(session)) {
+            response.getWriter().print(400);
+            SessionManager.setError(session, "Admin non loggato");
             response.sendRedirect("Login.jsp");
-            return;
+        } else if (!u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) {
+            response.getWriter().print(400);
+            SessionManager.setError(session, "Utente non autorizzato");
+            response.sendRedirect("Login.jsp");
         }
 
         String edificio = request.getParameter("edificio");
@@ -47,11 +54,10 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         int n_posti = Integer.parseInt(num_posti);
         String disponibilità = request.getParameter("disp_aula");
 
-        if (edificio == null || edificio.length() < 1 )
+        if (edificio == null)
         {
-            //response.getWriter().print(400);
-            SessionManager.setError(session,"Edificio non selezionato");
-            response.sendRedirect(request.getServletContext().getContextPath() +"InserimentoAula.jsp");
+            response.getWriter().print(400);
+            request.setAttribute("erroreInserimentoAula", "Edificio non selezionato");
             return;
         }
 
@@ -129,13 +135,17 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
             } else {
                 AulaDAO aulaDAO = (AulaDAO) getServletContext().getAttribute(AULA_DAO_PARAM);
-                boolean result = aulaDAO.insert(nuova_aula);
-                if (!result) {
+                Aula result = aulaDAO.retriveByName(nome);
+
+                if (result == null) {
                     response.getWriter().print(400);
-                    request.setAttribute("erroreInserimentoAula", "Aula già esistente!");
+                    request.setAttribute("erroreInserimentoAula", "Aula non esistente!");
                     return;
+                } else {
+                    aulaDAO.update(nuova_aula);
+                    response.getWriter().print(200);
                 }
-                response.getWriter().print(200);
+
 
             }
 
@@ -143,8 +153,8 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        doPost(request,response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
     }
 
     public static final String AULA_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
