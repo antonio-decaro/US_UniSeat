@@ -15,6 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Questa servlet permette all'admin di modificare i dati di un utente all'interno del database
+ * @author De Santis Marco
+ * @version 0.1
+ * @see model.pojo.Utente
+ * @see model.dao.UtenteDAO
+ */
 
 @WebServlet("/modificaProfilo")
 public class ModificaDatiProfiloServlet extends HttpServlet {
@@ -39,7 +46,7 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
 
         try {
             if (user == null) {
-                SessionManager.setError(ssn, "Utente non registrato");
+                SessionManager.setError(ssn, "LogIn non effettuato");
                 response.sendRedirect(request.getServletContext().getContextPath() + "/login");
                 return;
             }
@@ -122,6 +129,5 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
     }
 
 
-    private static final long serialVersionUID = 1L;
     public static final String UTENTE_DAO_PARAM = "LogoutServlet.UtenteDAO";
 }
