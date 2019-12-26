@@ -3,7 +3,6 @@ package control.comuni;
 import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.PrenotazioneDAO;
-import model.dao.UtenteDAO;
 import model.database.DBAulaDAO;
 import model.database.DBPrenotazioneDAO;
 import model.database.DBUtenteDAO;
@@ -37,7 +36,6 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        getServletContext().setAttribute(UTENTE_DAO_PARAM, DBUtenteDAO.getInstance());
         getServletContext().setAttribute(PRENOTAZIONE_DAO_PARAM, DBPrenotazioneDAO.getInstance());
         getServletContext().setAttribute(AULA_DAO_PARAM, DBAulaDAO.getInstance());
     }
@@ -55,7 +53,6 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
         }
 
         int id = Integer.parseInt(request.getParameter("id_prenotazione"));
-
         Prenotazione p;
         PrenotazioneDAO prenotazioneDAO = (PrenotazioneDAO) getServletContext().getAttribute(PRENOTAZIONE_DAO_PARAM);
         try {
@@ -93,7 +90,6 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
         doGet(request, response);
     }
 
-    public static final String UTENTE_DAO_PARAM = "EliminaPrenotazioneServlet.UtenteDAO";
     public static final String PRENOTAZIONE_DAO_PARAM = "EliminaPrenotazioneServlet.PrenotazioneDAO";
     public static final String AULA_DAO_PARAM = "EliminaPrenotazioneServlet.AulaDAO";
 

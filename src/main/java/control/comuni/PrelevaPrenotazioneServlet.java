@@ -43,7 +43,6 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
         super.init();
         getServletContext().setAttribute(UTENTE_DAO_PARAM, DBUtenteDAO.getInstance());
         getServletContext().setAttribute(PRENOTAZIONE_DAO_PARAM, DBPrenotazioneDAO.getInstance());
-        getServletContext().setAttribute(AULA_DAO_PARAM, DBAulaDAO.getInstance());
     }
 
     @Override
@@ -58,21 +57,23 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
             return;
         }
 
-        UtenteDAO utenteDAO = (UtenteDAO) getServletContext().getAttribute(UTENTE_DAO_PARAM);
         PrenotazioneDAO prenotazioneDAO = (PrenotazioneDAO) getServletContext().getAttribute(PRENOTAZIONE_DAO_PARAM);
-        Prenotazione p;
-        java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        List<Prenotazione> prenotazioni = new ArrayList<>();
+        Date date = new Date(Calendar.getInstance().getTime().getTime());
+        List<Prenotazione> prenotazioni ;
         prenotazioni= prenotazioneDAO.retriveByData(date);
         try {
             if (user.getTipoUtente().toString().equals(TipoUtente.STUDENTE)) {
                 if(prenotazioni != null)
                     request.setAttribute("prenotazione",prenotazioni.get(0));
+                else
+                    request.setAttribute("prenotazione",null);
             }
 
             if (user.getTipoUtente().toString().equals(TipoUtente.DOCENTE)) {
                 if (prenotazioni != null)
                     request.setAttribute("prenotazioni",prenotazioni);
+                else
+                    request.setAttribute("prenotazione",null);
             }
 
         /*if(user.getTipoUtente().toString().equals(TipoUtente.ADMIN)){
@@ -91,5 +92,4 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
 
     public static final String UTENTE_DAO_PARAM = "EliminaPrenotazioneServlet.UtenteDAO";
     public static final String PRENOTAZIONE_DAO_PARAM = "EliminaPrenotazioneServlet.PrenotazioneDAO";
-    public static final String AULA_DAO_PARAM = "EliminaPrenotazioneServlet.AulaDAO";
 }
