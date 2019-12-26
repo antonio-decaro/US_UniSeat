@@ -31,7 +31,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         getServletContext().setAttribute(EDIFICIO_DAO_PARAM, DBEdificioDAO.getInstance());
     }
 
-    protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+    public void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         HttpSession session = request.getSession();
         SessionManager sm = new SessionManager();
         Utente u = sm.getUtente(session);
@@ -49,10 +49,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
         if (edificio == null || edificio.length() < 1 )
         {
-            //response.getWriter().print(400);
-            SessionManager.setError(session,"Edificio non selezionato");
-            response.sendRedirect(request.getServletContext().getContextPath() +"InserimentoAula.jsp");
-            return;
+            throw new IllegalArgumentException("Edificio non selezionato");
         }
 
         if (n_posti < 20 || n_posti > 300) {
@@ -143,7 +140,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
     }
 
-    protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+    public void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         doPost(request,response);
     }
 

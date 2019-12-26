@@ -1,12 +1,10 @@
 package control.admin;
 
-import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
 import model.database.AulaDAOStub;
 import model.database.EdificioDAOStub;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -23,7 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -87,9 +85,9 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
-        assertEquals("Edificio non selezionato",
-                session.getAttribute("SessionManager.error"));
-        Assertions.assertNull(aulaDAO.retriveByName("P22"));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> servlet.doPost(req, res));
+        assertEquals("Edificio non selezionato", e.getMessage());
+        assertNull(aulaDAO.retriveByName("P22"));
     }
 
     @Test
@@ -100,8 +98,8 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
-        assertEquals("Numero posti non corretto",
-                req.getParameter("erroreInserimentoAula"));
+        String err = req.getParameter("erroreInserimentoAula");
+        assertEquals("Numero posti non corretto", err);
     }
 
     @Test
