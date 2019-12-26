@@ -14,7 +14,7 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         request.getSession().invalidate();
-        response.sendRedirect(request.getServletContext().getContextPath() + "/comuni/index.jsp");
+        response.sendRedirect(/*request.getServletContext().getContextPath() +*/ "/comuni/index.jsp");
     }
 
     @Override

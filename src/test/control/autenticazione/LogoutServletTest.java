@@ -14,15 +14,10 @@ import org.mockito.Mockito;
 
 class LogoutServletTest  extends Mockito {
 
-    @Mock
-    private HttpServletRequest request;
-    @Mock
-    private HttpServletResponse response;
-    @Mock
-    private HttpSession session;
-
-    @Mock
-    private RequestDispatcher rd;
+    @Mock private HttpServletRequest request;
+    @Mock private HttpServletResponse response;
+    @Mock private HttpSession session;
+    @Mock private RequestDispatcher rd;
 
     /**
      * Questo metodo testa LogoutServlet nel caso in cui si vuole effettuare il
@@ -32,12 +27,13 @@ class LogoutServletTest  extends Mockito {
     @Test
     public void testLogoutServlet() throws Exception {
 
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-        HttpSession session = mock(HttpSession.class);
+        request = mock(HttpServletRequest.class);
+        response = mock(HttpServletResponse.class);
+        session = mock(HttpSession.class);
 
         when(request.getSession()).thenReturn(session);
-        when(request.getRequestDispatcher("/index.jsp")).thenReturn(rd);
+//        when(request.getServletContext().getContextPath()).thenReturn("");
+        when(request.getRequestDispatcher("/comuni/index.jsp")).thenReturn(rd);
 
         new LogoutServlet().doGet(request, response);
 
