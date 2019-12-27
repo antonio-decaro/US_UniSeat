@@ -24,7 +24,7 @@ public class VerificaAccountServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         Utente utente = SessionManager.getUtente(session);
         if (utente == null || utente.getCodiceVerifica() == 0) {
@@ -49,11 +49,12 @@ public class VerificaAccountServlet extends HttpServlet {
             }
         }
 
-        resp.sendRedirect(req.getContextPath() + "/comuni/index.jsp");
+        session.invalidate();
+        resp.sendRedirect(req.getContextPath() + "/comuni/login.jsp");
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         doGet(req, resp);
     }
 
