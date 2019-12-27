@@ -48,8 +48,7 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession ssn = request.getSession();
-        SessionManager sessionManager = new SessionManager();
-        Utente user = sessionManager.getUtente(ssn);
+        Utente user = SessionManager.getUtente(ssn);
 
         if (user == null || SessionManager.isAlradyAuthenticated(ssn)) {
             SessionManager.setError(ssn, "LogIn non effettuato");

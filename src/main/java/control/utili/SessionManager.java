@@ -45,7 +45,7 @@ public class SessionManager {
      * @author De Caro Antonio
      * @since 0.1
      * */
-    public Utente getUtente(HttpSession sessione){
+    public static Utente getUtente(HttpSession sessione){
         Object obj = sessione.getAttribute(USER);
         if (obj instanceof Utente)
             return (Utente) obj;

@@ -26,7 +26,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-class ModificaDatiProfiloServletBlackBoxTest {
+class ModificaDatiProfiloServletTest {
 
     @Mock private HttpServletRequest req;
     @Mock private HttpServletResponse res;
@@ -40,7 +40,6 @@ class ModificaDatiProfiloServletBlackBoxTest {
     void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
         servlet = new ModificaDatiProfiloServlet();
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
 
 
         when(req.getServletContext()).thenReturn(ctx);
@@ -48,8 +47,20 @@ class ModificaDatiProfiloServletBlackBoxTest {
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
         when(SessionManager.isAlradyAuthenticated(session)).thenReturn(true);
-        when(SessionManager.isAlradyAuthenticated(session)).thenReturn(true);
         doNothing().when(res).sendRedirect(anyString());
+
+        Mockito.doAnswer((Answer<Object>) invocation -> {
+            String key = (String) invocation.getArguments()[0];
+            return attributes.get(key);
+        }).when(session).getAttribute(anyString());
+
+        Mockito.doAnswer((Answer<Object>) invocation -> {
+            String key = (String) invocation.getArguments()[0];
+            Object value = invocation.getArguments()[1];
+            attributes.put(key, value);
+            return null;
+        }).when(session).setAttribute(anyString(), any());
+
 
     }
 
@@ -60,6 +71,18 @@ class ModificaDatiProfiloServletBlackBoxTest {
 
     @Test
     void TC_1_1() throws Exception {
+        when(req.getParameter("nome")).thenReturn("Mario");
+        when(req.getParameter("cognome")).thenReturn("Rossi");
+        when(req.getParameter("password")).thenReturn("MarioRossi12");
+        when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
+        servlet.doPost(req, res);
+        assertEquals("LogIn non effettuato",
+                session.getAttribute("SessionManager.error"));
+    }
+    @Test
+    void TC_1_2() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+
         when(req.getParameter("nome")).thenReturn("");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -69,7 +92,9 @@ class ModificaDatiProfiloServletBlackBoxTest {
                 session.getAttribute("SessionManager.error"));
     }
     @Test
-    void TC_1_2() throws Exception {
+    void TC_1_3() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+
         when(req.getParameter("nome")).thenReturn("abcdefghilmnopqrstuvz");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -79,7 +104,9 @@ class ModificaDatiProfiloServletBlackBoxTest {
                 session.getAttribute("SessionManager.error"));
     }
     @Test
-    void TC_1_3() throws Exception {
+    void TC_1_4() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+
         when(req.getParameter("nome")).thenReturn("Mar10");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -89,7 +116,9 @@ class ModificaDatiProfiloServletBlackBoxTest {
                 session.getAttribute("SessionManager.error"));
     }
     @Test
-    void TC_1_4() throws Exception {
+    void TC_1_5() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -99,7 +128,9 @@ class ModificaDatiProfiloServletBlackBoxTest {
                 session.getAttribute("SessionManager.error"));
     }
     @Test
-    void TC_1_5() throws Exception {
+    void TC_1_6() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("abcdefhghilmnopqrstuvz");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -109,7 +140,9 @@ class ModificaDatiProfiloServletBlackBoxTest {
                 session.getAttribute("SessionManager.error"));
     }
     @Test
-    void TC_1_6() throws Exception {
+    void TC_1_7() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("R00ss1");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -119,7 +152,9 @@ class ModificaDatiProfiloServletBlackBoxTest {
                 session.getAttribute("SessionManager.error"));
     }
     @Test
-    void TC_1_7() throws Exception {
+    void TC_1_8() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("Abc1");
@@ -129,7 +164,9 @@ class ModificaDatiProfiloServletBlackBoxTest {
                 session.getAttribute("SessionManager.error"));
     }
     @Test
-    void TC_1_8() throws Exception {
+    void TC_1_9() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("mariorossi");
@@ -139,22 +176,45 @@ class ModificaDatiProfiloServletBlackBoxTest {
                 session.getAttribute("SessionManager.error"));
     }
     @Test
-    void TC_1_9() throws Exception {
+    void TC_1_10() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
         when(req.getParameter("confPassword")).thenReturn("LuigiVerdi14");
         servlet.doPost(req, res);
-        assertEquals("Le password non corrispondono",
+        assertEquals("Le Password non corrispondono",
                 session.getAttribute("SessionManager.error"));
     }
+
     @Test
-    void TC_1_10() throws Exception {
-        when(req.getParameter("nome")).thenReturn("Mario");
+    void TC_1_11() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+
+        when(req.getParameter("nome")).thenReturn("Maria");
         when(req.getParameter("cognome")).thenReturn("Rossi");
-        when(req.getParameter("password")).thenReturn("MarioRossi12");
-        when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
+        when(req.getParameter("password")).thenReturn("MariaRossi12");
+        when(req.getParameter("confPassword")).thenReturn("MariaRossi12");
         servlet.doPost(req, res);
         assertNull(session.getAttribute("SessionManager.error"));
+    }
+
+//    @Test
+//    void TC_1_12() throws Exception {
+//        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+//
+//        when(req.getParameter("nome")).thenReturn("Maria");
+//        when(req.getParameter("cognome")).thenReturn("Rossi");
+//        when(req.getParameter("password")).thenReturn("MariaRossi12");
+//        when(req.getParameter("confPassword")).thenReturn("MariaRossi12");
+//        servlet.doPost(req, res);
+//        assertNull(session.getAttribute("SessionManager.error"));
+//    }
+
+    @Test
+    void testGet() throws Exception {
+        SessionManager.autentica(session, new Utente());
+        servlet.doGet(req, res);
     }
 }
