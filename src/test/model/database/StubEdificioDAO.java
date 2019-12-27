@@ -5,7 +5,7 @@ import model.pojo.Edificio;
 
 import java.util.List;
 
-public class EdificioDAOStub implements EdificioDAO {
+public class StubEdificioDAO implements EdificioDAO {
     @Override
     public Edificio retriveByName(String nome) {
         return null;

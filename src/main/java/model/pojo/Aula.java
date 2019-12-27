@@ -7,6 +7,7 @@ import java.util.Objects;
 /**
  * Questa classe modella il concetto di "Aula" all'interno del sistema.
  *
+ * @inv nPostiOccupati <= nPosti
  * @author De Caro Antonio
  * @version 0.1
  */

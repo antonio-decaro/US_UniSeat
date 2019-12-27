@@ -1,9 +1,8 @@
 package control.admin;
 
-import control.studente.RegistrazioneServlet;
 import control.utili.EmailManager;
 import model.dao.UtenteDAO;
-import model.database.UtenteDAOStub;
+import model.database.StubUtenteDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +37,7 @@ class EliminaUtenteServletBlackBoxTest {
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
     @Mock private EmailManager emailManager;
-    private UtenteDAO utenteDAO = new UtenteDAOStub();
+    private UtenteDAO utenteDAO = new StubUtenteDAO();
     private EliminaUtenteServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
 

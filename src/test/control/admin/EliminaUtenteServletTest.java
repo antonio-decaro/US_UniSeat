@@ -3,7 +3,7 @@ package control.admin;
 import control.utili.EmailManager;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
-import model.database.UtenteDAOStub;
+import model.database.StubUtenteDAO;
 import model.pojo.TipoUtente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
 
-import javax.jms.Session;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +39,7 @@ class EliminaUtenteServletTest {
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
     @Mock private EmailManager emailManager;
-    private UtenteDAO utenteDAO = new UtenteDAOStub();
+    private UtenteDAO utenteDAO = new StubUtenteDAO();
     private EliminaUtenteServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
     private SessionManager sm = new SessionManager();

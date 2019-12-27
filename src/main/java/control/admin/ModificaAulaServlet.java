@@ -7,7 +7,6 @@ import model.database.DBAulaDAO;
 import model.database.DBEdificioDAO;
 import model.pojo.*;
 
-import javax.jms.Session;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,9 +35,8 @@ public class ModificaAulaServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        SessionManager sm = new SessionManager();
-        Utente u = sm.getUtente(session);
-        if (!sm.isAlradyAuthenticated(session)) {
+        Utente u = SessionManager.getUtente(session);
+        if (!SessionManager.isAlradyAuthenticated(session)) {
             response.getWriter().print(400);
             SessionManager.setError(session, "Admin non loggato");
             response.sendRedirect("Login.jsp");

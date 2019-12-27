@@ -2,16 +2,12 @@ package control.studente;
 
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
-import model.database.UtenteDAOStub;
-import model.pojo.TipoUtente;
-import model.pojo.Utente;
+import model.database.StubUtenteDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.stubbing.Answer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +28,7 @@ class ModificaDatiProfiloServletBlackBoxTest {
     @Mock private HttpServletResponse res;
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
-    private UtenteDAO utenteDAO = new UtenteDAOStub();
+    private UtenteDAO utenteDAO = new StubUtenteDAO();
     private ModificaDatiProfiloServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
 

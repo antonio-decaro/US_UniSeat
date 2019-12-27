@@ -9,7 +9,7 @@ import model.pojo.Utente;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UtenteDAOStub implements UtenteDAO {
+public class StubUtenteDAO implements UtenteDAO {
 
     private ArrayList<Utente> utenti = new ArrayList<>();
 

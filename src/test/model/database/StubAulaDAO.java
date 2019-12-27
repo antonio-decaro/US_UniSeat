@@ -9,7 +9,7 @@ import model.pojo.Utente;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class AulaDAOStub implements AulaDAO {
+public class StubAulaDAO implements AulaDAO {
 
     private ArrayList<Aula> aule = new ArrayList<>();
 

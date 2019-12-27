@@ -2,8 +2,8 @@ package control.admin;
 
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
-import model.database.AulaDAOStub;
-import model.database.EdificioDAOStub;
+import model.database.StubAulaDAO;
+import model.database.StubEdificioDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,8 +33,8 @@ class ModificaAulaServletBlackBoxTest {
     @Mock private HttpServletResponse res;
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
-    private AulaDAO aulaDAO = new AulaDAOStub();
-    private EdificioDAO edificioDAO = new EdificioDAOStub();
+    private AulaDAO aulaDAO = new StubAulaDAO();
+    private EdificioDAO edificioDAO = new StubEdificioDAO();
     private InserisciAulaServlet servlet;
     private Map<String,Object> attributes = new HashMap<String,Object>();
 

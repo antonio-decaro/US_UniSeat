@@ -45,7 +45,7 @@ public class SessionManager {
      * @author De Caro Antonio
      * @since 0.1
      * */
-    public Utente getUtente(HttpSession sessione){
+    public static Utente getUtente(HttpSession sessione){
         Object obj = sessione.getAttribute(USER);
         if (obj instanceof Utente)
             return (Utente) obj;
@@ -88,6 +88,42 @@ public class SessionManager {
         sessione.removeAttribute(ERROR);
     }
 
+    /**
+     * Questo metodo setta un messaggio all'interno della sessione.
+     *
+     * @param sessione sessione in cui settare il messaggio
+     * @param messaggio messaggio  da inserire
+     * @author De Caro Antonio
+     * @since 0.1
+     * */
+    public static void setMessage(HttpSession sessione, String messaggio) {
+        sessione.setAttribute(MESSAGE, messaggio);
+    }
+
+    /**
+     * Questo metodo prende, se presente, il messaggio dalla sessione
+     *
+     * @param sessione sessione in cui prendere l'errore
+     * @return il messaggio, o null se non è presente alcun messaggio
+     * @author De Caro Antonio
+     * @since 0.1
+     * */
+    public static String getMessage(HttpSession sessione) {
+        return sessione.getAttribute(MESSAGE).toString();
+    }
+
+    /**
+     * Questa classe pulisce la sessione dai messaggi
+     *
+     * @param sessione sessione da pulire
+     * @author De Caro Antonio
+     * @since 0.1
+     * */
+    public static void cleanMessage(HttpSession sessione) {
+        sessione.removeAttribute(MESSAGE);
+    }
+
     private static final String USER = "SessionManager.user";
     private static final String ERROR = "SessionManager.error";
+    private static final String MESSAGE = "SessionManager.message";
 }

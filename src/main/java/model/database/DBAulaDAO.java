@@ -2,7 +2,6 @@ package model.database;
 
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
-import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
 import model.pojo.Aula;
 import model.pojo.Edificio;
@@ -17,7 +16,7 @@ import java.util.logging.Logger;
 
 /**
  * Questa classe implementa l'interfaccia AulaDAO, utilizzando come gestore della persistenza il DataBase
- * @author De Caro Antonio
+ * @author De Caro Antonio, De Santis Marco
  * @version 0.1
  * @see AulaDAO
  * */
@@ -72,7 +71,7 @@ public class DBAulaDAO implements AulaDAO {
         final String QUERY = "SELECT * FROM aula WHERE nome = ?";
 
         if (name == null)
-            throw new IllegalArgumentException(String.format("Nome %s non è valido.", name));
+            throw new IllegalArgumentException(String.format("Nome non valido."));
 
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);
@@ -91,7 +90,7 @@ public class DBAulaDAO implements AulaDAO {
 
     @Override
     public void update(Aula aula) throws ViolazioneEntityException {
-        final String QUERY="UPDATE aula SET id = ?, nome = ?, edificio = ?,n_posti = ?,n_posti_occupati = ?,servizi = ?,disponiblita = ? WHERE id = ?";
+        final String QUERY="UPDATE aula SET id = ?, nome = ?, edificio = ?,n_posti = ?,n_posti_occupati = ?,servizi = ?,disponibilita = ? WHERE id = ?";
         if(DBEdificioDAO.getInstance().retriveByName(aula.getEdificio().getNome()) == null)
             throw new ViolazioneEntityException(String.format("Non esiste l'edificio %s nel database",aula.getEdificio().getNome()));
         try {
@@ -119,7 +118,7 @@ public class DBAulaDAO implements AulaDAO {
 
     @Override
     public boolean insert(Aula aula) throws ViolazioneEntityException {
-        final String QUERY = "INSERT INTO aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponiblita)  " +
+        final String QUERY = "INSERT INTO aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita)  " +
                 "VALUES (?, ?, ?, ?, ?, ?,?)";
         boolean result = false;
         try {
@@ -201,7 +200,7 @@ public class DBAulaDAO implements AulaDAO {
         a.setNome(rs.getString("nome"));
         a.setEdificio(edificioDAO.retriveByName(rs.getString("edificio")));
         a.setPosti(rs.getInt("n_posti"));
-        a.setDisponibilita(rs.getString("disponiblita"));
+        a.setDisponibilita(rs.getString("disponibilita"));
         a.setPostiOccupati(rs.getInt("n_posti_occupati"));
         ArrayList<Servizio> servizi = new ArrayList<>();
         for (String s : rs.getString("servizi").split(";"))

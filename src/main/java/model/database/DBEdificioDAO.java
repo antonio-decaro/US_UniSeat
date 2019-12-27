@@ -1,8 +1,6 @@
 package model.database;
 
-import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
-import model.dao.ViolazioneEntityException;
 import model.pojo.*;
 
 import java.sql.Connection;
@@ -36,7 +34,7 @@ public class DBEdificioDAO implements EdificioDAO {
         return dao;
     }
 
-    public DBEdificioDAO(Connection connection) {
+    private DBEdificioDAO(Connection connection) {
         this.connection = connection;
     }
 

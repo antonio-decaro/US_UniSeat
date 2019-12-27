@@ -1,7 +1,7 @@
 package control.autenticazione;
 
 import model.dao.UtenteDAO;
-import model.database.UtenteDAOStub;
+import model.database.StubUtenteDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class LoginServletBlackBoxTest {
     @Mock private HttpServletResponse res;
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
-    private UtenteDAO utenteDAO = new UtenteDAOStub();
+    private UtenteDAO utenteDAO = new StubUtenteDAO();
     private LoginServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
 

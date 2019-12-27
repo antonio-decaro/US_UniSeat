@@ -9,7 +9,7 @@ CREATE TABLE Utente
     email           VARCHAR(48)  NOT NULL,
     password        VARCHAR(256) NOT NULL,
     tipo            ENUM ('STUDENTE', 'DOCENTE', 'ADMIN'),
-    codice_verifica LONG         NOT NULL DEFAULT 0,
+    codice_verifica INT          NOT NULL DEFAULT 0,
 
     PRIMARY KEY (email)
 );

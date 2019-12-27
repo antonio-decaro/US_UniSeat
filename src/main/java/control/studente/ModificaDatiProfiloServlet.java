@@ -40,8 +40,7 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession ssn = request.getSession();
-        SessionManager sessionManager = new SessionManager();
-        Utente user = sessionManager.getUtente(ssn);
+        Utente user = SessionManager.getUtente(ssn);
         String addres = "VisulizzaProfilo.jsp";
 
         try {
@@ -61,7 +60,7 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             String password = request.getParameter("password");
             String cPassword = request.getParameter("confPassword");
 
-            if (nome == null || nome.length() < 1 || nome.length() > 20) {
+            if (nome.length() < 1 || nome.length() > 20) {
                 SessionManager.setError(ssn, "Il campo Nome non rispetta la lunghezza");
                 response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
 //                return;
@@ -75,7 +74,7 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
                 return;
             }
 
-            if (cognome == null || nome.length() < 1 || nome.length() > 20) {
+            if (nome.length() < 1 || nome.length() > 20) {
                 SessionManager.setError(ssn, "Il campo Cognome non rispetta il lunghezza");
                 response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
                 return;

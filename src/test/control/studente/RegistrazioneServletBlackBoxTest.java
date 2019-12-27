@@ -2,7 +2,7 @@ package control.studente;
 
 import control.utili.EmailManager;
 import model.dao.UtenteDAO;
-import model.database.UtenteDAOStub;
+import model.database.StubUtenteDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class RegistrazioneServletBlackBoxTest {
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
     @Mock private EmailManager emailManager;
-    private UtenteDAO utenteDAO = new UtenteDAOStub();
+    private UtenteDAO utenteDAO = new StubUtenteDAO();
     private RegistrazioneServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
 

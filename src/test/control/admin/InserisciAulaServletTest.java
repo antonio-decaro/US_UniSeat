@@ -1,13 +1,10 @@
 package control.admin;
 
-import control.autenticazione.LoginServlet;
 import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
-import model.dao.UtenteDAO;
-import model.database.AulaDAOStub;
-import model.database.EdificioDAOStub;
-import model.database.UtenteDAOStub;
+import model.database.StubAulaDAO;
+import model.database.StubEdificioDAO;
 import model.pojo.TipoUtente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,8 +40,8 @@ class InserisciAulaServletTest {
     @Mock private HttpServletResponse res;
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
-    private AulaDAO aulaDAO = new AulaDAOStub();
-    private EdificioDAO edificioDAO = new EdificioDAOStub();
+    private AulaDAO aulaDAO = new StubAulaDAO();
+    private EdificioDAO edificioDAO = new StubEdificioDAO();
     private InserisciAulaServlet servlet;
     private Map<String,Object> attributes = new HashMap<String,Object>();
     private SessionManager sm = new SessionManager();

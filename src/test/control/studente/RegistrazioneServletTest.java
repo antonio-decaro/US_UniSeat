@@ -3,7 +3,7 @@ package control.studente;
 import control.utili.EmailManager;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
-import model.database.UtenteDAOStub;
+import model.database.StubUtenteDAO;
 import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +34,7 @@ class RegistrazioneServletTest {
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
     @Mock private EmailManager emailManager;
-    private UtenteDAO utenteDAO = new UtenteDAOStub();
+    private UtenteDAO utenteDAO = new StubUtenteDAO();
     private RegistrazioneServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
 
