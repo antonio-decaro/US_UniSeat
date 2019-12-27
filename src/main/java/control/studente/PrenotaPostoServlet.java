@@ -121,6 +121,8 @@ public class PrenotaPostoServlet extends HttpServlet {
         p.setUtente(utente);
         p.setTipoPrenotazione(TipoPrenotazione.POSTO);
         prenotazioneDAO.insert(p);
+        aula.setPostiOccupati(aula.getPostiOccupati() + 1); // aggiorno aula
+        aulaDAO.update(aula);
 
         resp.sendRedirect(req.getContextPath() + "/comuni/prenotazioni.jsp");
     }

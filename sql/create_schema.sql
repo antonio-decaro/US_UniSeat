@@ -2,7 +2,7 @@ DROP SCHEMA IF EXISTS UniSeatDB;
 CREATE SCHEMA UniSeatDB;
 USE UniSeatDB;
 
-CREATE TABLE Utente
+CREATE TABLE IF NOT EXISTS Utente
 (
     nome            VARCHAR(20)  NOT NULL,
     cognome         VARCHAR(20)  NOT NULL,
@@ -14,12 +14,12 @@ CREATE TABLE Utente
     PRIMARY KEY (email)
 );
 
-CREATE TABLE Edificio
+CREATE TABLE IF NOT EXISTS Edificio
 (
     nome VARCHAR(16) PRIMARY KEY
 );
 
-CREATE TABLE Aula
+CREATE TABLE IF NOT EXISTS Aula
 (
     id               INT           NOT NULL AUTO_INCREMENT,
     nome             VARCHAR(16)   NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE Aula
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE Prenotazione
+CREATE TABLE IF NOT EXISTS Prenotazione
 (
     id         INT         NOT NULL AUTO_INCREMENT,
     utente     VARCHAR(48) NOT NULL,
@@ -54,3 +54,13 @@ CREATE TABLE Prenotazione
         REFERENCES Aula (id)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+DROP EVENT IF EXISTS cleanNonConfirmedUsers;
+
+CREATE EVENT IF NOT EXISTS cleanNonConfirmedUsers
+    ON SCHEDULE
+        EVERY 1 day
+    DO
+        DELETE
+        FROM Utente
+        WHERE codice_verifica != 0;
