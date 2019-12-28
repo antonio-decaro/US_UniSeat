@@ -18,6 +18,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * Questa classe registra nuovi utenti al sistema
+ *
+ * @author De Caro Antonio
+ * @version 0.1
+ * */
 @WebServlet("/signin")
 public class RegistrazioneServlet extends HttpServlet {
 
