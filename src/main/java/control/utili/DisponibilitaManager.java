@@ -31,6 +31,7 @@ public class DisponibilitaManager {
      * Costruttore
      *
      * @param aula aula di cui gestire la disponibilità
+     * @param prenotazioneDAO dao che accede agli oggetti di tipo Prenotazone nel gestore della persistenza
      * @since v 0.1
      * */
     public DisponibilitaManager(Aula aula, PrenotazioneDAO prenotazioneDAO){
@@ -63,13 +64,12 @@ public class DisponibilitaManager {
      * @since v 0.1
      * */
     public boolean isAulaDisponibile(Date data, Time oraInizio, Time oraFine) {
-        ArrayList<String[]> intervalli = new ArrayList<>();
-        for (Object o : this.disponibilita.intervalli[data.toLocalDate().getDayOfWeek().getValue() - 1]) {
-            if (o instanceof String[])
-                intervalli.add((String[]) o);
-        }
+        int dayIndex = data.toLocalDate().getDayOfWeek().getValue() - 1;
 
-        for (String[] intervallo : intervalli) {
+        if (this.disponibilita.intervalli[dayIndex].isEmpty())
+            return false;
+
+        for (String[] intervallo : this.disponibilita.intervalli[dayIndex]) {
             Time[] tmp = parseIntervallo(intervallo);
             if (!comparaIntervallo(oraInizio, oraFine, tmp[0], tmp[1])) {
                 return false;
@@ -85,7 +85,6 @@ public class DisponibilitaManager {
     }
 
     private List<Prenotazione> getPrenotazioniAule(Date data, Time oraInizio, Time oraFine) {
-        PrenotazioneDAO prenotazioneDAO = DBPrenotazioneDAO.getInstance();
         List<Prenotazione> prenotazioni = prenotazioneDAO.retriveByAula(this.aula);
         prenotazioni.retainAll(prenotazioneDAO.retriveByData(data));
 
@@ -109,8 +108,11 @@ public class DisponibilitaManager {
 
         String[] tmpInizio = intervallo[0].split(":");
         String[] tmpFine = intervallo[1].split(":");
-        LocalTime inizio = LocalTime.of(Integer.parseInt(tmpInizio[0]), Integer.parseInt(tmpInizio[1]));
-        LocalTime fine = LocalTime.of(Integer.parseInt(tmpFine[0]), Integer.parseInt(tmpFine[1]));
+
+        LocalTime inizio = LocalTime.ofSecondOfDay(
+                ((Integer.parseInt(tmpInizio[0]) * (60 * 60)) + (Integer.parseInt(tmpInizio[1]) * 60)));
+        LocalTime fine = LocalTime.ofSecondOfDay(
+                ((Integer.parseInt(tmpFine[0]) * (60 * 60)) + (Integer.parseInt(tmpFine[1]) * 60)) - 1);
 
         ret[0] = Time.valueOf(inizio);
         ret[1] = Time.valueOf(fine);
@@ -119,11 +121,11 @@ public class DisponibilitaManager {
 
     static class DisponibilitaGiornaliera {
 
-        ArrayList[] intervalli;
+        ArrayList<String[]>[] intervalli;
 
         {
             intervalli = new ArrayList[7];
-            Arrays.fill(intervalli, new ArrayList<String[]>());
+            Arrays.fill(intervalli, new ArrayList<>());
         }
     }
 }

@@ -64,3 +64,8 @@ CREATE EVENT IF NOT EXISTS cleanNonConfirmedUsers
         DELETE
         FROM Utente
         WHERE codice_verifica != 0;
+
+#CREATE EVENT IF NOT EXISTS reduceAulaCounter
+#    ON SCHEDULE
+#        EVERY 30 MINUTE
+#    DO

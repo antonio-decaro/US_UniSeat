@@ -58,8 +58,8 @@ public class PrenotaPostoServlet extends HttpServlet {
         }
 
         EdificioDAO edificioDAO = (EdificioDAO) req.getServletContext().getAttribute(EDIFICIO_DAO);
-        AulaDAO aulaDAO = (AulaDAO) req.getServletContext().getAttribute(EDIFICIO_DAO);
-        PrenotazioneDAO prenotazioneDAO = (PrenotazioneDAO) req.getServletContext().getAttribute(EDIFICIO_DAO);
+        AulaDAO aulaDAO = (AulaDAO) req.getServletContext().getAttribute(AULA_DAO);
+        PrenotazioneDAO prenotazioneDAO = (PrenotazioneDAO) req.getServletContext().getAttribute(PRENOTAZIONE_DAO);
 
         // controllo campi
         String nomeEdificio = req.getParameter("edificio");
@@ -77,15 +77,15 @@ public class PrenotaPostoServlet extends HttpServlet {
             return;
         }
         Aula aula = aulaDAO.retriveById(Integer.parseInt(idAula));
-        if (aula == null || !edificio.getAule().contains(aula)) {
-            SessionManager.setError(session, "Aula non esistente");
+        if (aula == null) {
+            SessionManager.setError(session, "Aula non valida");
             resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
             return;
         }
 
         String strDurata = req.getParameter("durata").strip();
         if (strDurata == null || strDurata.equals("")) {
-            SessionManager.setError(session, "Aula non valida");
+            SessionManager.setError(session, "Durata non valida");
             resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
             return;
         }
@@ -105,7 +105,7 @@ public class PrenotaPostoServlet extends HttpServlet {
         }
 
         if (durata == 0) {
-            SessionManager.setError(session, "Fascia oraria non disponibile");
+            SessionManager.setError(session, "Aula non disponibile");
             resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
             return;
         }
@@ -113,6 +113,7 @@ public class PrenotaPostoServlet extends HttpServlet {
         if (changed) {
             SessionManager.setMessage(session, "L'orario di fine prenotazione è stato modificato");
         }
+
         Prenotazione p = new Prenotazione();
         p.setData(data);
         p.setOraInizio(oraInizio);
@@ -127,7 +128,7 @@ public class PrenotaPostoServlet extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/comuni/prenotazioni.jsp");
     }
 
-    private static final String PRENOTAZIONE_DAO = "PrenotaPostoServlet.PrenotazioneDAO";
-    private static final String AULA_DAO = "PrenotaPostoServlet.AulaDAO";
-    private static final String EDIFICIO_DAO = "PrenotaPostoServlet.EdificioDAO";
+    static final String PRENOTAZIONE_DAO = "PrenotaPostoServlet.PrenotazioneDAO";
+    static final String AULA_DAO = "PrenotaPostoServlet.AulaDAO";
+    static final String EDIFICIO_DAO = "PrenotaPostoServlet.EdificioDAO";
 }

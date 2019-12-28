@@ -31,7 +31,7 @@ class DisponibilitaManagerTest {
     @Test
     void testConstructor() throws Exception {
 
-        String jsonString = Files.readString(Paths.get("./src/test/resources/example.json"));
+        String jsonString = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP3.json"));
         Aula aula = new Aula();
         aula.setDisponibilita(jsonString);
         DisponibilitaManager disponibilitaManager = new DisponibilitaManager(aula, mockPrenotazioneDAO);
