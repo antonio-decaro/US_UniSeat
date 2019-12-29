@@ -46,14 +46,13 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     @Override
     public Prenotazione retriveById(int id) throws IllegalArgumentException {
         final String QUERY = "SELECT * FROM prenotazione WHERE id = ?";
-        System.out.println(id);
+
         if (id < 0)
             throw new IllegalArgumentException(String.format("L'id %d non è valido.", id));
 
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);
             stm.setInt(1, id);
-            System.out.println(id);
             stm.execute();
 
             ResultSet rs = stm.getResultSet();

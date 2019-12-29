@@ -62,7 +62,7 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
                 return;
             }
             prenotazioneDAO.delete(p);
-            AulaDAO aulaDAO = (AulaDAO) getServletContext().getAttribute(AULA_DAO_PARAM);
+            AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
             Aula a = aulaDAO.retriveById(p.getAula().getId());
 
 

@@ -4,10 +4,7 @@ import control.utili.PassowrdEncrypter;
 import model.dao.PrenotazioneDAO;
 import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
-import model.pojo.Aula;
-import model.pojo.Prenotazione;
-import model.pojo.TipoUtente;
-import model.pojo.Utente;
+import model.pojo.*;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -17,13 +14,25 @@ import java.util.List;
 public class StubPrenotazioneDAO implements PrenotazioneDAO {
 
     private ArrayList<Prenotazione> prenotazioni;
-
     {
         prenotazioni = new ArrayList<>();
+        prenotazioni.add(new Prenotazione(1,new Date(2019-11-11), new Time(14), new Time(16),
+                TipoPrenotazione.POSTO, new Aula("P3", 20,
+                200, "sd", new Edificio("F3")),
+                new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro",
+                        "Antonio2", TipoUtente.STUDENTE)));
+        prenotazioni.get(0).getAula().setId(1);
+        prenotazioni.add(new Prenotazione(2,new Date(2019-11-11), new Time(14), new Time(16),
+                TipoPrenotazione.POSTO, new Aula("P4", 20, 200, "sd", new Edificio("F3")),
+                new Utente("c.gravino@studenti.unisa.it", "Carmine", "Gravino",
+                        "Gravino1", TipoUtente.DOCENTE)));
+        prenotazioni.get(1).getAula().setId(2);
     }
 
     @Override
     public Prenotazione retriveById(int id) throws IllegalArgumentException {
+        if (id < 0)
+            throw new IllegalArgumentException(String.format("L'id %d non è valido.", id));
 
         for (Prenotazione p : prenotazioni) {
             if (p.getId() == id)

@@ -1,8 +1,10 @@
 package control.comuni;
 
 import control.utili.SessionManager;
+import model.dao.AulaDAO;
 import model.dao.PrenotazioneDAO;
 import model.dao.UtenteDAO;
+import model.database.StubAulaDAO;
 import model.database.StubPrenotazioneDAO;
 import model.database.StubUtenteDAO;
 
@@ -38,6 +40,7 @@ public class EliminaPrenotazioneServletTest {
     private HttpSession session;
     private UtenteDAO utenteDAO = new StubUtenteDAO();
     private PrenotazioneDAO prenotazioneDAO = new StubPrenotazioneDAO();
+    private AulaDAO aulaDAO= new StubAulaDAO();
     private EliminaPrenotazioneServlet servlet;
     private Map<String, Object> attributes = new HashMap<>();
 
@@ -48,6 +51,7 @@ public class EliminaPrenotazioneServletTest {
         servlet = new EliminaPrenotazioneServlet();
         when(req.getServletContext()).thenReturn(ctx);
         when(ctx.getAttribute(EliminaPrenotazioneServlet.PRENOTAZIONE_DAO_PARAM)).thenReturn(prenotazioneDAO);
+        when(ctx.getAttribute(EliminaPrenotazioneServlet.AULA_DAO_PARAM)).thenReturn(aulaDAO);
         when(req.getSession()).thenReturn(session);
         when(req.getContextPath()).thenReturn("");
         when(ctx.getContextPath()).thenReturn("");
@@ -86,7 +90,7 @@ public class EliminaPrenotazioneServletTest {
         String id = "-1";
         when(req.getParameter("id_prenotazione")).thenReturn(id);
         servlet.doGet(req, res);
-        assertEquals("L'id" + id + "non è valido.",
+        assertEquals("L'id " + id + " non è valido.",
                 session.getAttribute("SessionManager.error"));
     }
 
@@ -102,8 +106,7 @@ public class EliminaPrenotazioneServletTest {
     @Test
     void TC_1_2() throws Exception {
         SessionManager.autentica(session, utenteDAO.retriveAll().get(1));
-        System.out.println(SessionManager.getUtente(session));
-        when(req.getParameter("id_prenotazione")).thenReturn("2");
+        when(req.getParameter("id_prenotazione")).thenReturn("1");
         servlet.doGet(req, res);
         assertNull(session.getAttribute("SessionManager.error"));
     }
@@ -111,8 +114,7 @@ public class EliminaPrenotazioneServletTest {
     @Test
     void TC_1_3() throws Exception {
         SessionManager.autentica(session, utenteDAO.retriveAll().get(2));
-        System.out.println(SessionManager.getUtente(session));
-        when(req.getParameter("id_prenotazione")).thenReturn("4");
+        when(req.getParameter("id_prenotazione")).thenReturn("2");
         servlet.doGet(req, res);
         assertNull(session.getAttribute("SessionManager.error"));
     }
