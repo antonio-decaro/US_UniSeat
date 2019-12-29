@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("verificaAccount")
+@WebServlet("/verificaAccount")
 public class VerificaAccountServlet extends HttpServlet {
 
     @Override

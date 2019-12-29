@@ -9,6 +9,7 @@ import model.database.DBEdificioDAO;
 import model.pojo.*;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
  * @see model.dao.AulaDAO
  */
 
-@javax.servlet.annotation.WebServlet(name = "InserisciAulaServlet")
+@WebServlet("/inserisciAula")
 public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
     @Override
