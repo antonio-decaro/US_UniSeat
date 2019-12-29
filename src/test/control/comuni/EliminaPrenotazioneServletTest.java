@@ -4,7 +4,7 @@ import control.studente.ModificaDatiProfiloServlet;
 import control.utili.SessionManager;
 import model.dao.PrenotazioneDAO;
 import model.dao.UtenteDAO;
-import model.database.PrenotazioneDAOStub;
+import model.database.StubPrenotazioneDAO;
 import model.database.StubUtenteDAO;
 
 import org.junit.jupiter.api.AfterEach;
@@ -34,7 +34,7 @@ public class EliminaPrenotazioneServletTest {
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
     private UtenteDAO utenteDAO = new StubUtenteDAO();
-    private PrenotazioneDAO prenotazioneDAO = new PrenotazioneDAOStub();
+    private PrenotazioneDAO prenotazioneDAO = new StubPrenotazioneDAO();
     private EliminaPrenotazioneServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
 
