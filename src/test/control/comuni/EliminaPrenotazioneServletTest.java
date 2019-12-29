@@ -5,9 +5,8 @@ import control.utili.SessionManager;
 import model.dao.PrenotazioneDAO;
 import model.dao.UtenteDAO;
 import model.database.PrenotazioneDAOStub;
-import model.database.UtenteDAOStub;
-import model.pojo.TipoUtente;
-import model.pojo.Utente;
+import model.database.StubUtenteDAO;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,7 @@ public class EliminaPrenotazioneServletTest {
     @Mock private HttpServletResponse res;
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
-    private UtenteDAO utenteDAO = new UtenteDAOStub();
+    private UtenteDAO utenteDAO = new StubUtenteDAO();
     private PrenotazioneDAO prenotazioneDAO = new PrenotazioneDAOStub();
     private EliminaPrenotazioneServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
