@@ -1,7 +1,6 @@
 package control.studente;
 
 import control.utili.SessionManager;
-import model.dao.UtenteDAO;
 import model.database.StubUtenteDAO;
 import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
@@ -31,7 +30,7 @@ class ModificaDatiProfiloServletTest {
     @Mock private HttpServletResponse res;
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
-    private UtenteDAO utenteDAO = new StubUtenteDAO();
+    private StubUtenteDAO utenteDAO = new StubUtenteDAO();
     private ModificaDatiProfiloServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
 
@@ -39,7 +38,6 @@ class ModificaDatiProfiloServletTest {
     void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
         servlet = new ModificaDatiProfiloServlet();
-
 
         when(req.getServletContext()).thenReturn(ctx);
         when(ctx.getAttribute(ModificaDatiProfiloServlet.UTENTE_DAO_PARAM)).thenReturn(utenteDAO);

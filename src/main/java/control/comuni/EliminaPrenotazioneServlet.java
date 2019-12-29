@@ -46,7 +46,7 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
         Utente user = SessionManager.getUtente(ssn);
         String addres = "/comuni/prenotazioni.jsp";
 
-        if (user == null || ! SessionManager.isAlradyAuthenticated(ssn)) {
+        if (user == null || !SessionManager.isAlradyAuthenticated(ssn)) {
             SessionManager.setError(ssn, "LogIn non effettuato");
             response.sendRedirect(request.getServletContext().getContextPath() + "/comuni/login.jsp");
             return;
@@ -54,7 +54,7 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
 
         int id = Integer.parseInt(request.getParameter("id_prenotazione"));
         Prenotazione p;
-        PrenotazioneDAO prenotazioneDAO = (PrenotazioneDAO) getServletContext().getAttribute(PRENOTAZIONE_DAO_PARAM);
+        PrenotazioneDAO prenotazioneDAO = (PrenotazioneDAO) request.getServletContext().getAttribute(PRENOTAZIONE_DAO_PARAM);
         try {
             p = prenotazioneDAO.retriveById(id);
             if (p == null) {
@@ -76,12 +76,9 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
                 a.setPostiOccupati(0);
                 aulaDAO.update(a);
             }
-
-        /*if(user.getTipoUtente().toString().equals(TipoUtente.ADMIN)){
-
-        }*/
         } catch (IllegalArgumentException e) {
             SessionManager.setError(ssn, e.getMessage());
+//            addres"error.jsp";
         }
         response.sendRedirect(request.getServletContext().getContextPath() + addres);
 

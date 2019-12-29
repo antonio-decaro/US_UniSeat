@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Questa servlet permette all'admin di modificare i dati di un utente all'interno del database
+ * Questa servlet permette  di modificare i dati di un utente all'interno del database
  *
  * @author De Santis Marco
  * @version 0.1
@@ -68,7 +68,6 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
         }
         if (nome.matches(Rgx1)) {
             u.setNome(nome);
-            count++;
         } else {
             SessionManager.setError(ssn, "Il campo Nome non rispetta il formato");
             response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
@@ -82,7 +81,6 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
         }
         if (cognome.matches(Rgx1)) {
             u.setCognome(cognome);
-            count++;
         } else {
             SessionManager.setError(ssn, "Il campo Cognome non rispetta il formato");
             response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
@@ -97,7 +95,6 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
         if (password.matches(Rgx2)) {
             if (password.equals(cPassword)) {
                 u.setPassword(password);
-                count++;
             } else {
                 SessionManager.setError(ssn, "Le Password non corrispondono");
                 response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
@@ -109,19 +106,15 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             return;
         }
 
-//        try {
+        try {
             UtenteDAO utenteDAO = (UtenteDAO) request.getServletContext().getAttribute(UTENTE_DAO_PARAM);
-            if (count == 3) {
-                u.setEmail(user.getEmail());
-                u.setTipoUtente(user.getTipoUtente());
-                utenteDAO.update(u);
-            }
-
-
-//        } catch (ViolazioneEntityException e) {
-//            SessionManager.setError(ssn, e.getMessage());
-//            addres = "error.jsp";
-//        }
+            u.setEmail(user.getEmail());
+            u.setTipoUtente(user.getTipoUtente());
+            utenteDAO.update(u);
+        } catch (ViolazioneEntityException e) {
+            SessionManager.setError(ssn, e.getMessage());
+            addres = "error.jsp";
+        }
 
         response.sendRedirect(request.getServletContext().getContextPath() + addres);
     }

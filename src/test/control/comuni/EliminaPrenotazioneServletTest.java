@@ -1,10 +1,9 @@
 package control.comuni;
 
-import control.studente.ModificaDatiProfiloServlet;
 import control.utili.SessionManager;
 import model.dao.PrenotazioneDAO;
 import model.dao.UtenteDAO;
-import model.database.PrenotazioneDAOStub;
+import model.database.StubPrenotazioneDAO;
 import model.database.StubUtenteDAO;
 
 import org.junit.jupiter.api.AfterEach;
@@ -29,25 +28,28 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 public class EliminaPrenotazioneServletTest {
-    @Mock private HttpServletRequest req;
-    @Mock private HttpServletResponse res;
-    @Mock private ServletContext ctx;
-    @Mock private HttpSession session;
+    @Mock
+    private HttpServletRequest req;
+    @Mock
+    private HttpServletResponse res;
+    @Mock
+    private ServletContext ctx;
+    @Mock
+    private HttpSession session;
     private UtenteDAO utenteDAO = new StubUtenteDAO();
-    private PrenotazioneDAO prenotazioneDAO = new PrenotazioneDAOStub();
+    private PrenotazioneDAO prenotazioneDAO = new StubPrenotazioneDAO();
     private EliminaPrenotazioneServlet servlet;
-    private Map<String,Object> attributes = new HashMap<>();
+    private Map<String, Object> attributes = new HashMap<>();
+
 
     @BeforeEach
-    void setUp() throws Exception{
+    void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         servlet = new EliminaPrenotazioneServlet();
-
-
         when(req.getServletContext()).thenReturn(ctx);
-        when(ctx.getAttribute(ModificaDatiProfiloServlet.UTENTE_DAO_PARAM)).thenReturn(utenteDAO);
         when(ctx.getAttribute(EliminaPrenotazioneServlet.PRENOTAZIONE_DAO_PARAM)).thenReturn(prenotazioneDAO);
         when(req.getSession()).thenReturn(session);
+        when(req.getContextPath()).thenReturn("");
         when(ctx.getContextPath()).thenReturn("");
         when(SessionManager.isAlradyAuthenticated(session)).thenReturn(true);
         doNothing().when(res).sendRedirect(anyString());
@@ -63,8 +65,6 @@ public class EliminaPrenotazioneServletTest {
             attributes.put(key, value);
             return null;
         }).when(session).setAttribute(anyString(), any());
-
-
     }
 
     @AfterEach
@@ -74,18 +74,46 @@ public class EliminaPrenotazioneServletTest {
 
 
     @Test
-    void testGetAndAuth() throws Exception {
-        servlet.doGet(req, res);
+    void testPostAndAuth() throws Exception {
+        servlet.doPost(req, res);
         assertEquals("LogIn non effettuato",
                 session.getAttribute("SessionManager.error"));
     }
 
     @Test
-    void TC_1_1() throws Exception {
+    void testExc() throws Exception {
         SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-        when(req.getParameter("id_prenotazione")).thenReturn(String.valueOf(1));
+        String id = "-1";
+        when(req.getParameter("id_prenotazione")).thenReturn(id);
         servlet.doGet(req, res);
+        assertEquals("L'id" + id + "non è valido.",
+                session.getAttribute("SessionManager.error"));
+    }
 
-//        assertNull(session.getAttribute("SessionManager.error"));
+    @Test
+    void TC_1_1() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(1));
+        when(req.getParameter("id_prenotazione")).thenReturn("104");
+        servlet.doGet(req, res);
+        assertEquals("Prenotazione non presente nel DB",
+                session.getAttribute("SessionManager.error"));
+    }
+
+    @Test
+    void TC_1_2() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(1));
+        System.out.println(SessionManager.getUtente(session));
+        when(req.getParameter("id_prenotazione")).thenReturn("2");
+        servlet.doGet(req, res);
+        assertNull(session.getAttribute("SessionManager.error"));
+    }
+
+    @Test
+    void TC_1_3() throws Exception {
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(2));
+        System.out.println(SessionManager.getUtente(session));
+        when(req.getParameter("id_prenotazione")).thenReturn("4");
+        servlet.doGet(req, res);
+        assertNull(session.getAttribute("SessionManager.error"));
     }
 }
