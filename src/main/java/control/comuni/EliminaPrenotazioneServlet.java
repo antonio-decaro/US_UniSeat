@@ -5,7 +5,6 @@ import model.dao.AulaDAO;
 import model.dao.PrenotazioneDAO;
 import model.database.DBAulaDAO;
 import model.database.DBPrenotazioneDAO;
-import model.database.DBUtenteDAO;
 import model.pojo.Aula;
 import model.pojo.Prenotazione;
 import model.pojo.TipoUtente;
@@ -67,12 +66,12 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
             Aula a = aulaDAO.retriveById(p.getAula().getId());
 
 
-            if (user.getTipoUtente().toString().equals(TipoUtente.STUDENTE)) {
+            if (user.getTipoUtente().toString().equals(TipoUtente.STUDENTE.toString())) {
                 a.setPostiOccupati(a.getPostiOccupati() - 1);
                 aulaDAO.update(a);
             }
 
-            if (user.getTipoUtente().toString().equals(TipoUtente.DOCENTE)) {
+            if (user.getTipoUtente().toString().equals(TipoUtente.DOCENTE.toString())) {
                 a.setPostiOccupati(0);
                 aulaDAO.update(a);
             }

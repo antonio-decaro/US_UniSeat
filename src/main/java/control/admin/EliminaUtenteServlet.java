@@ -22,7 +22,7 @@ import java.io.IOException;
  * @see model.dao.UtenteDAO
  */
 
-@WebServlet(name = "EliminaUtenteServlet")
+@WebServlet("/eliminaUtente")
 public class EliminaUtenteServlet extends HttpServlet {
 
     @Override

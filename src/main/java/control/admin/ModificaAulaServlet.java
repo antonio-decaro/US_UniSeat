@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * @see model.pojo.Aula
  * @see model.dao.AulaDAO
  */
-@WebServlet(name = "ModificaAulaServlet")
+@WebServlet("/modificaAula")
 public class ModificaAulaServlet extends HttpServlet {
 
     @Override
