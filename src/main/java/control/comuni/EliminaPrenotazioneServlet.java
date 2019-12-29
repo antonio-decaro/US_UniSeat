@@ -44,10 +44,11 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession ssn = request.getSession();
         Utente user = SessionManager.getUtente(ssn);
+        String addres = "/comuni/prenotazioni.jsp";
 
-        if (user == null || SessionManager.isAlradyAuthenticated(ssn)) {
+        if (user == null || ! SessionManager.isAlradyAuthenticated(ssn)) {
             SessionManager.setError(ssn, "LogIn non effettuato");
-            response.sendRedirect(request.getServletContext().getContextPath() + "/login");
+            response.sendRedirect(request.getServletContext().getContextPath() + "/comuni/login.jsp");
             return;
         }
 
@@ -58,11 +59,11 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
             p = prenotazioneDAO.retriveById(id);
             if (p == null) {
                 SessionManager.setError(ssn, "Prenotazione non presente nel DB");
-                response.sendRedirect(request.getServletContext().getContextPath() + "/login");
+                response.sendRedirect(request.getServletContext().getContextPath() + "/comuni/login.jsp");
                 return;
             }
             prenotazioneDAO.delete(p);
-            AulaDAO aulaDAO = (AulaDAO) getServletContext().getAttribute(PRENOTAZIONE_DAO_PARAM);
+            AulaDAO aulaDAO = (AulaDAO) getServletContext().getAttribute(AULA_DAO_PARAM);
             Aula a = aulaDAO.retriveById(p.getAula().getId());
 
 
@@ -80,8 +81,10 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
 
         }*/
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            SessionManager.setError(ssn, e.getMessage());
         }
+        response.sendRedirect(request.getServletContext().getContextPath() + addres);
+
     }
 
     @Override

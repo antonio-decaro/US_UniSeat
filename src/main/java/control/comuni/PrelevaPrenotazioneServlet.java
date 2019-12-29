@@ -49,10 +49,11 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession ssn = request.getSession();
         Utente user = SessionManager.getUtente(ssn);
+        String addres = "/comuni/prenotazioni.jsp";
 
         if (user == null || SessionManager.isAlradyAuthenticated(ssn)) {
             SessionManager.setError(ssn, "LogIn non effettuato");
-            response.sendRedirect(request.getServletContext().getContextPath() + "/login");
+            response.sendRedirect(request.getServletContext().getContextPath() + "/comuni/login.jsp");
             return;
         }
 
@@ -79,9 +80,10 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
 
         }*/
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return;
+            SessionManager.setError(ssn, e.getMessage());
         }
+        response.sendRedirect(request.getServletContext().getContextPath() + addres);
+
     }
 
     @Override
