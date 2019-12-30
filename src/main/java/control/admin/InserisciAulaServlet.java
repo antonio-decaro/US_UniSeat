@@ -8,6 +8,7 @@ import model.database.DBAulaDAO;
 import model.database.DBEdificioDAO;
 import model.pojo.*;
 
+import javax.mail.Session;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
@@ -34,10 +35,8 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
     public void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         HttpSession session = request.getSession();
-        SessionManager sm = new SessionManager();
-        Utente u = sm.getUtente(session);
+        Utente u = SessionManager.getUtente(session);
         if (u == null || !u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { // se non è admin o non è loggato
-            //response.getWriter().print(400);
             response.sendRedirect("Login.jsp");
             return;
         }
@@ -50,19 +49,22 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
         if (edificio == null || edificio.length() < 1 )
         {
-            throw new IllegalArgumentException("Edificio non selezionato");
+            //response.getWriter().print(400);
+            SessionManager.setError(session, "Edificio non selezionato");
+
+            return;
         }
 
         if (n_posti < 20 || n_posti > 300) {
 
-            response.getWriter().print(400);
-            request.setAttribute("erroreInserimentoAula", "Numero posti non corretto");
+            //response.getWriter().print(400);
+            SessionManager.setError(session, "Numero posti non corretto");
             return;
 
         } else if (!num_posti.matches("[0-9]")) {
 
-            response.getWriter().print(400);
-            request.setAttribute("erroreInserimentoAula", "Formato numero posti non valido");
+            //response.getWriter().print(400);
+            SessionManager.setError(session, "Formato numero posti non valido");
             return;
         }
 
@@ -70,8 +72,8 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         Edificio ed = edificioDAO.retriveByName(edificio);
         if (ed == null) {
 
-            response.getWriter().print(400);
-            request.setAttribute("erroreInserimentoAula", "Edificio non trovato");
+            //response.getWriter().print(400);
+            SessionManager.setError(session, "Edificio non trovato");
             return;
 
         } else {
@@ -89,8 +91,8 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 servizi.add(servizi_extra);
 
             } else if (!servizi_extra_computer.equals(Servizio.COMPUTER.toString()) && servizi_extra_computer != null) {
-                response.getWriter().print(400);
-                request.setAttribute("erroreInserimentoAula", "Servizi non validi");
+                //response.getWriter().print(400);
+                SessionManager.setError(session, "Servizi non validi");
                 return;
             }
             if (servizi_extra_prese != null && servizi_extra_prese.equals(Servizio.PRESE.toString())) {
@@ -99,8 +101,8 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 servizi.add(servizi_extra);
 
             } else if (!servizi_extra_prese.equals(Servizio.PRESE.toString()) && servizi_extra_prese != null) {
-                response.getWriter().print(400);
-                request.setAttribute("erroreInserimentoAula", "Servizi non validi");
+                //response.getWriter().print(400);
+                SessionManager.setError(session, "Servizi non validi");
                 return;
             }
 
@@ -108,29 +110,29 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
             if (disponibilità == null) {
 
-                response.getWriter().print(400);
-                request.setAttribute("erroreInserimentoAula", "Orari di disponibilità errati");
+                //response.getWriter().print(400);
+                SessionManager.setError(session, "Orari di disponibilità errati");
                 return;
             }
 
             if (nome.length() < 1 || nome.length() > 16) {
 
-                response.getWriter().print(400);
-                request.setAttribute("erroreInserimentoAula", "Nome aula non valido");
+                //response.getWriter().print(400);
+                SessionManager.setError(session, "Nome aula non valido");
                 return;
 
             } else if (!nome.matches("[^A-Za-z0-9]")) {
 
-                response.getWriter().print(400);
-                request.setAttribute("erroreInserimentoAula", "Nome aula non rispetta il formato");
+                //response.getWriter().print(400);
+                SessionManager.setError(session, "Nome aula non rispetta il formato");
                 return;
 
             } else {
                 AulaDAO aulaDAO = (AulaDAO) getServletContext().getAttribute(AULA_DAO_PARAM);
                 boolean result = aulaDAO.insert(nuova_aula);
                 if (!result) {
-                    response.getWriter().print(400);
-                    request.setAttribute("erroreInserimentoAula", "Aula già esistente!");
+                    //response.getWriter().print(400);
+                    SessionManager.setError(session, "Aula già esistente!");
                     return;
                 }
                 response.getWriter().print(200);
