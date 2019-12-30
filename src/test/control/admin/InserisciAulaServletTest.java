@@ -6,6 +6,7 @@ import model.dao.EdificioDAO;
 import model.database.StubAulaDAO;
 import model.database.StubEdificioDAO;
 import model.pojo.TipoUtente;
+import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,11 +51,13 @@ class InserisciAulaServletTest {
     void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
         servlet = new InserisciAulaServlet();
+
         when(req.getServletContext()).thenReturn(ctx);
         when(ctx.getAttribute(InserisciAulaServlet.AULA_DAO_PARAM)).thenReturn(aulaDAO);
         when(ctx.getAttribute(InserisciAulaServlet.EDIFICIO_DAO_PARAM)).thenReturn(edificioDAO);
-        doNothing().when(res).getWriter().print(anyString());
-
+        when(req.getSession()).thenReturn(session);
+        when(ctx.getContextPath()).thenReturn("");
+        doNothing().when(res).sendRedirect(anyString());
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
             String key = (String) invocation.getArguments()[0];
@@ -67,6 +70,10 @@ class InserisciAulaServletTest {
             attributes.put(key, value);
             return null;
         }).when(session).setAttribute(anyString(), any());
+
+        Utente u = new Utente();
+        u.setTipoUtente(TipoUtente.ADMIN);
+        session.setAttribute("SessionManager.user", u);
     }
 
     @AfterEach
@@ -75,42 +82,19 @@ class InserisciAulaServletTest {
 
     @Test
     void TC_5_1() throws Exception {
-        when(req.getParameter("edificio")).thenReturn(null);
+        when(req.getParameter("edificio")).thenReturn("");
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("150");
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Edificio non selezionato",
-                req.getParameter("erroreInserimentoAula"));
+                session.getAttribute("SessionManager.error"));
+        //assertNull(aulaDAO.retriveByName("P22"));
     }
 
     @Test
     void TC_5_2() throws Exception {
-        when(req.getParameter("edificio")).thenReturn("F3");
-        when(req.getParameter("nome_aula")).thenReturn("P22");
-        when(req.getParameter("numero_posti")).thenReturn("15");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
-        when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
-        servlet.doPost(req, res);
-        assertEquals("Numero posti non corretto",
-                req.getParameter("erroreInserimentoAula"));
-    }
-
-    @Test
-    void TC_5_3() throws Exception {
-        when(req.getParameter("edificio")).thenReturn("F3");
-        when(req.getParameter("nome_aula")).thenReturn("P22");
-        when(req.getParameter("numero_posti")).thenReturn("900");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
-        when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
-        servlet.doPost(req, res);
-        assertEquals("Numero posti non corretto",
-                req.getParameter("erroreInserimentoAula"));
-    }
-
-    @Test
-    void TC_5_4() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("70 posti circa");
@@ -118,7 +102,34 @@ class InserisciAulaServletTest {
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Formato numero posti non valido",
-                req.getParameter("erroreInserimentoAula"));
+                session.getAttribute("SessionManager.error"));
+        assertNull(aulaDAO.retriveByName("P22"));
+    }
+
+    @Test
+    void TC_5_3() throws Exception {
+        when(req.getParameter("edificio")).thenReturn("F3");
+        when(req.getParameter("nome_aula")).thenReturn("P22");
+        when(req.getParameter("numero_posti")).thenReturn("15");
+        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
+        servlet.doPost(req, res);
+        assertEquals("Numero posti non corretto",
+                session.getAttribute("SessionManager.error"));
+        assertNull(aulaDAO.retriveByName("P22"));
+    }
+
+    @Test
+    void TC_5_4() throws Exception {
+        when(req.getParameter("edificio")).thenReturn("F3");
+        when(req.getParameter("nome_aula")).thenReturn("P22");
+        when(req.getParameter("numero_posti")).thenReturn("900");
+        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
+        servlet.doPost(req, res);
+        assertEquals("Numero posti non corretto",
+                session.getAttribute("SessionManager.error"));
+        assertNull(aulaDAO.retriveByName("P22"));
     }
 
     @Test
@@ -131,7 +142,8 @@ class InserisciAulaServletTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Servizi non validi",
-                req.getParameter("erroreInserimentoAula"));
+                session.getAttribute("SessionManager.error"));
+        assertNull(aulaDAO.retriveByName("P22"));
     }
 
     @Test
@@ -144,20 +156,22 @@ class InserisciAulaServletTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Orari di disponibilità errati",
-                req.getParameter("erroreInserimentoAula"));
+                session.getAttribute("SessionManager.error"));
+        assertNull(aulaDAO.retriveByName("P22"));
     }
 
     @Test
     void TC_5_7() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
-        when(req.getParameter("nome_aula")).thenReturn(null);
+        when(req.getParameter("nome_aula")).thenReturn("");
         when(req.getParameter("numero_posti")).thenReturn("150");
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Nome aula non valido",
-                req.getParameter("erroreInserimentoAula"));
+                session.getAttribute("SessionManager.error"));
+        assertNull(aulaDAO.retriveByName("P22"));
     }
 
     @Test
@@ -170,7 +184,8 @@ class InserisciAulaServletTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Nome aula non valido",
-                req.getParameter("erroreInserimentoAula"));
+                session.getAttribute("SessionManager.error"));
+        assertNull(aulaDAO.retriveByName("P22"));
     }
 
     @Test
@@ -183,20 +198,21 @@ class InserisciAulaServletTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Nome aula non rispetta il formato",
-                req.getParameter("erroreInserimentoAula"));
+                session.getAttribute("SessionManager.error"));
+        assertNull(aulaDAO.retriveByName("P22"));
     }
 
     @Test
     void TC_5_10() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
-        when(req.getParameter("nome_aula")).thenReturn("P11");
+        when(req.getParameter("nome_aula")).thenReturn("P4");
         when(req.getParameter("numero_posti")).thenReturn("150");
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Aula già esistente!",
-                req.getParameter("erroreInserimentoAula"));
+                session.getAttribute("SessionManager.error"));
     }
 
     @Test
