@@ -66,7 +66,7 @@ class LoginServletTest {
         when(req.getParameter("email")).thenReturn(null);
         when(req.getParameter("password")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
-        assertEquals("Uno dei campi email o password non rispetta la lunghezza",
+        assertEquals("Il campo email non rispetta la lunghezza",
                 session.getAttribute("SessionManager.error"));
         assertNull(session.getAttribute("SessionManager.user"));
     }
@@ -76,7 +76,7 @@ class LoginServletTest {
         when(req.getParameter("email")).thenReturn("abcdefghilmnopqrstuvz1234567890@studenti.unisa.it");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
-        assertEquals("Il campo E-mail non rispetta la lunghezza",
+        assertEquals("Il campo email non rispetta la lunghezza",
                 session.getAttribute("SessionManager.error"));
         assertNull(session.getAttribute("SessionManager.user"));
     }

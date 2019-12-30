@@ -42,37 +42,18 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-
         // controllo validità campi
-        if (email == null || password == null) {
-            SessionManager.setError(session, "Uno dei campi email o password non rispetta la lunghezza");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/login.jsp");
-            return;
-        }
-        if (!email.endsWith("@unisa.it") && !email.endsWith("@studenti.unisa.it")) {
-            SessionManager.setError(session, "Il campo E-mail non rispetta il formato");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/login.jsp");
-            return;
-        }
-        int length = email.substring(0, email.indexOf("@")).length();
-        if (length > 30 || length < 6) {
-            SessionManager.setError(session, "Il campo E-mail non rispetta la lunghezza");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/login.jsp");
-            return;
-        }
-        if (password.length() > 32 || password.length() < 8) {
-            SessionManager.setError(session, "Il campo Password non rispetta la lunghezza");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/login.jsp");
-            return;
-        }
-        if (!password.matches("^((?=.*[\\d])(?=.*[a-z])(?=.*[A-Z])).+$")) {
-            SessionManager.setError(session, "Il campo Password non rispetta il formato");
+        String email, password;
+        try {
+            email = parseEmail(req.getParameter("email"));
+            password = parsePassword(req.getParameter("password"));
+        } catch (IllegalArgumentException e) {
+            SessionManager.setError(session, e.getMessage());
             resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/login.jsp");
             return;
         }
         // fine controllo validità campi
+
         UtenteDAO utenteDAO = (UtenteDAO) req.getServletContext().getAttribute(UTENTE_DAO_PARAM);
 
         Utente u = utenteDAO.retriveByEmail(email);
@@ -85,6 +66,31 @@ public class LoginServlet extends HttpServlet {
         SessionManager.autentica(session, u);
         resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/index.jsp");
     }
+
+    private String parsePassword(String param) {
+        if (param.length() > 32 || param.length() < 8) {
+            throw new IllegalArgumentException("Il campo Password non rispetta la lunghezza");
+        }
+        if (!param.matches("^((?=.*[\\d])(?=.*[a-z])(?=.*[A-Z])).+$")) {
+            throw new IllegalArgumentException("Il campo Password non rispetta il formato");
+        }
+        return param;
+    }
+
+    private String parseEmail(String param) {
+        if (param == null || param.strip().equals("")) {
+            throw new IllegalArgumentException("Il campo email non rispetta la lunghezza");
+        }
+        if (!param.endsWith("@unisa.it") && !param.endsWith("@studenti.unisa.it")) {
+            throw new IllegalArgumentException("Il campo E-mail non rispetta il formato");
+        }
+        int length = param.substring(0, param.indexOf("@")).length();
+        if (length > 30 || length < 6) {
+            throw new IllegalArgumentException("Il campo email non rispetta la lunghezza");
+        }
+        return param;
+    }
+
 
     static final String UTENTE_DAO_PARAM = "LoginServlet.UtenteDAO";
 }
