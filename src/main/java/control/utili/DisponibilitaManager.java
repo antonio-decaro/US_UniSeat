@@ -2,7 +2,6 @@ package control.utili;
 
 import com.google.gson.Gson;
 import model.dao.PrenotazioneDAO;
-import model.database.DBPrenotazioneDAO;
 import model.pojo.Aula;
 import model.pojo.Prenotazione;
 import model.pojo.TipoPrenotazione;
@@ -48,9 +47,10 @@ public class DisponibilitaManager {
      * @param oraInizio ora di inizio prenotazione cui controllare la disponibilità
      * @param oraFine ora di fine prenotazione in cui controllare la disponibilità
      * @return true se il posto è disponible, false altrimenti
+     * @throws IllegalArgumentException se oraFine è minore di oraInizio
      * @since v 0.1
      * */
-    public boolean isPostoDisponibile(Date data, Time oraInizio, Time oraFine) {
+    public boolean isPostoDisponibile(Date data, Time oraInizio, Time oraFine) throws IllegalArgumentException {
         return isAulaDisponibile(data, oraInizio, oraFine) && aula.getPostiOccupati() < aula.getPosti();
     }
 
@@ -61,9 +61,13 @@ public class DisponibilitaManager {
      * @param oraInizio ora di inizio prenotazione cui controllare la disponibilità
      * @param oraFine ora di fine prenotazione in cui controllare la disponibilità
      * @return true se l'aula è disponible, false altrimenti
+     * @throws IllegalArgumentException se oraFine è minore di oraInizio
      * @since v 0.1
      * */
-    public boolean isAulaDisponibile(Date data, Time oraInizio, Time oraFine) {
+    public boolean isAulaDisponibile(Date data, Time oraInizio, Time oraFine) throws IllegalArgumentException {
+        if (oraInizio.after(oraFine))
+            throw new IllegalArgumentException("Il parametro oraFine non può essere antecedente a oraInizio");
+
         int dayIndex = data.toLocalDate().getDayOfWeek().getValue() - 1;
 
         if (this.disponibilita.intervalli[dayIndex].isEmpty())
@@ -80,14 +84,12 @@ public class DisponibilitaManager {
         return prenotazioni.isEmpty();
     }
 
-    public DisponibilitaGiornaliera getDisponibilita() {
-        return disponibilita;
-    }
-
     private List<Prenotazione> getPrenotazioniAule(Date data, Time oraInizio, Time oraFine) {
         List<Prenotazione> prenotazioni = prenotazioneDAO.retriveByAula(this.aula);
         prenotazioni.retainAll(prenotazioneDAO.retriveByData(data));
 
+        prenotazioni.removeIf(p -> p.getTipoPrenotazione().equals(TipoPrenotazione.POSTO));
+        prenotazioni.removeIf(p -> p.getOraFine().equals(oraInizio) || p.getOraInizio().equals(oraFine));
         prenotazioni.removeIf(p -> p.getOraFine().before(oraInizio) || p.getOraInizio().after(oraFine));
         prenotazioni.removeIf(p -> p.getTipoPrenotazione().equals(TipoPrenotazione.POSTO));
 
