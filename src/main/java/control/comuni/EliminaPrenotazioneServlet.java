@@ -88,7 +88,7 @@ public class EliminaPrenotazioneServlet extends HttpServlet {
         doGet(request, response);
     }
 
-    public static final String PRENOTAZIONE_DAO_PARAM = "EliminaPrenotazioneServlet.PrenotazioneDAO";
-    public static final String AULA_DAO_PARAM = "EliminaPrenotazioneServlet.AulaDAO";
+    static final String PRENOTAZIONE_DAO_PARAM = "EliminaPrenotazioneServlet.PrenotazioneDAO";
+    static final String AULA_DAO_PARAM = "EliminaPrenotazioneServlet.AulaDAO";
 
 }

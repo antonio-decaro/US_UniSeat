@@ -206,6 +206,27 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     }
 
     @Override
+    public void update(Prenotazione prenotazione) throws ViolazioneEntityException {
+        final String QUERY=
+                "UPDATE prenotazione SET data = ?, ora_inizio = ?, ora_fine = ? WHERE id = ?";
+
+        if (retriveById(prenotazione.getId()) == null)
+            throw new ViolazioneEntityException("Non esiste alcuna prenotazione con id " + prenotazione.getId());
+
+        try {
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setDate(1, prenotazione.getData());
+            stm.setTime(2, prenotazione.getOraInizio());
+            stm.setTime(3, prenotazione.getOraFine());
+            stm.setInt(4, prenotazione.getId());
+
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "{0}", e);
+        }
+    }
+
+    @Override
     public List<Prenotazione> retriveAll() {
         final String QUERY = "SELECT * FROM prenotazione";
 
