@@ -101,7 +101,6 @@ public class EliminaPrenotazioneServletTest {
                 TipoPrenotazione.POSTO, aulaP3, u1));
         prenotazioneDAO.insert(new Prenotazione(2, d, new Time(14), new Time(16),
                 TipoPrenotazione.POSTO, aulaP4, u2));
-
     }
 
     @AfterEach

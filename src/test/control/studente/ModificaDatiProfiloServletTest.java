@@ -63,7 +63,6 @@ class ModificaDatiProfiloServletTest {
         Utente u = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
                 PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
         utenteDAO.insert(u);
-
     }
 
     @AfterEach
