@@ -8,7 +8,9 @@ import model.pojo.*;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class StubPrenotazioneDAO implements PrenotazioneDAO {
@@ -16,13 +18,14 @@ public class StubPrenotazioneDAO implements PrenotazioneDAO {
     private ArrayList<Prenotazione> prenotazioni;
     {
         prenotazioni = new ArrayList<>();
-        prenotazioni.add(new Prenotazione(1,new Date(2019-11-11), new Time(14), new Time(16),
+        Date d = new Date(Calendar.getInstance().getTime().getTime());
+        prenotazioni.add(new Prenotazione(1,d, new Time(14), new Time(16),
                 TipoPrenotazione.POSTO, new Aula("P3", 20,
                 200, "sd", new Edificio("F3")),
                 new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro",
                         "Antonio2", TipoUtente.STUDENTE)));
         prenotazioni.get(0).getAula().setId(1);
-        prenotazioni.add(new Prenotazione(2,new Date(2019-11-11), new Time(14), new Time(16),
+        prenotazioni.add(new Prenotazione(2,d, new Time(14), new Time(16),
                 TipoPrenotazione.POSTO, new Aula("P4", 20, 200, "sd", new Edificio("F3")),
                 new Utente("c.gravino@studenti.unisa.it", "Carmine", "Gravino",
                         "Gravino1", TipoUtente.DOCENTE)));
@@ -43,10 +46,15 @@ public class StubPrenotazioneDAO implements PrenotazioneDAO {
 
     @Override
     public List<Prenotazione> retriveByData(Date data) throws IllegalArgumentException {
+
+//        if (data.after(Date.valueOf(LocalDate.now()))) // controlla la precondizione
+//            throw new IllegalArgumentException(String.format("La data %s ancora deve avvenire", data.toString()));
+
         List<Prenotazione> ret = new ArrayList<>();
         for (Prenotazione p : prenotazioni) {
-            if (p.getData().equals(data))
+            if (p.getData().toString().equals(data.toString())) {
                 ret.add(p);
+            }
         }
         return ret;
     }

@@ -41,7 +41,6 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
 
     public void init() throws ServletException {
         super.init();
-        getServletContext().setAttribute(UTENTE_DAO_PARAM, DBUtenteDAO.getInstance());
         getServletContext().setAttribute(PRENOTAZIONE_DAO_PARAM, DBPrenotazioneDAO.getInstance());
     }
 
@@ -51,34 +50,38 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
         Utente user = SessionManager.getUtente(ssn);
         String addres = "/comuni/prenotazioni.jsp";
 
-        if (user == null || SessionManager.isAlradyAuthenticated(ssn)) {
+        if (user == null ) {
             SessionManager.setError(ssn, "LogIn non effettuato");
             response.sendRedirect(request.getServletContext().getContextPath() + "/comuni/login.jsp");
             return;
         }
-
-        PrenotazioneDAO prenotazioneDAO = (PrenotazioneDAO) getServletContext().getAttribute(PRENOTAZIONE_DAO_PARAM);
-        Date date = new Date(Calendar.getInstance().getTime().getTime());
-        List<Prenotazione> prenotazioni ;
-        prenotazioni= prenotazioneDAO.retriveByData(date);
         try {
-            if (user.getTipoUtente().toString().equals(TipoUtente.STUDENTE)) {
-                if(prenotazioni != null)
-                    request.setAttribute("prenotazione",prenotazioni.get(0));
-                else
-                    request.setAttribute("prenotazione",null);
+            PrenotazioneDAO prenotazioneDAO = (PrenotazioneDAO) request.getServletContext().getAttribute(PRENOTAZIONE_DAO_PARAM);
+            Date date = new Date(Calendar.getInstance().getTime().getTime());
+            String uem = user.getEmail();
+            List<Prenotazione> prenotazioni;
+            prenotazioni = prenotazioneDAO.retriveByData(date);
+            for (int i = 0; i < prenotazioni.size(); i++) {
+                String e = prenotazioni.get(i).getUtente().getEmail();
+                if (e.equals(uem))
+                    prenotazioni.remove(i);
+            }
+            if (prenotazioni.isEmpty())
+                request.setAttribute("prenotazione", null);
+            else {
+                if (user.getTipoUtente().toString().equals(TipoUtente.STUDENTE.toString())) {
+                    request.setAttribute("prenotazione", prenotazioni.get(0));
+                }
+
+                if (user.getTipoUtente().toString().equals(TipoUtente.DOCENTE.toString())) {
+                    request.setAttribute("prenotazioni", prenotazioni);
+                }
+                /*if(user.getTipoUtente().toString().equals(TipoUtente.ADMIN)){
+
+                }*/
             }
 
-            if (user.getTipoUtente().toString().equals(TipoUtente.DOCENTE)) {
-                if (prenotazioni != null)
-                    request.setAttribute("prenotazioni",prenotazioni);
-                else
-                    request.setAttribute("prenotazione",null);
-            }
 
-        /*if(user.getTipoUtente().toString().equals(TipoUtente.ADMIN)){
-
-        }*/
         } catch (IllegalArgumentException e) {
             SessionManager.setError(ssn, e.getMessage());
         }
@@ -91,6 +94,5 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
         doGet(request, response);
     }
 
-    public static final String UTENTE_DAO_PARAM = "EliminaPrenotazioneServlet.UtenteDAO";
     public static final String PRENOTAZIONE_DAO_PARAM = "EliminaPrenotazioneServlet.PrenotazioneDAO";
 }
