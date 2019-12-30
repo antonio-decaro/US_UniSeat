@@ -6,7 +6,8 @@ import model.pojo.Edificio;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StubEdificioDAO implements EdificioDAO {
+public class
+StubEdificioDAO implements EdificioDAO {
 
     private ArrayList<Edificio> edifici;
 

@@ -80,6 +80,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
             //response.getWriter().print(400);
             SessionManager.setError(session, "Edificio non trovato");
+            return;
 
         } else {
 
@@ -123,25 +124,33 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
                 //response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non valido");
+                return;
 
             } else if (!nome.matches("^[A-Z a-z 0-9]+$")) {
 
                 //response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non rispetta il formato");
+                return;
 
             } else {
+
                 Aula nuova_aula = new Aula(nome, 0, n_posti, disponibilita, ed);
                 nuova_aula.setServizi(servizi);
                 AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
-                boolean result = aulaDAO.insert(nuova_aula);
-                if (!result) {
+                Aula b = aulaDAO.retriveByName(nome);
+                if (b != null) {
                     //response.getWriter().print(400);
                     SessionManager.setError(session, "Aula già esistente!");
                     return;
+                } else {
+                    nuova_aula.setServizi(servizi);
+                    aulaDAO.insert(nuova_aula);
+                    //response.getWriter().print(200);
+
                 }
-                //response.getWriter().print(200);
 
             }
+
 
         }
 
@@ -151,6 +160,6 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         doPost(request,response);
     }
 
-    public static final String AULA_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
-    public static final String EDIFICIO_DAO_PARAM = "InserisciAulaServlet.EdificioDAO";
+    static final String AULA_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
+    static final String EDIFICIO_DAO_PARAM = "InserisciAulaServlet.EdificioDAO";
 }

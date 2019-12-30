@@ -91,8 +91,8 @@ public class DBAulaDAO implements AulaDAO {
     @Override
     public void update(Aula aula) throws ViolazioneEntityException {
         final String QUERY="UPDATE aula SET id = ?, nome = ?, edificio = ?,n_posti = ?,n_posti_occupati = ?,servizi = ?,disponibilita = ? WHERE id = ?";
-        if(DBEdificioDAO.getInstance().retriveByName(aula.getEdificio().getNome()) == null)
-            throw new ViolazioneEntityException(String.format("Non esiste l'edificio %s nel database",aula.getEdificio().getNome()));
+        if(DBEdificioDAO.getInstance().retriveByName(aula.getNome()) == null)
+            throw new ViolazioneEntityException("Aula non esistente!");
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);
 
@@ -117,9 +117,10 @@ public class DBAulaDAO implements AulaDAO {
     }
 
     @Override
-    public boolean insert(Aula aula) throws ViolazioneEntityException {
+    public void insert(Aula aula) throws ViolazioneEntityException {
         final String QUERY = "INSERT INTO aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita)  " +
                 "VALUES (?, ?, ?, ?, ?, ?,?)";
+
         boolean result = false;
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);
@@ -136,15 +137,16 @@ public class DBAulaDAO implements AulaDAO {
             stm.setString(6,servizi_db.toString());
             stm.setString(7,aula.getDisponibilita());
             stm.executeUpdate();
-            result = true;
+
 
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "{0}", e);
-            result = false;
+            throw new ViolazioneEntityException("Aula già esistente!");
+
 
         }
 
-        return result;
+
     }
 
     @Override

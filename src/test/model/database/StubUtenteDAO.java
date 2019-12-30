@@ -18,7 +18,7 @@ public class StubUtenteDAO implements UtenteDAO {
                 PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE));
         utenti.add(new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro",
                 "Antonio2", TipoUtente.STUDENTE));
-        utenti.add(new Utente("c.gravino@studenti.unisa.it", "Carmine", "Gravino",
+        utenti.add(new Utente("c.gravino@unisa.it", "Carmine", "Gravino",
                 "Gravino1", TipoUtente.DOCENTE));
     }
 
