@@ -1,20 +1,26 @@
 package control.utili;
 
+import model.pojo.Prenotazione;
 import model.pojo.Utente;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Questa classe definisce metodi per inviare email.
  * @author De Caro Antonio
- * @version 0.1
+ * @version 0.2
  * */
 public class EmailManager {
 
+    private static final Logger logger = Logger.getLogger(EmailManager.class.getName());
     private String hostname;
+    private final String USERNAME = "jamammo.unisa@gmail.com";
+    private final String PASSWORD = "7T5iayhJGfBwZb5";
 
     /**
      * Inizializza il Manager di Email per l'invio delle email.
@@ -29,16 +35,50 @@ public class EmailManager {
      * Invia una email di conferma registrazione ad un utente.
      *
      * @param utente utente a cui inviare l'email di conferma.
-     * @since 0.1
+     * @since v 0.1
      * */
     public void inviaEmailConferma(Utente utente) {
-        //TODO un miglior sistema di invio delle mail
-        final String username = "jamammo.unisa@gmail.com";
-        final String password = "7T5iayhJGfBwZb5";
 
         String email = utente.getEmail();
-        Long code = utente.getCodiceVerifica();
+        long code = utente.getCodiceVerifica();
 
+        String subject = "Conferma Email";
+        String body = "Link di attivazione account: "
+                + "<a href=\"http://" + hostname + "/verify?email=" + email + "&code=" + Long.toString(code)
+                + "\">Activation Code</a>";
+        send(subject, body, email);
+    }
+
+    /**
+     * Questo metodo invia una mail ad un utente per informalo che deve uscire dall'aula che ha prenotato,
+     * comunicandogli i dettagli della prenotazione del docente che occuperà l'aula al posto suo.
+     *
+     * @param utente utente a cui inviare l'email della prenotazione
+     * @param prenotazione dettagli della prenotazione da inviare all'utente
+     * @since v 0.2
+     * */
+    public void comunicaPrenotazione(Utente utente, Prenotazione prenotazione) {
+
+        String to = utente.getEmail();
+        String subject = "Avviso prenotazione Aula";
+        String body = String.format("Gentile %s %s,\nvogliamo informarla che l'aula verrà occupata dalle ore %s alle ore " +
+                "%s del giorno %s. " +
+                "La preghiamo pertanto di abbandonare per l'orario richiesot al fine di evitare situazioni scomode.",
+                utente.getCognome(), utente.getNome(), prenotazione.getOraInizio().toString(),
+                prenotazione.getOraFine().toString(), prenotazione.getData().toString());
+
+        send(subject, body, to);
+    }
+
+    /**
+     * Metodo che si occupa di effettuare l'invio della email.
+     *
+     * @param subject soggetto della email
+     * @param body corpo della email
+     * @param to destinatario della email
+     * @since v 0.2
+     * */
+    private void send(String subject, String body, String to) {
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.auth", "true");
@@ -47,7 +87,7 @@ public class EmailManager {
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
+                return new PasswordAuthentication(USERNAME, PASSWORD);
             }
         });
 
@@ -55,20 +95,16 @@ public class EmailManager {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("noreply@jamammo.it"));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(email));
-            message.setSubject("Conferma Email");
-            message.setText("Link di attivazione account: "
-                            + "<a href=\"http://" + hostname + "/verify?email=" + email + "&code=" + code.toString()
-                            + "\">Activation Code</a>",
-                    "UTF-8", "html");
+                    InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(body,"UTF-8", "html");
 
             Transport.send(message);
 
             System.out.println("Done");
 
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            logger.log(Level.SEVERE, "Message: {0}\nCause: {1}", new Object[]{e.getMessage(), e.getCause()});
         }
     }
-
 }
