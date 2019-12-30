@@ -66,12 +66,13 @@ public class StubAulaDAO implements AulaDAO {
     }
 
     @Override
-    public boolean insert(Aula aula) throws ViolazioneEntityException {
+    public void insert(Aula aula) throws ViolazioneEntityException {
         if (!aule.contains(aula)){
             aule.add(aula);
-            return true;
         }
-        return false;
+        else{
+            throw new ViolazioneEntityException("Aula già esistente!");
+        }
 
     }
 
