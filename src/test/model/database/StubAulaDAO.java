@@ -12,11 +12,8 @@ import java.util.Set;
 
 public class StubAulaDAO implements AulaDAO {
 
-    private ArrayList<Aula> aule;
+    private ArrayList<Aula> aule = new ArrayList<>();
 
-    {
-        aule = new ArrayList<>();
-    }
     /*  QUESTO NON VA FATTO QUI, VA FATTO NELLA CLASSE DI TEST
     {
         try {

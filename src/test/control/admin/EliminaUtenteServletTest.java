@@ -5,6 +5,7 @@ import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.database.StubUtenteDAO;
 import model.pojo.TipoUtente;
+import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,6 @@ class EliminaUtenteServletTest {
     private UtenteDAO utenteDAO = new StubUtenteDAO();
     private EliminaUtenteServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
-    private SessionManager sm = new SessionManager();
 
     @BeforeEach
     void setUp() throws IOException {
@@ -52,9 +52,7 @@ class EliminaUtenteServletTest {
         when(ctx.getAttribute(EliminaUtenteServlet.UTENTE_DAO_PARAM)).thenReturn(utenteDAO);
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
-        when(session.isNew()).thenReturn(false);
         doNothing().when(res).sendRedirect(anyString());
-        doNothing().when(emailManager).inviaEmailConferma(any());
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
             String key = (String) invocation.getArguments()[0];
@@ -67,6 +65,10 @@ class EliminaUtenteServletTest {
             attributes.put(key, value);
             return null;
         }).when(session).setAttribute(anyString(), any());
+
+        Utente u = new Utente();
+        u.setTipoUtente(TipoUtente.ADMIN);
+        session.setAttribute("SessionManager.user", u);
     }
 
     @AfterEach
@@ -78,27 +80,28 @@ class EliminaUtenteServletTest {
         when(req.getParameter("email_utente")).thenReturn(null);
         servlet.doPost(req, res);
         assertEquals("Utente non selezionato",
-                req.getParameter("erroreEliminazioneUtente"));
+                session.getAttribute("SessionManager.error"));
     }
 
     @Test
     void TC_5_2() throws Exception {
-        when(req.getParameter("email_utente")).thenReturn("g.spinelli18@studenti.unisa.it");
+        when(req.getParameter("email_utente")).thenReturn("m.rossi12@studenti.unisa.it");
         servlet.doPost(req, res);
-        assertEquals(null, utenteDAO.retriveByEmail("g.spinelli18@studenti.unisa.it"));
+        assertNull(utenteDAO.retriveByEmail("m.rossi12@studenti.unisa.it"));
     }
 
     @Test
-    void TC_5_3() throws Exception {
-        when(req.getSession().isNew()).thenReturn(true);
+    void isNotAuthenticate() throws Exception {
+        when(SessionManager.getUtente(session)).thenReturn(null);
         servlet.doPost(req, res);
     }
 
     @Test
-    void TC_5_4() throws Exception {
+    void isNotAdmin() throws Exception {
         when(req.getSession()).thenReturn(session);
-        when(sm.getUtente(session).getTipoUtente()).thenReturn(TipoUtente.STUDENTE);
+        Utente u = new Utente();
+        u.setTipoUtente(TipoUtente.STUDENTE);
+        session.setAttribute("SessionManager.user", u);
         servlet.doPost(req, res);
     }
-
 }

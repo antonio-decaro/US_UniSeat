@@ -3,6 +3,8 @@ package control.admin;
 import control.utili.EmailManager;
 import model.dao.UtenteDAO;
 import model.database.StubUtenteDAO;
+import model.pojo.TipoUtente;
+import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,9 +51,7 @@ class EliminaUtenteServletBlackBoxTest {
         when(ctx.getAttribute(EliminaUtenteServlet.UTENTE_DAO_PARAM)).thenReturn(utenteDAO);
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
-        when(session.isNew()).thenReturn(false);
         doNothing().when(res).sendRedirect(anyString());
-        doNothing().when(emailManager).inviaEmailConferma(any());
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
             String key = (String) invocation.getArguments()[0];
@@ -64,6 +64,10 @@ class EliminaUtenteServletBlackBoxTest {
             attributes.put(key, value);
             return null;
         }).when(session).setAttribute(anyString(), any());
+
+        Utente u = new Utente();
+        u.setTipoUtente(TipoUtente.ADMIN);
+        session.setAttribute("SessionManager.user", u);
     }
 
     @AfterEach
@@ -75,14 +79,14 @@ class EliminaUtenteServletBlackBoxTest {
         when(req.getParameter("email_utente")).thenReturn(null);
         servlet.doPost(req, res);
         assertEquals("Utente non selezionato",
-                req.getParameter("erroreEliminazioneUtente"));
+                session.getAttribute("SessionManager.error"));
     }
 
     @Test
     void TC_5_2() throws Exception {
-        when(req.getParameter("email_utente")).thenReturn("g.spinelli18@studenti.unisa.it");
+        when(req.getParameter("email_utente")).thenReturn("m.rossi12@studenti.unisa.it");
         servlet.doPost(req, res);
-        assertEquals(null, utenteDAO.retriveByEmail("g.spinelli18@studenti.unisa.it"));
+        assertNull(utenteDAO.retriveByEmail("m.rossi12@studenti.unisa.it"));
     }
 
 }
