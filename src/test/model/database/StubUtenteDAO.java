@@ -11,16 +11,10 @@ import java.util.List;
 
 public class StubUtenteDAO implements UtenteDAO {
 
-    private ArrayList<Utente> utenti = new ArrayList<>();
+    private ArrayList<Utente> utenti;
 
     {
-
-        utenti.add(new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE));
-        utenti.add(new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro",
-                "Antonio2", TipoUtente.STUDENTE));
-        utenti.add(new Utente("c.gravino@studenti.unisa.it", "Carmine", "Gravino",
-                "Gravino1", TipoUtente.DOCENTE));
+        utenti = new ArrayList<>();
     }
 
     @Override

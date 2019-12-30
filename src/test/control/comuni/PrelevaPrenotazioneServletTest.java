@@ -1,12 +1,15 @@
 package control.comuni;
 
+import control.utili.PassowrdEncrypter;
 import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.PrenotazioneDAO;
 import model.dao.UtenteDAO;
 import model.database.StubAulaDAO;
+import model.database.StubEdificioDAO;
 import model.database.StubPrenotazioneDAO;
 import model.database.StubUtenteDAO;
+import model.pojo.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +22,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +48,7 @@ public class PrelevaPrenotazioneServletTest {
     private HttpSession session;
     private UtenteDAO utenteDAO = new StubUtenteDAO();
     private PrenotazioneDAO prenotazioneDAO = new StubPrenotazioneDAO();
+    private AulaDAO aulaDAO = new StubAulaDAO();
     private PrelevaPrenotazioneServlet servlet;
     private Map<String, Object> attributes = new HashMap<>();
 
@@ -70,6 +76,31 @@ public class PrelevaPrenotazioneServletTest {
             attributes.put(key, value);
             return null;
         }).when(session).setAttribute(anyString(), any());
+
+        Utente u = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
+                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+        Utente u1 = new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro",
+                PassowrdEncrypter.criptaPassword("Antonio2"), TipoUtente.STUDENTE);
+        Utente u2 = new Utente("c.gravino@studenti.unisa.it", "Carmine", "Gravino",
+                PassowrdEncrypter.criptaPassword("Gravino1"), TipoUtente.DOCENTE);
+        utenteDAO.insert(u);
+        utenteDAO.insert(u1);
+        utenteDAO.insert(u2);
+        Date d = new Date(Calendar.getInstance().getTime().getTime());
+        Edificio ed = new StubEdificioDAO().retriveByName("F3");
+        String dispP3 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP3.json"));
+        String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP4.json"));
+        Aula aulaP3 = new Aula("P3", 70, 100, dispP3, ed);
+        Aula aulaP4 = new Aula("P4", 0, 100, dispP4, ed);
+        aulaP3.setId(1);
+        aulaP4.setId(2);
+        aulaDAO.insert(aulaP3);
+        aulaDAO.insert(aulaP4);
+        prenotazioneDAO.insert(new Prenotazione(1, d, new Time(14), new Time(16),
+                TipoPrenotazione.POSTO, aulaP3, u1));
+        prenotazioneDAO.insert(new Prenotazione(2, d, new Time(14), new Time(16),
+                TipoPrenotazione.POSTO, aulaP4, u2));
+
     }
 
     @AfterEach
@@ -80,7 +111,7 @@ public class PrelevaPrenotazioneServletTest {
 
     @Test
     void testGetAndAuth() throws Exception {
-        SessionManager.autentica(session,null);
+        SessionManager.autentica(session, null);
         servlet.doGet(req, res);
         assertEquals("LogIn non effettuato",
                 session.getAttribute("SessionManager.error"));

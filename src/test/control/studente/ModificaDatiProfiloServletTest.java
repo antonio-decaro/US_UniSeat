@@ -1,7 +1,9 @@
 package control.studente;
 
+import control.utili.PassowrdEncrypter;
 import control.utili.SessionManager;
 import model.database.StubUtenteDAO;
+import model.pojo.TipoUtente;
 import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,6 +60,9 @@ class ModificaDatiProfiloServletTest {
             return null;
         }).when(session).setAttribute(anyString(), any());
 
+        Utente u = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
+                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+        utenteDAO.insert(u);
 
     }
 
