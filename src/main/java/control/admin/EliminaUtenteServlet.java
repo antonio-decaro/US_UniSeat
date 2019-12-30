@@ -31,11 +31,10 @@ public class EliminaUtenteServlet extends HttpServlet {
         getServletContext().setAttribute(UTENTE_DAO_PARAM, DBUtenteDAO.getInstance());
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        SessionManager sm = new SessionManager();
-        Utente u = sm.getUtente(session);
-        if (session.isNew() || !u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { // se non è admin o non è loggato
+        Utente u = SessionManager.getUtente(session);
+        if (u == null || !u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { // se non è admin o non è loggato
             response.getWriter().print(400);
             response.sendRedirect("Login.jsp");
             return;
@@ -56,7 +55,7 @@ public class EliminaUtenteServlet extends HttpServlet {
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doPost(request, response);
 
     }

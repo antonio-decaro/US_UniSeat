@@ -34,12 +34,12 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doPost(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession ssn = request.getSession();
         Utente user = SessionManager.getUtente(ssn);
         String addres = "VisulizzaProfilo.jsp";
@@ -52,7 +52,6 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
         }
 
         Utente u = new Utente();
-        int count = 0;
         String Rgx1 = "^[a-z A-Z]+$";
         String Rgx2 = "^((?=.*[\\d])(?=.*[a-z])(?=.*[A-Z])).+$";
 

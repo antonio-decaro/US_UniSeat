@@ -33,7 +33,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         getServletContext().setAttribute(EDIFICIO_DAO_PARAM, DBEdificioDAO.getInstance());
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         Utente u = SessionManager.getUtente(session);
 
@@ -46,18 +46,16 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         String edificio = request.getParameter("edificio");
         String nome = request.getParameter("nome_aula");
         String num_posti = request.getParameter("numero_posti");
-        int n_posti = 0;
         String disponibilita = request.getParameter("disp_aula");
+        int n_posti;
 
-        if (edificio == null || edificio.length() < 1 )
-        {
+        if (edificio == null || edificio.length() < 1 ) {
             //response.getWriter().print(400);
             SessionManager.setError(session, "Edificio non selezionato");
             return;
         }
 
         if (!num_posti.matches("^[0-9]+$")) {
-
             //response.getWriter().print(400);
             SessionManager.setError(session, "Formato numero posti non valido");
             return;
@@ -70,20 +68,14 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 SessionManager.setError(session, "Numero posti non corretto");
                 return;
             }
-
         }
-
 
         EdificioDAO edificioDAO = (EdificioDAO) request.getServletContext().getAttribute(EDIFICIO_DAO_PARAM);
         Edificio ed = edificioDAO.retriveByName(edificio);
         if (ed == null) {
-
             //response.getWriter().print(400);
             SessionManager.setError(session, "Edificio non trovato");
-
         } else {
-
-
             String servizi_extra_prese = request.getParameter("servizi_extra_prese");
             String servizi_extra_computer = request.getParameter("servizi_extra_computer");
             Servizio servizi_extra;
@@ -111,9 +103,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 return;
             }
 
-
             if (disponibilita == null) {
-
                 //response.getWriter().print(400);
                 SessionManager.setError(session, "Orari di disponibilità errati");
                 return;
@@ -124,7 +114,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 //response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non valido");
 
-            } else if (!nome.matches("^[A-Z a-z 0-9]+$")) {
+            } else if (!nome.matches("^[A-Z a-z0-9]+$")) {
 
                 //response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non rispetta il formato");
@@ -137,20 +127,16 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 if (!result) {
                     //response.getWriter().print(400);
                     SessionManager.setError(session, "Aula già esistente!");
-                    return;
                 }
                 //response.getWriter().print(200);
-
             }
-
         }
-
     }
 
-    public void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+    public void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws IOException {
         doPost(request,response);
     }
 
-    public static final String AULA_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
-    public static final String EDIFICIO_DAO_PARAM = "InserisciAulaServlet.EdificioDAO";
+    static final String AULA_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
+    static final String EDIFICIO_DAO_PARAM = "InserisciAulaServlet.EdificioDAO";
 }

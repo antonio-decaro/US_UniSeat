@@ -1,17 +1,11 @@
 package control.comuni;
 
 import control.utili.SessionManager;
-import model.dao.AulaDAO;
 import model.dao.PrenotazioneDAO;
-import model.dao.UtenteDAO;
-import model.database.DBAulaDAO;
 import model.database.DBPrenotazioneDAO;
-import model.database.DBUtenteDAO;
-import model.pojo.Aula;
 import model.pojo.Prenotazione;
 import model.pojo.TipoUtente;
 import model.pojo.Utente;
-
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -61,10 +55,11 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
             String uem = user.getEmail();
             List<Prenotazione> prenotazioni;
             prenotazioni = prenotazioneDAO.retriveByData(date);
-            for (int i = 0; i < prenotazioni.size(); i++) {
-                String e = prenotazioni.get(i).getUtente().getEmail();
+            for (Iterator<Prenotazione> i = prenotazioni.iterator(); i.hasNext();) {
+                Prenotazione p = i.next();
+                String e = p.getUtente().getEmail();
                 if (e.equals(uem))
-                    prenotazioni.remove(i);
+                    i.remove();
             }
             if (prenotazioni.isEmpty())
                 request.setAttribute("prenotazione", null);
@@ -90,9 +85,9 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doGet(request, response);
     }
 
-    public static final String PRENOTAZIONE_DAO_PARAM = "EliminaPrenotazioneServlet.PrenotazioneDAO";
+    static final String PRENOTAZIONE_DAO_PARAM = "EliminaPrenotazioneServlet.PrenotazioneDAO";
 }
