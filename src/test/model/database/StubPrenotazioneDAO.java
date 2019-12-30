@@ -18,18 +18,6 @@ public class StubPrenotazioneDAO implements PrenotazioneDAO {
     private ArrayList<Prenotazione> prenotazioni;
     {
         prenotazioni = new ArrayList<>();
-        Date d = new Date(Calendar.getInstance().getTime().getTime());
-        prenotazioni.add(new Prenotazione(1,d, new Time(14), new Time(16),
-                TipoPrenotazione.POSTO, new Aula("P3", 20,
-                200, "sd", new Edificio("F3")),
-                new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro",
-                        "Antonio2", TipoUtente.STUDENTE)));
-        prenotazioni.get(0).getAula().setId(1);
-        prenotazioni.add(new Prenotazione(2,d, new Time(14), new Time(16),
-                TipoPrenotazione.POSTO, new Aula("P4", 20, 200, "sd", new Edificio("F3")),
-                new Utente("c.gravino@studenti.unisa.it", "Carmine", "Gravino",
-                        "Gravino1", TipoUtente.DOCENTE)));
-        prenotazioni.get(1).getAula().setId(2);
     }
 
     @Override

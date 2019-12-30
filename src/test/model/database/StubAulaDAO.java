@@ -14,6 +14,7 @@ public class StubAulaDAO implements AulaDAO {
 
     private ArrayList<Aula> aule = new ArrayList<>();
 
+    /*  QUESTO NON VA FATTO QUI, VA FATTO NELLA CLASSE DI TEST
     {
         try {
             Edificio ed = new StubEdificioDAO().retriveByName("F3");
@@ -29,6 +30,7 @@ public class StubAulaDAO implements AulaDAO {
             e.printStackTrace();
         }
     }
+    */
 
     @Override
     public Aula retriveById(int id) {

@@ -48,11 +48,14 @@ public class PrenotaPostoServlet extends HttpServlet {
         Utente utente = SessionManager.getUtente(session);
         if (session.isNew() || utente == null) {
             resp.sendRedirect(req.getContextPath() + "/autenticazione/log-in.jsp");
+            SessionManager.setError(session, "Utente non loggato");
             return;
         }
 
         if (!utente.getTipoUtente().equals(TipoUtente.STUDENTE)) {
-            resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Non hai i permessi per accedere a questa funzionalità");
+            final String ERROR = "Non hai i permessi per accedere a questa funzionalità";
+            SessionManager.setError(session, ERROR);
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN, ERROR);
             resp.sendRedirect(req.getContextPath() + "/comuni/index.jsp");
             return;
         }
@@ -83,13 +86,13 @@ public class PrenotaPostoServlet extends HttpServlet {
             return;
         }
 
-        String strDurata = req.getParameter("durata").strip();
-        if (strDurata == null || strDurata.equals("")) {
+        String strDurata = req.getParameter("durata");
+        if (strDurata == null || strDurata.strip().equals("")) {
             SessionManager.setError(session, "Durata non valida");
             resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
             return;
         }
-        int durata = Integer.parseInt(strDurata);
+        int durata = Integer.parseInt(strDurata.strip());
 
         Date data = Date.valueOf(LocalDate.now());
         Time oraInizio = Time.valueOf(LocalTime.now());
