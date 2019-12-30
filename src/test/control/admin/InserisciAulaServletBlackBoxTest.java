@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
 
+import javax.mail.Session;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,9 +60,6 @@ class InserisciAulaServletBlackBoxTest {
         when(ctx.getAttribute(InserisciAulaServlet.EDIFICIO_DAO_PARAM)).thenReturn(edificioDAO);
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
-        Utente u = new Utente();
-        u.setTipoUtente(TipoUtente.ADMIN);
-        SessionManager.autentica(session, u);
         doNothing().when(res).sendRedirect(anyString());
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
@@ -75,6 +73,10 @@ class InserisciAulaServletBlackBoxTest {
             attributes.put(key, value);
             return null;
         }).when(session).setAttribute(anyString(), any());
+
+        Utente u = new Utente();
+        u.setTipoUtente(TipoUtente.ADMIN);
+        session.setAttribute("SessionManager.user", u);
     }
 
     @AfterEach
