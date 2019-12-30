@@ -44,7 +44,7 @@ public class EmailManager {
 
         String subject = "Conferma Email";
         String body = "Link di attivazione account: "
-                + "<a href=\"http://" + hostname + "/verify?email=" + email + "&code=" + Long.toString(code)
+                + "<a href=\"http://" + hostname + "/verify?email=" + email + "&code=" + code
                 + "\">Activation Code</a>";
         send(subject, body, email);
     }
