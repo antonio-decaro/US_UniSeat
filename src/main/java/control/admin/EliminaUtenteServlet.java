@@ -31,31 +31,32 @@ public class EliminaUtenteServlet extends HttpServlet {
         getServletContext().setAttribute(UTENTE_DAO_PARAM, DBUtenteDAO.getInstance());
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Utente u = SessionManager.getUtente(session);
-        if (u == null || !u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { // se non è admin o non è loggato
-            response.getWriter().print(400);
+
+        if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
             response.sendRedirect("Login.jsp");
+            SessionManager.setError(session, "Utente non abilitato");
             return;
         }
 
         String email = request.getParameter("email_utente");
         if (email == null) {
-            response.getWriter().print(400);
-            request.setAttribute("erroreEliminazioneUtente", "Utente non selezionato");
+            //response.getWriter().print(400);
+            SessionManager.setError(session, "Utente non selezionato");
             return;
         } else {
-            UtenteDAO utenteDAO = (UtenteDAO) getServletContext().getAttribute(UTENTE_DAO_PARAM);
+            UtenteDAO utenteDAO = (UtenteDAO) request.getServletContext().getAttribute(UTENTE_DAO_PARAM);
             Utente utente_el = utenteDAO.retriveByEmail(email);
             utenteDAO.delete(utente_el);
         }
 
-        response.getWriter().print(200);
+        //response.getWriter().print(200);
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
 
     }

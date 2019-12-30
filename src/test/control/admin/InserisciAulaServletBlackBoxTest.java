@@ -221,13 +221,12 @@ class InserisciAulaServletBlackBoxTest {
     @Test
     void TC_5_11() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F2");
-        when(req.getParameter("nome_aula")).thenReturn("P28");
-        when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
-        when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
+        when(req.getParameter("nome_aula")).thenReturn("P30");
+        when(req.getParameter("numero_posti")).thenReturn("100");
+        when(req.getParameter("disp_aula")).thenReturn("11:00-16:00");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
-        assertEquals("P28",aulaDAO.retriveByName("P28").getNome());
+        assertEquals("P30",aulaDAO.retriveByName("P30").getNome());
     }
 
 
