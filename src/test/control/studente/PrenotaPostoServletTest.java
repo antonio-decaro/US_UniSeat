@@ -37,7 +37,6 @@ import static org.mockito.Mockito.when;
 
 class PrenotaPostoServletTest {
 
-    private Utente utente;
     @Mock
     private HttpServletRequest req;
     @Mock
@@ -82,7 +81,7 @@ class PrenotaPostoServletTest {
         }).when(session).setAttribute(anyString(), any());
 
         SessionManager.setError(session, "");
-        utente = new Utente();
+        Utente utente = new Utente();
         utente.setTipoUtente(TipoUtente.STUDENTE);
         SessionManager.autentica(session, utente);
 
@@ -197,6 +196,26 @@ class PrenotaPostoServletTest {
         when(req.getParameter("durata")).thenReturn(null);
         servlet.doPost(req, res);
         assertEquals("Durata non valida",
+                SessionManager.getError(session));
+    }
+
+    @Test
+    void testBadDurata() throws Exception {
+        when(req.getParameter("edificio")).thenReturn("F3");
+        when(req.getParameter("aula")).thenReturn("1");
+        when(req.getParameter("durata")).thenReturn("15");
+        servlet.doPost(req, res);
+        assertEquals("Durata non valida",
+                SessionManager.getError(session));
+    }
+
+    @Test
+    void testNonMatchingAulaAndEdificio() throws Exception {
+        when(req.getParameter("edificio")).thenReturn("F2");
+        when(req.getParameter("aula")).thenReturn("1");
+        when(req.getParameter("durata")).thenReturn("15");
+        servlet.doPost(req, res);
+        assertEquals("Aula non valida",
                 SessionManager.getError(session));
     }
 }

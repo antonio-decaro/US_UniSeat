@@ -229,5 +229,34 @@ class RegistrazioneServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
         assertNotNull(utenteDAO.retriveByEmail("m.rossi12@studenti.unisa.it"));
     }
-
+    @Test
+    void testNoEmail() throws Exception {
+        when(req.getParameter("nome")).thenReturn("Mario");
+        when(req.getParameter("cognome")).thenReturn("Rossi");
+        when(req.getParameter("email")).thenReturn(null);
+        when(req.getParameter("password")).thenReturn("MarioRossi12");
+        when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
+        servlet.doPost(req, res);
+        assertEquals("Il campo E-mail non rispetta la lunghezza", SessionManager.getError(session));
+    }
+    @Test
+    void testEmptyEmail() throws Exception {
+        when(req.getParameter("nome")).thenReturn("Mario");
+        when(req.getParameter("cognome")).thenReturn("Rossi");
+        when(req.getParameter("email")).thenReturn("");
+        when(req.getParameter("password")).thenReturn("MarioRossi12");
+        when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
+        servlet.doPost(req, res);
+        assertEquals("Il campo E-mail non rispetta la lunghezza", SessionManager.getError(session));
+    }
+    @Test
+    void testNoName() throws Exception {
+        when(req.getParameter("nome")).thenReturn(null);
+        when(req.getParameter("cognome")).thenReturn("Rossi");
+        when(req.getParameter("email")).thenReturn("m.rossi13@studenti.unisa.it");
+        when(req.getParameter("password")).thenReturn("MarioRossi12");
+        when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
+        servlet.doPost(req, res);
+        assertEquals("Il campo Nome non rispetta la lunghezza", SessionManager.getError(session));
+    }
 }

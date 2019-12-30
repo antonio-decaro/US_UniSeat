@@ -65,39 +65,23 @@ public class PrenotaPostoServlet extends HttpServlet {
         PrenotazioneDAO prenotazioneDAO = (PrenotazioneDAO) req.getServletContext().getAttribute(PRENOTAZIONE_DAO);
 
         // controllo campi
-        String nomeEdificio = req.getParameter("edificio");
-        Edificio edificio = edificioDAO.retriveByName(nomeEdificio);
-        if (edificio == null) {
-            SessionManager.setError(session, "Edificio non valido");
+        Edificio edificio;
+        Aula aula;
+        int durata;
+        try {
+            edificio = parseEdificio(req.getParameter("edificio"), edificioDAO);
+            aula = parseAula(req.getParameter("aula"), edificio, aulaDAO);
+            durata = parseDurata(req.getParameter("durata"));
+        } catch (IllegalArgumentException e) {
+            SessionManager.setError(session, e.getMessage());
             resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
             return;
         }
-
-        String idAula = req.getParameter("aula");
-        if (idAula == null || idAula.equals("")) {
-            SessionManager.setError(session, "Aula non valida");
-            resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
-            return;
-        }
-        Aula aula = aulaDAO.retriveById(Integer.parseInt(idAula));
-        if (aula == null) {
-            SessionManager.setError(session, "Aula non valida");
-            resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
-            return;
-        }
-
-        String strDurata = req.getParameter("durata");
-        if (strDurata == null || strDurata.strip().equals("")) {
-            SessionManager.setError(session, "Durata non valida");
-            resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
-            return;
-        }
-        int durata = Integer.parseInt(strDurata.strip());
+        // fine controllo campi
 
         Date data = Date.valueOf(LocalDate.now());
         Time oraInizio = Time.valueOf(LocalTime.now());
         Time oraFine = Time.valueOf(oraInizio.toLocalTime().plusMinutes(durata));
-        // fine controllo campi
 
         DisponibilitaManager disponibilita = new DisponibilitaManager(aula, prenotazioneDAO);
         boolean changed = false;
@@ -129,6 +113,37 @@ public class PrenotaPostoServlet extends HttpServlet {
         aulaDAO.update(aula);
 
         resp.sendRedirect(req.getContextPath() + "/comuni/prenotazioni.jsp");
+    }
+
+    private int parseDurata(String param) {
+        if (param == null || param.strip().equals("") || !param.matches("[0-9]+")) {
+            throw new IllegalArgumentException("Durata non valida");
+        }
+
+        int durata = Integer.parseInt(param);
+        if (durata <= 0 || (durata % 30) != 0) {
+            throw new IllegalArgumentException("Durata non valida");
+        }
+        return durata;
+    }
+
+    private Aula parseAula(String parameter, Edificio edificio, AulaDAO aulaDAO) throws IllegalArgumentException {
+        if (parameter == null || parameter.equals("")) {
+            throw new IllegalArgumentException("Aula non valida");
+        }
+        Aula aula = aulaDAO.retriveById(Integer.parseInt(parameter));
+        if (aula == null || !aula.getEdificio().getNome().equals(edificio.getNome())) {
+            throw new IllegalArgumentException("Aula non valida");
+        }
+        return aula;
+    }
+
+    private Edificio parseEdificio(String param, EdificioDAO edificioDAO) throws IllegalArgumentException {
+        Edificio edificio = edificioDAO.retriveByName(param);
+        if (edificio == null) {
+            throw new IllegalArgumentException("Edificio non valido");
+        }
+        return edificio;
     }
 
     static final String PRENOTAZIONE_DAO = "PrenotaPostoServlet.PrenotazioneDAO";
