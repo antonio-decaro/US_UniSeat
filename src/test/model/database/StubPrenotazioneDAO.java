@@ -9,9 +9,7 @@ import model.pojo.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 public class StubPrenotazioneDAO implements PrenotazioneDAO {
 
@@ -85,6 +83,19 @@ public class StubPrenotazioneDAO implements PrenotazioneDAO {
     @Override
     public void delete(Prenotazione prenotazione) {
         prenotazioni.remove(prenotazione);
+    }
+
+    @Override
+    public void update(Prenotazione prenotazione) throws ViolazioneEntityException {
+
+        for (ListIterator<Prenotazione> i = prenotazioni.listIterator(); i.hasNext();) {
+            Prenotazione p = i.next();
+            if (p.getId() == prenotazione.getId()) {
+                i.remove();
+                i.add(prenotazione);
+                break;
+            }
+        }
     }
 
     @Override

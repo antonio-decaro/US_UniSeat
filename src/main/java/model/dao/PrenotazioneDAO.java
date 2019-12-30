@@ -86,6 +86,15 @@ public interface PrenotazioneDAO {
     void delete(Prenotazione prenotazione);
 
     /**
+     * Aggiorna una prenotazione già presente all'interno del gestore della persistenza.
+     * Questo metodo può cambiare solamente l'ora di inizio, di fine e la data.
+     *
+     * @param prenotazione prenotazione da aggiornare
+     * @throws ViolazioneEntityException se la prenotazione non esiste all'interno del gestore della persistenza
+     * */
+    void update(Prenotazione prenotazione) throws ViolazioneEntityException;
+
+    /**
      * Restituisce tutti gli oggetti Prenotazione peresenti nel gestore della persistenza
      *
      * @return la lista ordinata per data e ora di tutte le prenotazioni
