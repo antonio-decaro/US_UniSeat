@@ -11,6 +11,8 @@ import model.pojo.*;
 import javax.mail.Session;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,14 +31,19 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        getServletContext().setAttribute(AULA_DAO_PARAM, DBAulaDAO.getInstance());
-        getServletContext().setAttribute(EDIFICIO_DAO_PARAM, DBEdificioDAO.getInstance());
+        this.getServletContext().setAttribute(AULA_DAO_PARAM, DBAulaDAO.getInstance());
+        this.getServletContext().setAttribute(EDIFICIO_DAO_PARAM, DBEdificioDAO.getInstance());
     }
 
-    public void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         HttpSession session = request.getSession();
+        if (!SessionManager.isAlradyAuthenticated(session)) {
+            response.sendRedirect("Login.jsp");
+            return;
+        }
         Utente u = SessionManager.getUtente(session);
-        if (u == null || !u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { // se non è admin o non è loggato
+
+        if (!u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
             response.sendRedirect("Login.jsp");
             return;
         }

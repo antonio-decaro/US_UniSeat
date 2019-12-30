@@ -5,6 +5,8 @@ import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
 import model.database.StubAulaDAO;
 import model.database.StubEdificioDAO;
+import model.pojo.TipoUtente;
+import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +59,9 @@ class InserisciAulaServletBlackBoxTest {
         when(ctx.getAttribute(InserisciAulaServlet.EDIFICIO_DAO_PARAM)).thenReturn(edificioDAO);
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
-        when(SessionManager.isAlradyAuthenticated(session)).thenReturn(true);
+        Utente u = new Utente();
+        u.setTipoUtente(TipoUtente.ADMIN);
+        SessionManager.autentica(session, u);
         doNothing().when(res).sendRedirect(anyString());
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
