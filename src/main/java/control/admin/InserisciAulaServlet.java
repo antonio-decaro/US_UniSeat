@@ -36,6 +36,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         HttpSession session = request.getSession();
         Utente u = SessionManager.getUtente(session);
+
         if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
             response.sendRedirect("Login.jsp");
             SessionManager.setError(session, "Utente non abilitato");
@@ -45,7 +46,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         String edificio = request.getParameter("edificio");
         String nome = request.getParameter("nome_aula");
         String num_posti = request.getParameter("numero_posti");
-        int n_posti = Integer.parseInt(num_posti);
+        int n_posti = 0;
         String disponibilita = request.getParameter("disp_aula");
 
         if (edificio == null || edificio.length() < 1 )
@@ -55,20 +56,25 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
             return;
         }
 
-        if (n_posti < 20 || n_posti > 300) {
-
-            //response.getWriter().print(400);
-            SessionManager.setError(session, "Numero posti non corretto");
-            return;
-
-        } else if (!num_posti.matches("[0-9]")) {
+        if (!num_posti.matches("^[0-9]+$")) {
 
             //response.getWriter().print(400);
             SessionManager.setError(session, "Formato numero posti non valido");
             return;
+
+        } else {
+            n_posti = Integer.parseInt(num_posti);
+            if (n_posti < 20 || n_posti > 300) {
+
+                //response.getWriter().print(400);
+                SessionManager.setError(session, "Numero posti non corretto");
+                return;
+            }
+
         }
 
-        EdificioDAO edificioDAO = (EdificioDAO) getServletContext().getAttribute(EDIFICIO_DAO_PARAM);
+
+        EdificioDAO edificioDAO = (EdificioDAO) request.getServletContext().getAttribute(EDIFICIO_DAO_PARAM);
         Edificio ed = edificioDAO.retriveByName(edificio);
         if (ed == null) {
 
@@ -77,7 +83,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
         } else {
 
-            Aula nuova_aula = new Aula(nome, 0, n_posti, disponibilita, ed);
+
             String servizi_extra_prese = request.getParameter("servizi_extra_prese");
             String servizi_extra_computer = request.getParameter("servizi_extra_computer");
             Servizio servizi_extra;
@@ -105,34 +111,35 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 return;
             }
 
-            nuova_aula.setServizi(servizi);
 
             if (disponibilita == null) {
 
                 //response.getWriter().print(400);
-                SessionManager.setError(session, "Orari di disponibilita errati");
+                SessionManager.setError(session, "Orari di disponibilità errati");
                 return;
             }
 
-            if (nome.length() < 1 || nome.length() > 16) {
+            if (nome == null || nome.length() < 1 || nome.length() > 16) {
 
                 //response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non valido");
 
-            } else if (!nome.matches("[^A-Za-z0-9]")) {
+            } else if (!nome.matches("^[A-Z a-z 0-9]+$")) {
 
                 //response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non rispetta il formato");
 
             } else {
-                AulaDAO aulaDAO = (AulaDAO) getServletContext().getAttribute(AULA_DAO_PARAM);
+                Aula nuova_aula = new Aula(nome, 0, n_posti, disponibilita, ed);
+                nuova_aula.setServizi(servizi);
+                AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
                 boolean result = aulaDAO.insert(nuova_aula);
                 if (!result) {
                     //response.getWriter().print(400);
                     SessionManager.setError(session, "Aula già esistente!");
                     return;
                 }
-                response.getWriter().print(200);
+                //response.getWriter().print(200);
 
             }
 
@@ -145,5 +152,5 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
     }
 
     public static final String AULA_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
-    public static final String EDIFICIO_DAO_PARAM = "InserisciAulaServlet.AulaDAO";
+    public static final String EDIFICIO_DAO_PARAM = "InserisciAulaServlet.EdificioDAO";
 }
