@@ -37,7 +37,6 @@ public class ModificaAulaServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Utente u = SessionManager.getUtente(session);
-        System.out.println("erfvfrgf");
         if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
             response.sendRedirect("Login.jsp");
             SessionManager.setError(session, "Utente non abilitato");
@@ -52,14 +51,14 @@ public class ModificaAulaServlet extends HttpServlet {
 
         if (edificio == null || edificio.length() < 1 )
         {
-            //response.getWriter().print(400);
+            response.getWriter().print(400);
             SessionManager.setError(session, "Edificio non selezionato");
             return;
         }
 
         if (!num_posti.matches("^[0-9]+$")) {
 
-            //response.getWriter().print(400);
+            response.getWriter().print(400);
             SessionManager.setError(session, "Formato numero posti non valido");
             return;
 
@@ -67,7 +66,7 @@ public class ModificaAulaServlet extends HttpServlet {
             n_posti = Integer.parseInt(num_posti);
             if (n_posti < 20 || n_posti > 300) {
 
-                //response.getWriter().print(400);
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Numero posti non corretto");
                 return;
             }
@@ -79,7 +78,7 @@ public class ModificaAulaServlet extends HttpServlet {
         Edificio ed = edificioDAO.retriveByName(edificio);
         if (ed == null) {
 
-            //response.getWriter().print(400);
+            response.getWriter().print(400);
             SessionManager.setError(session, "Edificio non trovato");
             return;
 
@@ -97,8 +96,8 @@ public class ModificaAulaServlet extends HttpServlet {
                 servizi_extra = Servizio.COMPUTER;
                 servizi.add(servizi_extra);
 
-            } else if (servizi_extra_computer != null && !servizi_extra_computer.equals(Servizio.COMPUTER.toString())) {
-                //response.getWriter().print(400);
+            } else {
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Servizi non validi");
                 return;
             }
@@ -107,43 +106,43 @@ public class ModificaAulaServlet extends HttpServlet {
                 servizi_extra = Servizio.PRESE;
                 servizi.add(servizi_extra);
 
-            } else if (servizi_extra_prese != null && !servizi_extra_prese.equals(Servizio.PRESE.toString())) {
-                //response.getWriter().print(400);
+            } else {
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Servizi non validi");
                 return;
             }
 
+
+            if (disponibilita == null) {
+
+                response.getWriter().print(400);
+                SessionManager.setError(session, "Orari di disponibilità errati");
+                return;
+            }
             AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
             Aula b = aulaDAO.retriveByName(nome);
             System.out.println(b);
-            if (disponibilita == null) {
 
-                //response.getWriter().print(400);
-                SessionManager.setError(session, "Orari di disponibilità errati");
+            if (b == null) {
+                response.getWriter().print(400);
+                SessionManager.setError(session, "Aula non esistente!");
                 return;
             }
 
             if (nome == null || nome.length() < 1 || nome.length() > 16) {
 
-                //response.getWriter().print(400);
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non valido");
                 return;
 
             } else if (!nome.matches("^[A-Z a-z 0-9]+$")) {
 
-                //response.getWriter().print(400);
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non rispetta il formato");
                 return;
 
             }
-            System.out.println("CIAO");
 
-            System.out.println(b+"sdfg");
-            if (b == null) {
-                //response.getWriter().print(400);
-                SessionManager.setError(session, "Aula non esistente!");
-                return;
-            }
 
             Aula nuova_aula = new Aula(nome,n_posti,disponibilita,ed);
             nuova_aula.setServizi(servizi);
@@ -153,9 +152,9 @@ public class ModificaAulaServlet extends HttpServlet {
             } catch (ViolazioneEntityException e) {
                 SessionManager.setError(session, e.getMessage());
                 e.printStackTrace();
-                //response.getWriter().print(400);
+                response.getWriter().print(400);
             }
-            //response.getWriter().print(200);
+            response.getWriter().print(200);
 
 
 

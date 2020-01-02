@@ -53,14 +53,14 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
         if (edificio == null || edificio.length() < 1 )
         {
-            //response.getWriter().print(400);
+            response.getWriter().print(400);
             SessionManager.setError(session, "Edificio non selezionato");
             return;
         }
         int n_posti;
         if (!num_posti.matches("^[0-9]+$")) {
 
-            //response.getWriter().print(400);
+            response.getWriter().print(400);
             SessionManager.setError(session, "Formato numero posti non valido");
             return;
 
@@ -68,7 +68,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
             n_posti = Integer.parseInt(num_posti);
             if (n_posti < 20 || n_posti > 300) {
 
-                //response.getWriter().print(400);
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Numero posti non corretto");
                 return;
             }
@@ -80,7 +80,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
         Edificio ed = edificioDAO.retriveByName(edificio);
         if (ed == null) {
 
-            //response.getWriter().print(400);
+            response.getWriter().print(400);
             SessionManager.setError(session, "Edificio non trovato");
             return;
 
@@ -98,8 +98,8 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 servizi_extra = Servizio.COMPUTER;
                 servizi.add(servizi_extra);
 
-            } else if (servizi_extra_computer != null){
-                //response.getWriter().print(400);
+            } else {
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Servizi non validi");
                 return;
             }
@@ -108,8 +108,8 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 servizi_extra = Servizio.PRESE;
                 servizi.add(servizi_extra);
 
-            } else if (servizi_extra_prese != null) {
-                //response.getWriter().print(400);
+            } else {
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Servizi non validi");
                 return;
             }
@@ -117,20 +117,20 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
             if (disponibilita == null) {
 
-                //response.getWriter().print(400);
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Orari di disponibilità errati");
                 return;
             }
 
             if (nome == null || nome.length() < 1 || nome.length() > 16) {
 
-                //response.getWriter().print(400);
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non valido");
                 return;
 
             } else if (!nome.matches("^[A-Z a-z 0-9]+$")) {
 
-                //response.getWriter().print(400);
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non rispetta il formato");
                 return;
 
@@ -138,7 +138,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
             AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
             Aula b = aulaDAO.retriveByName(nome);
             if (b != null) {
-                //response.getWriter().print(400);
+                response.getWriter().print(400);
                 SessionManager.setError(session, "Aula già esistente!");
                 return;
             }
@@ -151,9 +151,9 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
             } catch (ViolazioneEntityException e) {
                 SessionManager.setError(session, e.getMessage());
                 e.printStackTrace();
-                //response.getWriter().print(400);
+                response.getWriter().print(400);
             }
-            //response.getWriter().print(200);
+            response.getWriter().print(200);
         }
 
     }

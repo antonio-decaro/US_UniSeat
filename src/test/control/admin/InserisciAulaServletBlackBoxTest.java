@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -63,6 +65,8 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
         doNothing().when(res).sendRedirect(anyString());
+        StringWriter stringWriter = new StringWriter();
+        when(res.getWriter()).thenReturn(new PrintWriter(stringWriter));
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
             String key = (String) invocation.getArguments()[0];
@@ -81,8 +85,8 @@ class InserisciAulaServletBlackBoxTest {
         session.setAttribute("SessionManager.user", u);
 
         Edificio ed = new StubEdificioDAO().retriveByName("F3");
-        String dispP3 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP3.json"));
-        String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP1.json"));
+        String dispP3 = "11:00-15:00";
+        String dispP4 = "11:00-15:00";
         Aula aulaP3 = new Aula("P3", 70, 100, dispP3, ed);
         Aula aulaP4 = new Aula("P4", 0, 100, dispP4, ed);
         aulaP3.setId(1);
@@ -233,14 +237,14 @@ class InserisciAulaServletBlackBoxTest {
     @Test
     void TC_5_11() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F2");
-        when(req.getParameter("nome_aula")).thenReturn("P30");
+        when(req.getParameter("nome_aula")).thenReturn("P33");
         when(req.getParameter("numero_posti")).thenReturn("100");
         when(req.getParameter("disp_aula")).thenReturn("11:00-16:00");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
 
         servlet.doPost(req, res);
         System.out.println(aulaDAO.retriveAll());
-        assertEquals("P30",aulaDAO.retriveByName("P30").getNome());
+        assertEquals("P33",aulaDAO.retriveByName("P33").getNome());
     }
 
 
