@@ -1,8 +1,11 @@
 package control.studente;
 
 import control.utili.EmailManager;
+import control.utili.PassowrdEncrypter;
 import model.dao.UtenteDAO;
 import model.database.StubUtenteDAO;
+import model.pojo.TipoUtente;
+import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -165,6 +168,20 @@ class RegistrazioneServletBlackBoxTest {
     }
     @Test
     void TC_1_10() throws Exception {
+        utenteDAO.insert(new Utente("l.verdi21@studenti.unisa.it", "Luigi", "Verdi",
+                PassowrdEncrypter.criptaPassword("LuigiVerdi21"), TipoUtente.STUDENTE));
+        when(req.getParameter("nome")).thenReturn("Mario");
+        when(req.getParameter("cognome")).thenReturn("Rossi");
+        when(req.getParameter("email")).thenReturn("l.verdi21@studenti.unisa.it");
+        when(req.getParameter("password")).thenReturn("MarioRossi12");
+        when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
+        servlet.doPost(req, res);
+        assertEquals("Utente già esistente",
+                session.getAttribute("SessionManager.error"));
+        assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
+    }
+    @Test
+    void TC_1_11() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@studenti.unisa.it");
@@ -176,7 +193,7 @@ class RegistrazioneServletBlackBoxTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
-    void TC_1_11() throws Exception {
+    void TC_1_12() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@studenti.unisa.it");
@@ -188,7 +205,7 @@ class RegistrazioneServletBlackBoxTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
-    void TC_1_12() throws Exception {
+    void TC_1_13() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@studenti.unisa.it");
@@ -200,7 +217,7 @@ class RegistrazioneServletBlackBoxTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
-    void TC_1_13() throws Exception {
+    void TC_1_14() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@studenti.unisa.it");
