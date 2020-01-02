@@ -107,7 +107,7 @@ public class IscrizioneDocenteServlet extends HttpServlet {
             emailManager.inviaEmailConferma(utente);
         } catch (ViolazioneEntityException e) {
             SessionManager.setError(session, e.getMessage());
-        }
+    }
         resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
     }
 

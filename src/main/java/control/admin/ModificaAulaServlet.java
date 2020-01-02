@@ -137,9 +137,9 @@ public class ModificaAulaServlet extends HttpServlet {
 
             AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
             Aula b = aulaDAO.retriveByName(nome);
-            if (b != null) {
+            if (b == null) {
                 //response.getWriter().print(400);
-                SessionManager.setError(session, "Aula già esistente!");
+                SessionManager.setError(session, "Aula non esistente!");
                 return;
             }
 
@@ -147,7 +147,7 @@ public class ModificaAulaServlet extends HttpServlet {
             nuova_aula.setServizi(servizi);
 
             try {
-                aulaDAO.insert(nuova_aula);
+                aulaDAO.update(nuova_aula);
             } catch (ViolazioneEntityException e) {
                 SessionManager.setError(session, e.getMessage());
                 e.printStackTrace();
