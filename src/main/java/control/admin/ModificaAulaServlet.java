@@ -37,7 +37,7 @@ public class ModificaAulaServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Utente u = SessionManager.getUtente(session);
-
+        System.out.println("erfvfrgf");
         if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
             response.sendRedirect("Login.jsp");
             SessionManager.setError(session, "Utente non abilitato");
@@ -113,7 +113,9 @@ public class ModificaAulaServlet extends HttpServlet {
                 return;
             }
 
-
+            AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
+            Aula b = aulaDAO.retriveByName(nome);
+            System.out.println(b);
             if (disponibilita == null) {
 
                 //response.getWriter().print(400);
@@ -134,9 +136,9 @@ public class ModificaAulaServlet extends HttpServlet {
                 return;
 
             }
+            System.out.println("CIAO");
 
-            AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
-            Aula b = aulaDAO.retriveByName(nome);
+            System.out.println(b+"sdfg");
             if (b == null) {
                 //response.getWriter().print(400);
                 SessionManager.setError(session, "Aula non esistente!");
