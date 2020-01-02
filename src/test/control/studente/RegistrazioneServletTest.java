@@ -1,9 +1,11 @@
 package control.studente;
 
 import control.utili.EmailManager;
+import control.utili.PassowrdEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.database.StubUtenteDAO;
+import model.pojo.TipoUtente;
 import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -219,6 +221,9 @@ class RegistrazioneServletTest {
     }
     @Test
     void testAlradyExist() throws Exception {
+        Utente utente = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
+                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+        utenteDAO.insert(utente);
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi12@studenti.unisa.it");

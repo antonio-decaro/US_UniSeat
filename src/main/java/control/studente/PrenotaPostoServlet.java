@@ -98,7 +98,10 @@ public class PrenotaPostoServlet extends HttpServlet {
         }
 
         if (changed) {
-            SessionManager.setMessage(session, "L'orario di fine prenotazione è stato modificato");
+            SessionManager.setError(session, String.format("L'aula è disponibile fino alle %s",
+                    oraFine.toString()));
+            resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
+            return;
         }
 
         Prenotazione p = new Prenotazione();
