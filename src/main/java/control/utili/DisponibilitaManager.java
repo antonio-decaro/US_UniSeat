@@ -97,10 +97,10 @@ public class DisponibilitaManager {
     }
 
     private boolean comparaIntervallo(Time oraInizio1, Time oraFine1, Time oraInizio2, Time oraFine2) {
-        int oraInizioV1 = oraInizio1.toLocalTime().getHour() * 60 + oraInizio1.toLocalTime().getMinute();
-        int oraFineV1 = oraFine1.toLocalTime().getHour() * 60 + oraFine1.toLocalTime().getMinute() - 1;
-        int oraInizioV2 = oraInizio2.toLocalTime().getHour() * 60 + oraInizio2.toLocalTime().getMinute();
-        int oraFineV2 = oraFine2.toLocalTime().getHour() * 60 + oraFine2.toLocalTime().getMinute() - 1;
+        long oraInizioV1 = oraInizio1.toLocalTime().getHour() * 60 + oraInizio1.toLocalTime().getSecond();
+        long oraFineV1 = oraFine1.toLocalTime().getHour() * 60 + oraFine1.toLocalTime().getSecond() - 1;
+        long oraInizioV2 = oraInizio2.toLocalTime().getHour() * 60 + oraInizio2.toLocalTime().getSecond();
+        long oraFineV2 = oraFine2.toLocalTime().getHour() * 60 + oraFine2.toLocalTime().getSecond();
 
         return oraInizioV1 >= oraInizioV2 && oraFineV1 <= oraFineV2;
     }
@@ -114,7 +114,7 @@ public class DisponibilitaManager {
         LocalTime inizio = LocalTime.ofSecondOfDay(
                 ((Integer.parseInt(tmpInizio[0]) * (60 * 60)) + (Integer.parseInt(tmpInizio[1]) * 60)));
         LocalTime fine = LocalTime.ofSecondOfDay(
-                ((Integer.parseInt(tmpFine[0]) * (60 * 60)) + (Integer.parseInt(tmpFine[1]) * 60)));
+                ((Integer.parseInt(tmpFine[0]) * (60 * 60)) + (Integer.parseInt(tmpFine[1]) * 60)) - 1);
 
         ret[0] = Time.valueOf(inizio);
         ret[1] = Time.valueOf(fine);
