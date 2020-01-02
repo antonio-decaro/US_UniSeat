@@ -23,6 +23,7 @@ StubEdificioDAO implements EdificioDAO {
             if (e.getNome().equals(nome))
                 return e;
         }
+
         return null;
     }
 

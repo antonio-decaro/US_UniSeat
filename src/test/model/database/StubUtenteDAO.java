@@ -54,7 +54,7 @@ public class StubUtenteDAO implements UtenteDAO {
     }
 
     @Override
-    public void delete(Utente utente) {
+    public void delete(Utente utente) throws ViolazioneEntityException {
         utenti.remove(utente);
     }
 

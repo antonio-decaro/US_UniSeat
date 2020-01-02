@@ -2,9 +2,11 @@ package control.admin;
 
 import control.studente.RegistrazioneServlet;
 import control.utili.EmailManager;
+import control.utili.PassowrdEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.database.StubUtenteDAO;
+import model.pojo.TipoUtente;
 import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,6 +65,14 @@ class IscrizioneDocenteServletTest {
             attributes.put(key, value);
             return null;
         }).when(session).setAttribute(anyString(), any());
+
+
+        Utente u = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi", PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+        Utente u2 = new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro", "Antonio2", TipoUtente.STUDENTE);
+        Utente u3 = new Utente("c.gravino@unisa.it", "Carmine", "Gravino", "Carmine2", TipoUtente.DOCENTE);
+        utenteDAO.insert(u);
+        utenteDAO.insert(u2);
+        utenteDAO.insert(u3);
     }
 
     @AfterEach

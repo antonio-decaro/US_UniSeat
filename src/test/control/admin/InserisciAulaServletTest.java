@@ -5,6 +5,8 @@ import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
 import model.database.StubAulaDAO;
 import model.database.StubEdificioDAO;
+import model.pojo.Aula;
+import model.pojo.Edificio;
 import model.pojo.TipoUtente;
 import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
@@ -20,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,6 +78,16 @@ class InserisciAulaServletTest {
         Utente u = new Utente();
         u.setTipoUtente(TipoUtente.ADMIN);
         session.setAttribute("SessionManager.user", u);
+
+        Edificio ed = new StubEdificioDAO().retriveByName("F3");
+        String dispP3 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP3.json"));
+        String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP4.json"));
+        Aula aulaP3 = new Aula("P3", 70, 100, dispP3, ed);
+        Aula aulaP4 = new Aula("P4", 0, 100, dispP4, ed);
+        aulaP3.setId(1);
+        aulaP4.setId(2);
+        aulaDAO.insert(aulaP3);
+        aulaDAO.insert(aulaP4);
 
     }
 

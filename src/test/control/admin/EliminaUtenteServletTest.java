@@ -1,6 +1,7 @@
 package control.admin;
 
 import control.utili.EmailManager;
+import control.utili.PassowrdEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.database.StubUtenteDAO;
@@ -69,6 +70,16 @@ class EliminaUtenteServletTest {
         Utente u = new Utente();
         u.setTipoUtente(TipoUtente.ADMIN);
         session.setAttribute("SessionManager.user", u);
+
+        Utente u1 = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
+                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+        Utente u2 = new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro",
+                PassowrdEncrypter.criptaPassword("Antonio2"), TipoUtente.STUDENTE);
+        Utente u3 = new Utente("c.gravino@studenti.unisa.it", "Carmine", "Gravino",
+                PassowrdEncrypter.criptaPassword("Gravino1"), TipoUtente.DOCENTE);
+        utenteDAO.insert(u1);
+        utenteDAO.insert(u2);
+        utenteDAO.insert(u3);
     }
 
     @AfterEach
@@ -88,6 +99,13 @@ class EliminaUtenteServletTest {
         when(req.getParameter("email_utente")).thenReturn("m.rossi12@studenti.unisa.it");
         servlet.doPost(req, res);
         assertNull(utenteDAO.retriveByEmail("m.rossi12@studenti.unisa.it"));
+    }
+
+    @Test
+    void TC_5_3() throws Exception {
+        when(req.getParameter("email_utente")).thenReturn("m.rossi115@studenti.unisa.it");
+        servlet.doPost(req, res);
+        assertNull(utenteDAO.retriveByEmail("m.rossi115@studenti.unisa.it"));
     }
 
     @Test
