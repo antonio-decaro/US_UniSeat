@@ -1,10 +1,9 @@
 package control.admin;
 
-import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
-import model.database.StubAulaDAO;
-import model.database.StubEdificioDAO;
+import model.daostub.StubAulaDAO;
+import model.daostub.StubEdificioDAO;
 import model.pojo.Aula;
 import model.pojo.Edificio;
 import model.pojo.TipoUtente;
@@ -17,7 +16,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
 
-import javax.mail.Session;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

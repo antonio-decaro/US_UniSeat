@@ -2,8 +2,8 @@ package control.admin;
 
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
-import model.database.StubAulaDAO;
-import model.database.StubEdificioDAO;
+import model.daostub.StubAulaDAO;
+import model.daostub.StubEdificioDAO;
 import model.pojo.Aula;
 import model.pojo.Edificio;
 import model.pojo.TipoUtente;

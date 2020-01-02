@@ -1,9 +1,7 @@
-package model.database;
+package model.daostub;
 
-import control.utili.PassowrdEncrypter;
 import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
-import model.pojo.TipoUtente;
 import model.pojo.Utente;
 
 import java.util.ArrayList;

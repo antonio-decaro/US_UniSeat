@@ -1,7 +1,7 @@
 package control.utili;
 
 import model.dao.PrenotazioneDAO;
-import model.database.StubPrenotazioneDAO;
+import model.daostub.StubPrenotazioneDAO;
 import model.pojo.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;

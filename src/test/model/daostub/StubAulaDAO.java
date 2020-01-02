@@ -1,13 +1,10 @@
-package model.database;
+package model.daostub;
 
 import model.dao.AulaDAO;
 import model.dao.ViolazioneEntityException;
 import model.pojo.Aula;
 import model.pojo.Edificio;
-import model.pojo.Prenotazione;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Set;

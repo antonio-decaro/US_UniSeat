@@ -1,15 +1,16 @@
-package model.database;
+package model.daostub;
 
-import control.utili.PassowrdEncrypter;
 import model.dao.PrenotazioneDAO;
-import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
-import model.pojo.*;
+import model.pojo.Aula;
+import model.pojo.Prenotazione;
+import model.pojo.Utente;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 public class StubPrenotazioneDAO implements PrenotazioneDAO {
 

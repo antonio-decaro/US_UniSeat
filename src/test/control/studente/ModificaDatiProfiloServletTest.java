@@ -2,7 +2,7 @@ package control.studente;
 
 import control.utili.PassowrdEncrypter;
 import control.utili.SessionManager;
-import model.database.StubUtenteDAO;
+import model.daostub.StubUtenteDAO;
 import model.pojo.TipoUtente;
 import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
