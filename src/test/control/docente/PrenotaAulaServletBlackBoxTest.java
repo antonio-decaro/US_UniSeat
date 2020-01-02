@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Clock;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,6 +58,7 @@ class PrenotaAulaServletBlackBoxTest {
         when(ctx.getAttribute(PrenotaAulaServlet.EDIFICIO_DAO)).thenReturn(edificioDAO);
         when(ctx.getAttribute(PrenotaAulaServlet.PRENOTAZIONE_DAO)).thenReturn(prenotazioneDAO);
         when(ctx.getAttribute(PrenotaAulaServlet.EMAIL_MANAGER)).thenReturn(emailManager);
+        when(ctx.getAttribute(PrenotaAulaServlet.CLOCK)).thenReturn(Clock.systemDefaultZone());
         when(req.getSession()).thenReturn(session);
         when(req.getContextPath()).thenReturn("");
         when(ctx.getContextPath()).thenReturn("");
