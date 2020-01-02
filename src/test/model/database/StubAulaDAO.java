@@ -4,10 +4,12 @@ import model.dao.AulaDAO;
 import model.dao.ViolazioneEntityException;
 import model.pojo.Aula;
 import model.pojo.Edificio;
+import model.pojo.Prenotazione;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.ListIterator;
 import java.util.Set;
 
 public class StubAulaDAO implements AulaDAO {
@@ -42,9 +44,11 @@ public class StubAulaDAO implements AulaDAO {
     }
 
     public Aula retriveByName(String name) {
-        for (Aula u : aule) {
-            if (u.getNome().equals(name))
+        for (ListIterator<Aula> i = aule.listIterator(); i.hasNext();) {
+            Aula u = i.next();
+            if (u.getNome().equals(name)) {
                 return u;
+            }
         }
         return null;
     }
