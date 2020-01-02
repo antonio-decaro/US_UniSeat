@@ -34,6 +34,15 @@ public class Prenotazione {
         this.utente = utente;
     }
 
+    public Prenotazione(Date data, Time oraInizio, Time oraFine, TipoPrenotazione tipoPrenotazione, Aula aula, Utente utente) {
+        this.data = data;
+        this.oraInizio = oraInizio;
+        this.oraFine = oraFine;
+        this.tipoPrenotazione = tipoPrenotazione;
+        this.aula = aula;
+        this.utente = utente;
+    }
+
     public int getId() {
         return id;
     }

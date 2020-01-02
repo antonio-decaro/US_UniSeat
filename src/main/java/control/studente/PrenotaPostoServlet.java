@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -35,6 +36,7 @@ public class PrenotaPostoServlet extends HttpServlet {
         getServletContext().setAttribute(PRENOTAZIONE_DAO, DBPrenotazioneDAO.getInstance());
         getServletContext().setAttribute(AULA_DAO, DBAulaDAO.getInstance());
         getServletContext().setAttribute(EDIFICIO_DAO, DBEdificioDAO.getInstance());
+        getServletContext().setAttribute(CLOCK, Clock.systemDefaultZone());
     }
 
     @Override
@@ -79,8 +81,9 @@ public class PrenotaPostoServlet extends HttpServlet {
         }
         // fine controllo campi
 
-        Date data = Date.valueOf(LocalDate.now());
-        Time oraInizio = Time.valueOf(LocalTime.now());
+        Clock clock = (Clock) req.getServletContext().getAttribute(CLOCK);
+        Date data = Date.valueOf(LocalDate.now(clock));
+        Time oraInizio = Time.valueOf(LocalTime.now(clock));
         Time oraFine = Time.valueOf(oraInizio.toLocalTime().plusMinutes(durata));
 
         DisponibilitaManager disponibilita = new DisponibilitaManager(aula, prenotazioneDAO);
@@ -119,7 +122,7 @@ public class PrenotaPostoServlet extends HttpServlet {
     }
 
     private int parseDurata(String param) {
-        if (param == null || param.strip().equals("") || !param.matches("[0-9]+")) {
+        if (param == null || param.strip().equals("") || !param.matches("^[+\\-]?[0-9]+$")) {
             throw new IllegalArgumentException("Durata non valida");
         }
 
@@ -152,4 +155,5 @@ public class PrenotaPostoServlet extends HttpServlet {
     static final String PRENOTAZIONE_DAO = "PrenotaPostoServlet.PrenotazioneDAO";
     static final String AULA_DAO = "PrenotaPostoServlet.AulaDAO";
     static final String EDIFICIO_DAO = "PrenotaPostoServlet.EdificioDAO";
+    static final String CLOCK = "PrenotaPostoServlet.Clock";
 }

@@ -43,6 +43,15 @@ public class Aula implements Comparable<Aula>{
         this.edificio = edificio;
     }
 
+    public Aula(int id, String nome, int nPostiOccupati, int nPosti, String disponibilita, Edificio edificio) {
+        this.id = id;
+        this.nome = nome;
+        this.nPostiOccupati = nPostiOccupati;
+        this.nPosti = nPosti;
+        this.disponibilita = disponibilita;
+        this.edificio = edificio;
+    }
+
     public int getId() {
         return id;
     }

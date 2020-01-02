@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Clock;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +60,7 @@ class PrenotaPostoServletTest {
         when(ctx.getAttribute(PrenotaPostoServlet.AULA_DAO)).thenReturn(aulaDAO);
         when(ctx.getAttribute(PrenotaPostoServlet.EDIFICIO_DAO)).thenReturn(edificioDAO);
         when(ctx.getAttribute(PrenotaPostoServlet.PRENOTAZIONE_DAO)).thenReturn(prenotazioneDAO);
+        when(ctx.getAttribute(PrenotaPostoServlet.CLOCK)).thenReturn(Clock.systemDefaultZone());
         when(req.getSession()).thenReturn(session);
         when(req.getContextPath()).thenReturn("");
         when(ctx.getContextPath()).thenReturn("");
@@ -87,7 +89,7 @@ class PrenotaPostoServletTest {
 
         Edificio ed = new StubEdificioDAO().retriveByName("F3");
         String dispP3 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP3.json"));
-        String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP4.json"));
+        String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP1.json"));
         Aula aulaP3 = new Aula("P3", 70, 100, dispP3, ed);
         Aula aulaP4 = new Aula("P4", 0, 100, dispP4, ed);
         aulaP3.setId(1);
