@@ -43,10 +43,12 @@ public class StubAulaDAO implements AulaDAO {
     public Aula retriveByName(String name) {
         for (ListIterator<Aula> i = aule.listIterator(); i.hasNext();) {
             Aula u = i.next();
+            System.out.println(u.getNome());
             if (u.getNome().equals(name)) {
                 return u;
             }
         }
+        System.out.println("null");
         return null;
     }
 

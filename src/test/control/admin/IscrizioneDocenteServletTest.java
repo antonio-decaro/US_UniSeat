@@ -91,8 +91,35 @@ class IscrizioneDocenteServletTest {
                 session.getAttribute("SessionManager.error"));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
+
     @Test
     void TC_1_2() throws Exception {
+        when(req.getParameter("nome")).thenReturn(null);
+        when(req.getParameter("cognome")).thenReturn("Rossi");
+        when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");
+        when(req.getParameter("password")).thenReturn("MarioRossi12");
+        when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
+        servlet.doPost(req, res);
+        assertEquals("Il campo Nome non rispetta la lunghezza",
+                session.getAttribute("SessionManager.error"));
+        assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
+    }
+
+    @Test
+    void TC_1_3() throws Exception {
+        when(req.getParameter("nome")).thenReturn("Mario");
+        when(req.getParameter("cognome")).thenReturn(null);
+        when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");
+        when(req.getParameter("password")).thenReturn("MarioRossi12");
+        when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
+        servlet.doPost(req, res);
+        assertEquals("Il campo Cognome non rispetta la lunghezza",
+                session.getAttribute("SessionManager.error"));
+        assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
+    }
+
+    @Test
+    void TC_1_4() throws Exception {
         when(req.getParameter("nome")).thenReturn("abcdefghilmnopqrstuvz");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");
@@ -104,7 +131,7 @@ class IscrizioneDocenteServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
     @Test
-    void TC_1_3() throws Exception {
+    void TC_1_5() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mar10");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");
@@ -116,7 +143,7 @@ class IscrizioneDocenteServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
     @Test
-    void TC_1_4() throws Exception {
+    void TC_1_6() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("");
         when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");
@@ -128,7 +155,7 @@ class IscrizioneDocenteServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
     @Test
-    void TC_1_5() throws Exception {
+    void TC_1_7() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("abcdefhghilmnopqrstuvz");
         when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");
@@ -140,7 +167,7 @@ class IscrizioneDocenteServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
     @Test
-    void TC_1_6() throws Exception {
+    void TC_1_8() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("R00ss1");
         when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");
@@ -152,7 +179,7 @@ class IscrizioneDocenteServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
     @Test
-    void TC_1_7() throws Exception {
+    void TC_1_9() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("@unisa.it");
@@ -164,7 +191,7 @@ class IscrizioneDocenteServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
     @Test
-    void TC_1_9() throws Exception {
+    void TC_1_10() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@domain.com");
@@ -176,7 +203,7 @@ class IscrizioneDocenteServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
     @Test
-    void TC_1_10() throws Exception {
+    void TC_1_11() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");
@@ -188,7 +215,7 @@ class IscrizioneDocenteServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
     @Test
-    void TC_1_11() throws Exception {
+    void TC_1_12() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");
@@ -200,7 +227,7 @@ class IscrizioneDocenteServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
     @Test
-    void TC_1_12() throws Exception {
+    void TC_1_13() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");
@@ -212,7 +239,7 @@ class IscrizioneDocenteServletTest {
         assertNull(utenteDAO.retriveByEmail("m.rossi13@unisa.it"));
     }
     @Test
-    void TC_1_13() throws Exception {
+    void TC_1_14() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("m.rossi13@unisa.it");

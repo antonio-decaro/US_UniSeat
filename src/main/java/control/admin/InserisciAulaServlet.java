@@ -98,7 +98,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 servizi_extra = Servizio.COMPUTER;
                 servizi.add(servizi_extra);
 
-            } else if (servizi_extra_computer != null && !servizi_extra_computer.equals(Servizio.COMPUTER.toString())) {
+            } else if (servizi_extra_computer != null){
                 //response.getWriter().print(400);
                 SessionManager.setError(session, "Servizi non validi");
                 return;
@@ -108,7 +108,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 servizi_extra = Servizio.PRESE;
                 servizi.add(servizi_extra);
 
-            } else if (servizi_extra_prese != null && !servizi_extra_prese.equals(Servizio.PRESE.toString())) {
+            } else if (servizi_extra_prese != null) {
                 //response.getWriter().print(400);
                 SessionManager.setError(session, "Servizi non validi");
                 return;

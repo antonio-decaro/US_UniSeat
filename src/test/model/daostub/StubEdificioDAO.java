@@ -20,7 +20,6 @@ StubEdificioDAO implements EdificioDAO {
     @Override
     public Edificio retriveByName(String nome) {
         for(Edificio e : edifici) {
-
             if (e.getNome().equals(nome))
                 return e;
         }
