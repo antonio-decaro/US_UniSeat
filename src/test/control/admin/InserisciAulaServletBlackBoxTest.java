@@ -239,7 +239,9 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("numero_posti")).thenReturn("100");
         when(req.getParameter("disp_aula")).thenReturn("11:00-16:00");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
+
         servlet.doPost(req, res);
+        System.out.println(aulaDAO.retriveAll());
         assertEquals("P30",aulaDAO.retriveByName("P30").getNome());
     }
 

@@ -1,10 +1,12 @@
 package model.database;
 
 import model.dao.EdificioDAO;
+import model.pojo.Aula;
 import model.pojo.Edificio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class
 StubEdificioDAO implements EdificioDAO {
@@ -19,12 +21,12 @@ StubEdificioDAO implements EdificioDAO {
 
     @Override
     public Edificio retriveByName(String nome) {
-        for(Edificio e : edifici) {
-            System.out.println(e.getNome());
-            if (e.getNome().equals(nome))
-                return e;
+        for (ListIterator<Edificio> i = edifici.listIterator(); i.hasNext();) {
+            Edificio u = i.next();
+            if (u.getNome().equals(nome)) {
+                return u;
+            }
         }
-
         return null;
     }
 
