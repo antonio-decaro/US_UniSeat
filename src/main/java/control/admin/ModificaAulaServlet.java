@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 /**
  * Questa servlet permette all'admin di modificare un'aula all'interno del database
+ *
  * @author Spinelli Gianluca
  * @version 0.1
  * @see model.pojo.Aula
@@ -34,7 +35,11 @@ public class ModificaAulaServlet extends HttpServlet {
         getServletContext().setAttribute(EDIFICIO_DAO_PARAM, DBEdificioDAO.getInstance());
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        doPost(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         Utente u = SessionManager.getUtente(session);
         if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
@@ -49,8 +54,7 @@ public class ModificaAulaServlet extends HttpServlet {
         int n_posti = 0;
         String disponibilita = request.getParameter("disp_aula");
 
-        if (edificio == null || edificio.length() < 1 )
-        {
+        if (edificio == null || edificio.length() < 1) {
             response.getWriter().print(400);
             SessionManager.setError(session, "Edificio non selezionato");
             return;
@@ -73,25 +77,20 @@ public class ModificaAulaServlet extends HttpServlet {
 
         }
 
-
         EdificioDAO edificioDAO = (EdificioDAO) request.getServletContext().getAttribute(EDIFICIO_DAO_PARAM);
         Edificio ed = edificioDAO.retriveByName(edificio);
         if (ed == null) {
-
             response.getWriter().print(400);
             SessionManager.setError(session, "Edificio non trovato");
-            return;
 
         } else {
-
-
             String servizi_extra_prese = request.getParameter("servizi_extra_prese");
             String servizi_extra_computer = request.getParameter("servizi_extra_computer");
             Servizio servizi_extra;
 
             ArrayList<Servizio> servizi = new ArrayList<>();
 
-            if ( servizi_extra_computer != null && servizi_extra_computer.equals(Servizio.COMPUTER.toString())) {
+            if (servizi_extra_computer != null && servizi_extra_computer.equals(Servizio.COMPUTER.toString())) {
 
                 servizi_extra = Servizio.COMPUTER;
                 servizi.add(servizi_extra);
@@ -125,7 +124,7 @@ public class ModificaAulaServlet extends HttpServlet {
 
             if (b == null) {
                 response.getWriter().print(400);
-                SessionManager.setError(session, "Aula non esistente!");
+                SessionManager.setError(session, "Aula non esistente");
                 return;
             }
 
@@ -135,16 +134,14 @@ public class ModificaAulaServlet extends HttpServlet {
                 SessionManager.setError(session, "Nome aula non valido");
                 return;
 
-            } else if (!nome.matches("^[A-Z a-z 0-9]+$")) {
+            } else if (!nome.matches("^[A-Z a-z0-9]+$")) {
 
                 response.getWriter().print(400);
                 SessionManager.setError(session, "Nome aula non rispetta il formato");
                 return;
-
             }
 
-
-            Aula nuova_aula = new Aula(nome,n_posti,disponibilita,ed);
+            Aula nuova_aula = new Aula(nome, n_posti, disponibilita, ed);
             nuova_aula.setServizi(servizi);
 
             try {
@@ -155,15 +152,7 @@ public class ModificaAulaServlet extends HttpServlet {
                 response.getWriter().print(400);
             }
             response.getWriter().print(200);
-
-
-
         }
-
-    }
-
-    public void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        doPost(request,response);
     }
 
     static final String AULA_DAO_PARAM = "ModificaAulaServlet.AulaDAO";

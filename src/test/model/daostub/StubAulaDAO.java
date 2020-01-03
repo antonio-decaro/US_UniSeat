@@ -8,28 +8,11 @@ import model.pojo.Edificio;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class StubAulaDAO implements AulaDAO {
 
-    private ArrayList<Aula> aule = new ArrayList<>();
-
-    /*  QUESTO NON VA FATTO QUI, VA FATTO NELLA CLASSE DI TEST
-    {
-        try {
-            Edificio ed = new StubEdificioDAO().retriveByName("F3");
-            String dispP3 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP3.json"));
-            String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP1.json"));
-            Aula aulaP3 = new Aula("P3", 70, 100, dispP3, ed);
-            Aula aulaP4 = new Aula("P4", 0, 100, dispP4, ed);
-            aulaP3.setId(1);
-            aulaP4.setId(2);
-            aule.add(aulaP3);
-            aule.add(aulaP4);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    */
+    private Set<Aula> aule = new TreeSet<>();
 
     @Override
     public Aula retriveById(int id) {
@@ -41,14 +24,11 @@ public class StubAulaDAO implements AulaDAO {
     }
 
     public Aula retriveByName(String name) {
-        for (ListIterator<Aula> i = aule.listIterator(); i.hasNext();) {
-            Aula u = i.next();
-            System.out.println(u.getNome());
+        for (Aula u : aule) {
             if (u.getNome().equals(name)) {
                 return u;
             }
         }
-        System.out.println("null");
         return null;
     }
 
@@ -81,7 +61,7 @@ public class StubAulaDAO implements AulaDAO {
 
     @Override
     public Set<Aula> retriveAll() {
-        return null;
+        return aule;
     }
 
     @Override

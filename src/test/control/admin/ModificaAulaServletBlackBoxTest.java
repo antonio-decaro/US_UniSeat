@@ -1,5 +1,6 @@
 package control.admin;
 
+import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
 import model.daostub.StubAulaDAO;
@@ -23,12 +24,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -36,24 +36,23 @@ import static org.mockito.Mockito.when;
 
 class ModificaAulaServletBlackBoxTest {
 
-    @Mock
-    private HttpServletRequest req;
+    @Mock private HttpServletRequest req;
     @Mock private HttpServletResponse res;
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
     private AulaDAO aulaDAO = new StubAulaDAO();
     private EdificioDAO edificioDAO = new StubEdificioDAO();
-    private InserisciAulaServlet servlet;
+    private ModificaAulaServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
 
     @BeforeEach
     void setUp() throws IOException {
         MockitoAnnotations.initMocks(this);
-        servlet = new InserisciAulaServlet();
+        servlet = new ModificaAulaServlet();
 
         when(req.getServletContext()).thenReturn(ctx);
-        when(ctx.getAttribute(InserisciAulaServlet.AULA_DAO_PARAM)).thenReturn(aulaDAO);
-        when(ctx.getAttribute(InserisciAulaServlet.EDIFICIO_DAO_PARAM)).thenReturn(edificioDAO);
+        when(ctx.getAttribute(ModificaAulaServlet.AULA_DAO_PARAM)).thenReturn(aulaDAO);
+        when(ctx.getAttribute(ModificaAulaServlet.EDIFICIO_DAO_PARAM)).thenReturn(edificioDAO);
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
         doNothing().when(res).sendRedirect(anyString());
@@ -74,9 +73,9 @@ class ModificaAulaServletBlackBoxTest {
 
         Utente u = new Utente();
         u.setTipoUtente(TipoUtente.ADMIN);
-        session.setAttribute("SessionManager.user", u);
+        SessionManager.autentica(session, u);
 
-        Edificio ed = new StubEdificioDAO().retriveByName("F3");
+        Edificio ed = edificioDAO.retriveByName("F3");
         String dispP3 = "11:00-15:00";
         String dispP4 = "11:00-15:00";
         Aula aulaP3 = new Aula("P3", 70, 100, dispP3, ed);
@@ -222,8 +221,7 @@ class ModificaAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
-        assertEquals("Aula non esistente!",
-                session.getAttribute("SessionManager.error"));
+        assertEquals("Aula non esistente", SessionManager.getError(session));
     }
 
     @Test
@@ -235,6 +233,6 @@ class ModificaAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
-        assertEquals("150",aulaDAO.retriveByName("P4").getPosti());
+        assertEquals(150, aulaDAO.retriveByName("P4").getPosti());
     }
 }
