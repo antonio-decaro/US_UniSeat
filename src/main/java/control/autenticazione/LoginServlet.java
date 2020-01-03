@@ -20,7 +20,7 @@ import java.io.IOException;
  * @author De Caro Antonio
  * @version 0.1
  * */
-@WebServlet("login")
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
     @Override
