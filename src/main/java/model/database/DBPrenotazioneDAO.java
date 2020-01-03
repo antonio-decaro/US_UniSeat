@@ -182,6 +182,8 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
             stm.setString(6, prenotazione.getTipoPrenotazione().toString().toUpperCase());
             stm.executeUpdate();
 
+            createEvent(prenotazione);
+
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "{0}", e);
             throw new ViolazioneEntityException(e.getMessage());
@@ -259,5 +261,48 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
         ret.setAula(aulaDAO.retriveById(rs.getInt("aula")));
         ret.setUtente(utenteDAO.retriveByEmail(rs.getString("utente")));
         return ret;
+    }
+
+    private void createEvent(Prenotazione prenotazione) throws SQLException {
+        final String QUERY = "" +
+                "CREATE EVENT ? " +
+                "ON SCHEDULE AT ? " +
+                "DO " +
+                "   BEGIN " +
+                "       UPDATE Aula SET n_posti_occupati = ? WHERE id = ?;" +
+                "       DROP EVENT ?;" +
+                "   END";
+
+        PreparedStatement stm = connection.prepareStatement(QUERY);
+        String eventName = getEventName(prenotazione);
+        String eventOccurence = String.format("%s %s", prenotazione.getData(), prenotazione.getOraFine());
+
+        int postiOccupati;
+        if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.AULA)) {
+            postiOccupati = 0;
+        } else {
+            postiOccupati = prenotazione.getAula().getPostiOccupati() - 1;
+        }
+
+        stm.setString(1, eventName);
+        stm.setString(2, eventOccurence);
+        stm.setInt(3, postiOccupati);
+        stm.setInt(4, prenotazione.getAula().getId());
+        stm.setString(5, eventName);
+        stm.execute();
+    }
+
+    private void updateEvent(Prenotazione prenotazione) throws SQLException {
+        final String QUERY = "DROP EVENT ?";
+
+        PreparedStatement stm = connection.prepareStatement(QUERY);
+        stm.setString(1, getEventName(prenotazione));
+        stm.execute();
+
+        createEvent(prenotazione);
+    }
+
+    private String getEventName(Prenotazione prenotazione) {
+        return "pulisci" + prenotazione.getId();
     }
 }

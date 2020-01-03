@@ -35,23 +35,13 @@ public class PrelevaEdificiServlet extends HttpServlet {
         getServletContext().setAttribute(EDIFICI_DAO_PARAM, DBEdificioDAO.getInstance());
     }
 
-    public PrelevaEdificiServlet() {
-        // TODO Auto-generated constructor stub
-    }
-
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // TODO Auto-generated method stub
         doPost(request,response);
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
 
         String address = "/comuni/edifici.jsp";
 
@@ -60,8 +50,6 @@ public class PrelevaEdificiServlet extends HttpServlet {
         edifici= edificioDAO.retriveAll();
 
         response.sendRedirect(request.getServletContext().getContextPath() + address);
-
-
     }
 
     public static final String EDIFICI_DAO_PARAM = "PrelevaEdificiServlet.EdificioDAO";

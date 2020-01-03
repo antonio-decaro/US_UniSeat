@@ -55,17 +55,12 @@ CREATE TABLE IF NOT EXISTS Prenotazione
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-DROP EVENT IF EXISTS cleanNonConfirmedUsers;
+DROP EVENT IF EXISTS clean_non_confirmed_users;
 
-CREATE EVENT IF NOT EXISTS cleanNonConfirmedUsers
+CREATE EVENT IF NOT EXISTS clean_non_confirmed_users
     ON SCHEDULE
         EVERY 1 day
     DO
         DELETE
         FROM Utente
         WHERE codice_verifica != 0;
-
-#CREATE EVENT IF NOT EXISTS reduceAulaCounter
-#    ON SCHEDULE
-#        EVERY 30 MINUTE
-#    DO

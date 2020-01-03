@@ -36,29 +36,23 @@ public class PrelevaUtentiServlet extends HttpServlet {
         getServletContext().setAttribute(UTENTE_DAO_PARAM, DBUtenteDAO.getInstance());
     }
 
-
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doPost(request,response);
     }
 
-
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        SessionManager sm = new SessionManager();
-        Utente u = sm.getUtente(session);
-        if (session.isNew() || !u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { // se non è admin o non è loggato
+        Utente u = SessionManager.getUtente(session);
+        if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
             response.sendRedirect("Login.jsp");
             return;
         }
 
-
         UtenteDAO utenteDAO = (UtenteDAO) getServletContext().getAttribute(UTENTE_DAO_PARAM);
         List<Utente> utenti ;
         utenti= utenteDAO.retriveAll();
-
-
-
-
     }
 
     public static final String UTENTE_DAO_PARAM = "PrelevaUtenteServlet.UtenteDAO";

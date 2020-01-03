@@ -37,12 +37,12 @@ public class PrelevaAuleServlet extends HttpServlet {
         getServletContext().setAttribute(AULA_DAO_PARAM, DBAulaDAO.getInstance());
     }
 
-
-
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doPost(request,response);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String edif= request.getParameter("nome_edificio"); //richiesta parametro in base al quale effettuare la ricerca delle aule
