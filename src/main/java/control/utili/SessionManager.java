@@ -28,7 +28,7 @@ public class SessionManager {
     /**
      * Questa classe registra all'interno di una session un determinato utente.
      *
-     * @param session sessino in cui salvare l'utente
+     * @param session sessione in cui salvare l'utente
      * @param utente utente da salvare nella sessione.
      * @author De Caro Antonio
      * @since 0.1
