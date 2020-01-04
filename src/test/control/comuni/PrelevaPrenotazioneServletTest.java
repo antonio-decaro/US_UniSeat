@@ -1,5 +1,6 @@
 package control.comuni;
 
+import com.google.gson.Gson;
 import control.utili.PassowrdEncrypter;
 import control.utili.SessionManager;
 import model.dao.AulaDAO;
@@ -22,6 +23,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
@@ -51,13 +55,15 @@ public class PrelevaPrenotazioneServletTest {
     private AulaDAO aulaDAO = new StubAulaDAO();
     private PrelevaPrenotazioneServlet servlet;
     private Map<String, Object> attributes = new HashMap<>();
-
+    private StringWriter stringWriter;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() throws IOException {
+        stringWriter = new StringWriter();
         MockitoAnnotations.initMocks(this);
         servlet = new PrelevaPrenotazioneServlet();
         when(req.getServletContext()).thenReturn(ctx);
+        when(res.getWriter()).thenReturn(new PrintWriter(stringWriter));
         when(ctx.getAttribute(PrelevaPrenotazioneServlet.PRENOTAZIONE_DAO_PARAM)).thenReturn(prenotazioneDAO);
         when(req.getSession()).thenReturn(session);
         when(req.getContextPath()).thenReturn("");
@@ -89,7 +95,7 @@ public class PrelevaPrenotazioneServletTest {
         Date d = new Date(Calendar.getInstance().getTime().getTime());
         Edificio ed = new StubEdificioDAO().retriveByName("F3");
         String dispP3 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP3.json"));
-        String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP1.json"));
+        String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_4/disp_aulaP1.json"));
         Aula aulaP3 = new Aula("P3", 70, 100, dispP3, ed);
         Aula aulaP4 = new Aula("P4", 0, 100, dispP4, ed);
         aulaP3.setId(1);
@@ -100,7 +106,6 @@ public class PrelevaPrenotazioneServletTest {
                 TipoPrenotazione.POSTO, aulaP3, u1));
         prenotazioneDAO.insert(new Prenotazione(2, d, new Time(14), new Time(16),
                 TipoPrenotazione.POSTO, aulaP4, u2));
-
     }
 
     @AfterEach
@@ -119,9 +124,8 @@ public class PrelevaPrenotazioneServletTest {
 
 //    @Test
 //    void testExc() throws Exception {
-//        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-//        Calendar calendar = Calendar.getInstance();
-//        Date d = new Date(calendar.getTime().getTime());
+//        SessionManager.autentica(session, utenteDAO.retriveAll().get(1));
+//        Date d = Date.valueOf(LocalDate.now());
 //        servlet.doGet(req, res);
 //        assertEquals("La data "+d+" ancora deve avvenire",
 //                session.getAttribute("SessionManager.error"));
@@ -129,23 +133,28 @@ public class PrelevaPrenotazioneServletTest {
 
     @Test
     void TC_1_1() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(1));
+        Utente us =utenteDAO.retriveByEmail("m.rossi12@studenti.unisa.it");
+        SessionManager.autentica(session, us);
         servlet.doGet(req, res);
         assertNull(session.getAttribute("SessionManager.error"));
     }
 
     @Test
     void TC_1_2() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
+        Utente us =utenteDAO.retriveByEmail("a.decaro@studenti.unisa.it");
+        SessionManager.autentica(session, us);
+        Gson gson = new Gson();
         servlet.doGet(req, res);
-        assertNull(session.getAttribute("SessionManager.error"));
+        assertEquals(gson.toJson(prenotazioneDAO.retriveByUtente(us).get(0)), stringWriter.toString());
     }
 
     @Test
     void TC_1_3() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(2));
+        Utente us =utenteDAO.retriveByEmail("c.gravino@studenti.unisa.it");
+        SessionManager.autentica(session, us);
+        Gson gson = new Gson();
         servlet.doGet(req, res);
-        assertNull(session.getAttribute("SessionManager.error"));
+        assertEquals(gson.toJson(prenotazioneDAO.retriveByUtente(us)), stringWriter.toString());
     }
 
 
