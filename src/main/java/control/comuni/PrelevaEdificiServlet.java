@@ -2,10 +2,13 @@ package control.comuni;
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
+import com.google.gson.Gson;
 import model.dao.EdificioDAO;
 import model.database.DBEdificioDAO;
+import model.pojo.Aula;
 import model.pojo.Edificio;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,22 +39,27 @@ public class PrelevaEdificiServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        doPost(request,response);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        doPost(req,resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        String address = "/comuni/edifici.jsp";
+        EdificioDAO edificioDAO = (EdificioDAO) req.getServletContext().getAttribute(EDIFICI_DAO_PARAM);
 
-        EdificioDAO edificioDAO = (EdificioDAO) getServletContext().getAttribute(EDIFICI_DAO_PARAM);
-        List<Edificio> edifici ;
-        edifici= edificioDAO.retriveAll();
+        List<Edificio> edifici = edificioDAO.retriveAll();
+        for (Edificio edificio : edifici) {
+            for (Aula aula : edificio.getAule())
+                aula.setEdificio(null); // per evitare loop infiniti
+        }
 
-        response.sendRedirect(request.getServletContext().getContextPath() + address);
+        Gson gson = new Gson();
+        try (PrintWriter pw = resp.getWriter()) {
+            resp.setStatus(HttpServletResponse.SC_OK);
+            pw.print(gson.toJson(edifici));
+        }
     }
 
-    public static final String EDIFICI_DAO_PARAM = "PrelevaEdificiServlet.EdificioDAO";
-
+    static final String EDIFICI_DAO_PARAM = "PrelevaEdificiServlet.EdificioDAO";
 }
