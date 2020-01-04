@@ -13,8 +13,10 @@ StubEdificioDAO implements EdificioDAO {
 
     {
         edifici = new ArrayList<>();
-        edifici.add(new Edificio("F3"));
-        edifici.add(new Edificio("F2"));
+        Edificio edificio1 = new Edificio("F3");
+        Edificio edificio2 = new Edificio("F2");
+        edifici.add(edificio1);
+        edifici.add(edificio2);
     }
 
     @Override
@@ -29,6 +31,6 @@ StubEdificioDAO implements EdificioDAO {
 
     @Override
     public List<Edificio> retriveAll() {
-        return null;
+        return edifici;
     }
 }
