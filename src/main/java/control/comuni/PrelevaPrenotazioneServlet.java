@@ -40,6 +40,8 @@ public class PrelevaPrenotazioneServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // TODO rendere compatibile con AJAX
+
         HttpSession ssn = request.getSession();
         Utente user = SessionManager.getUtente(ssn);
         String addres = "/comuni/prenotazioni.jsp";
