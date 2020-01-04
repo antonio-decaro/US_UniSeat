@@ -66,6 +66,11 @@ public class StubAulaDAO implements AulaDAO {
 
     @Override
     public Set<Aula> retriveByEdificio(Edificio edificio) throws ViolazioneEntityException {
-        return null;
+        Set<Aula> ret = new TreeSet<>();
+        for (Aula a : aule) {
+            if (a.getEdificio().equals(edificio))
+                ret.add(a);
+        }
+        return ret;
     }
 }

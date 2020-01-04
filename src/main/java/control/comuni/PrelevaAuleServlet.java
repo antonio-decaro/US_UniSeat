@@ -1,11 +1,10 @@
 package control.comuni;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-
+import com.google.gson.Gson;
 import model.dao.AulaDAO;
+import model.dao.EdificioDAO;
 import model.database.DBAulaDAO;
+import model.database.DBEdificioDAO;
 import model.pojo.Aula;
 import model.pojo.Edificio;
 
@@ -14,12 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Set;
 
 /**
  * Questa servlet permette di prelevare tutte le aule di un determinato edificio dal sistema
@@ -35,28 +31,45 @@ public class PrelevaAuleServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         getServletContext().setAttribute(AULA_DAO_PARAM, DBAulaDAO.getInstance());
+        getServletContext().setAttribute(EDIFICIO_DAO_PARAM, DBEdificioDAO.getInstance());
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        doPost(request,response);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        doPost(req,resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        String edif= request.getParameter("nome_edificio"); //richiesta parametro in base al quale effettuare la ricerca delle aule
-        Edificio edificio = new Edificio (edif);
-        String address = "/comuni/aule.jsp";
+        AulaDAO aulaDAO = (AulaDAO) req.getServletContext().getAttribute(AULA_DAO_PARAM);
+        EdificioDAO edificioDAO = (EdificioDAO) req.getServletContext().getAttribute(EDIFICIO_DAO_PARAM);
 
-        AulaDAO aulaDAO = (AulaDAO) getServletContext().getAttribute(AULA_DAO_PARAM);
-        Set<Aula> aule ;
-        aule= aulaDAO.retriveByEdificio(edificio);
+        Edificio edificio = parseEdificio(req.getParameter("edificio"), edificioDAO);
+        Set<Aula> aule;
+        if (edificio == null) {
+            aule = aulaDAO.retriveAll();
+        } else {
+            aule = aulaDAO.retriveByEdificio(edificio);
+        }
 
-        response.sendRedirect(request.getServletContext().getContextPath() + address);
+        for (Aula a : aule) {
+            a.setEdificio(null);
+        }
 
-
+        Gson gson = new Gson();
+        try (PrintWriter pw = resp.getWriter()) {
+            resp.setStatus(HttpServletResponse.SC_OK);
+            pw.print(gson.toJson(aule));
+        }
     }
 
-    public static final String AULA_DAO_PARAM = "PrelevaAuleServlet.AulaDAO";
+    private Edificio parseEdificio(String param, EdificioDAO edificioDAO) {
+        if (param == null || param.strip().equals(""))
+            return null;
+        return edificioDAO.retriveByName(param);
+    }
+
+    static final String AULA_DAO_PARAM = "PrelevaAuleServlet.AulaDAO";
+    static final String EDIFICIO_DAO_PARAM = "PrelevaAuleServlet.EdificioDAO";
 }
