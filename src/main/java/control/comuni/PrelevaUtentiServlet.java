@@ -38,25 +38,25 @@ public class PrelevaUtentiServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        doPost(request,response);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        doPost(req,resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession();
         Utente u = SessionManager.getUtente(session);
         if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Non hai i permessi per accedere a questa risorsa");
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Non hai i permessi per accedere a questa risorsa");
             return;
         }
 
-        UtenteDAO utenteDAO = (UtenteDAO) getServletContext().getAttribute(UTENTE_DAO_PARAM);
+        UtenteDAO utenteDAO = (UtenteDAO) req.getServletContext().getAttribute(UTENTE_DAO_PARAM);
         List<Utente> utenti = utenteDAO.retriveAll();
         Gson gson = new Gson();
         String jsonString = gson.toJson(utenti);
-        try (PrintWriter pw = response.getWriter()) {
-            response.setStatus(HttpServletResponse.SC_OK);
+        try (PrintWriter pw = resp.getWriter()) {
+            resp.setStatus(HttpServletResponse.SC_OK);
             pw.print(jsonString);
         }
     }
