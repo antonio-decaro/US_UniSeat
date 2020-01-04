@@ -41,8 +41,6 @@ class PrelevaEdificiServletTest {
     private HashMap<String, Object> attributes = new HashMap<>();
     private PrelevaEdificiServlet servlet = new PrelevaEdificiServlet();
     private StringWriter stringWriter;
-    private String stringError;
-    private int codeError;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -52,12 +50,6 @@ class PrelevaEdificiServletTest {
         when(resp.getWriter()).thenReturn(new PrintWriter(stringWriter));
         when(req.getServletContext()).thenReturn(ctx);
         when(ctx.getAttribute(PrelevaEdificiServlet.EDIFICI_DAO_PARAM)).thenReturn(edificioDAO);
-
-        Mockito.doAnswer((Answer<Object>) invocation -> {
-            codeError = (Integer) invocation.getArguments()[0];
-            stringError = (String) invocation.getArguments()[1];
-            return null;
-        }).when(resp).sendError(anyInt(), anyString());
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
             String key = (String) invocation.getArguments()[0];

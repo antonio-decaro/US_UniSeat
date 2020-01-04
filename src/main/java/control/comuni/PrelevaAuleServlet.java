@@ -53,6 +53,10 @@ public class PrelevaAuleServlet extends HttpServlet {
             aule = aulaDAO.retriveByEdificio(edificio);
         }
 
+        for (Aula a : aule) {
+            a.setEdificio(null);
+        }
+
         Gson gson = new Gson();
         try (PrintWriter pw = resp.getWriter()) {
             resp.setStatus(HttpServletResponse.SC_OK);
@@ -61,6 +65,8 @@ public class PrelevaAuleServlet extends HttpServlet {
     }
 
     private Edificio parseEdificio(String param, EdificioDAO edificioDAO) {
+        if (param == null || param.strip().equals(""))
+            return null;
         return edificioDAO.retriveByName(param);
     }
 
