@@ -16,16 +16,20 @@
 <%@ page import="model.pojo.TipoUtente" %>
 <%@ page import="model.database.DBAulaDAO" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%--<%@ include file="header.jsp" %>--%>
+
+
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <% Utente u = SessionManager.getUtente(request.getSession());%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
     <title>Index</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta name="keywords">
+    <meta name="description">
 
     <!-- Favicons -->
     <link href="${pageContext.request.contextPath}/Frontend/img/favicon.png" rel="icon">
@@ -46,9 +50,7 @@
     <link href="${pageContext.request.contextPath}/Frontend/css/style.css" rel="stylesheet">
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<%----%>
-<!--Hero Section - Sezione che identifica il nome dell'utente-->
+
 <div class="hero-container">
 
     <%
@@ -189,7 +191,7 @@
 <%
     }
     assert u != null;
-    if (u.getTipoUtente().toString().equals(TipoUtente.DOCENTE.toString()) && SessionManager.isAlradyAuthenticated(session)) {
+    if (u.getTipoUtente().toString().equals(TipoUtente.DOCENTE.toString())) {
 %>
 
 <div class="row">

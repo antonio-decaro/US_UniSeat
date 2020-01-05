@@ -95,8 +95,6 @@
         </div>
     </div>
 </section>
-
-<%@include file="footer.jsp"%>
 <!-- JavaScript Libraries -->
 <script src="${pageContext.request.contextPath}/Frontend/lib/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/Frontend/lib/jquery/jquery-migrate.min.js"></script>

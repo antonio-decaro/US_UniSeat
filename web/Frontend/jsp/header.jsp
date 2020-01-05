@@ -1,13 +1,7 @@
 <%@ page import="model.pojo.Utente" %>
 <%@ page import="control.utili.SessionManager" %>
-<%@ page import="model.pojo.TipoUtente" %><%--
-  Created by IntelliJ IDEA.
-  User: simon
-  Date: 04/01/2020
-  Time: 16:05
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="model.pojo.TipoUtente" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <% Utente u = SessionManager.getUtente(request.getSession());%>
 <html>
 <head>
@@ -91,16 +85,17 @@
 
         <%
             }
+            assert u != null;
             if (u.getTipoUtente().toString().equals(TipoUtente.STUDENTE.toString())) {
         %>
 
         <nav id="nav-menu-container">
             <ul class="nav-menu">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#services">Prenota</a></li>
-                <li><a href="prenotazioneStudente.html">La mia prenotazione</a></li>
-                <li><a href="settings.html">Impostazioni</a></li>
-                <li><a href="login.html">Logout</a></li>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="">Prenota</a></li>
+                <li><a href="">La mia prenotazione</a></li>
+                <li><a href="settings.jsp">Impostazioni</a></li>
+                <li><a href="login.jsp">Logout</a></li>
             </ul>
         </nav>
 

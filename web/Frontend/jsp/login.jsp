@@ -5,7 +5,7 @@
   Time: 20:48
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -32,7 +32,7 @@
     <!-- Main Stylesheet File -->
     <link href="${pageContext.request.contextPath}/Frontend/css/style.css" rel="stylesheet">
 </head>
-
+<body>
 <header id="header">
     <div class="container">
         <div id="logo" class="pull-left">
@@ -76,7 +76,6 @@
     </div>
 </section>
 
-<%@include file="footer.jsp"%>
 <!-- JavaScript Libraries -->
 <script src="${pageContext.request.contextPath}/Frontend/lib/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/Frontend/lib/jquery/jquery-migrate.min.js"></script>
