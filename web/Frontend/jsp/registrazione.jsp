@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Registrazione</title>
+    <title>UniSeat</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="keywords">
     <meta name="description">
@@ -26,7 +26,7 @@
     <link href="${pageContext.request.contextPath}/Frontend/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Libraries CSS Files -->
-    <link href="${pageContext.request.contextPath}/Frontend/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href=${pageContext.request.contextPath}\Frontend\lib\font-awesome\css\font-awesome.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/Frontend/lib/animate/animate.min.css" rel="stylesheet">
 
     <!-- Main Stylesheet File -->
@@ -111,5 +111,6 @@
 <script src="${pageContext.request.contextPath}/Frontend/contactform/contactform.js"></script>
 <!-- Template Main Javascript File -->
 <script src="${pageContext.request.contextPath}/Frontend/js/main.js"></script>
+
 </body>
 </html>
