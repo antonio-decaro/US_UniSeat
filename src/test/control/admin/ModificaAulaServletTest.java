@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -96,8 +97,8 @@ class ModificaAulaServletTest {
 
     @Test
     void TC_5_1() throws Exception {
-        when(req.getParameter("edificio")).thenReturn("");
-        when(req.getParameter("nome_aula")).thenReturn("P22");
+        when(req.getParameter("edificio")).thenReturn(null);
+        when(req.getParameter("nome_aula")).thenReturn("P3");
         when(req.getParameter("numero_posti")).thenReturn("150");
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
@@ -109,7 +110,7 @@ class ModificaAulaServletTest {
     @Test
     void TC_5_2() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
-        when(req.getParameter("nome_aula")).thenReturn("P22");
+        when(req.getParameter("nome_aula")).thenReturn("P3");
         when(req.getParameter("numero_posti")).thenReturn("70 posti circa");
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
@@ -121,7 +122,7 @@ class ModificaAulaServletTest {
     @Test
     void TC_5_3() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
-        when(req.getParameter("nome_aula")).thenReturn("P22");
+        when(req.getParameter("nome_aula")).thenReturn("P3");
         when(req.getParameter("numero_posti")).thenReturn("15");
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
@@ -133,7 +134,7 @@ class ModificaAulaServletTest {
     @Test
     void TC_5_4() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
-        when(req.getParameter("nome_aula")).thenReturn("P22");
+        when(req.getParameter("nome_aula")).thenReturn("P3");
         when(req.getParameter("numero_posti")).thenReturn("900");
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
@@ -144,8 +145,20 @@ class ModificaAulaServletTest {
 
     @Test
     void TC_5_5() throws Exception {
+        when(req.getParameter("edificio")).thenReturn("F4");
+        when(req.getParameter("nome_aula")).thenReturn("P3");
+        when(req.getParameter("numero_posti")).thenReturn("100");
+        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
+        servlet.doPost(req, res);
+        assertEquals("Edificio non trovato",
+                session.getAttribute("SessionManager.error"));
+    }
+
+    @Test
+    void TC_5_6() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
-        when(req.getParameter("nome_aula")).thenReturn("P22");
+        when(req.getParameter("nome_aula")).thenReturn("P3");
         when(req.getParameter("numero_posti")).thenReturn("150");
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("Ciambelle gratis!");
@@ -156,9 +169,9 @@ class ModificaAulaServletTest {
     }
 
     @Test
-    void TC_5_6() throws Exception {
+    void TC_5_7() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
-        when(req.getParameter("nome_aula")).thenReturn("P22");
+        when(req.getParameter("nome_aula")).thenReturn("P3");
         when(req.getParameter("numero_posti")).thenReturn("150");
         when(req.getParameter("disp_aula")).thenReturn(null);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
@@ -169,7 +182,7 @@ class ModificaAulaServletTest {
     }
 
     @Test
-    void TC_5_7() throws Exception {
+    void TC_5_8() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("");
         when(req.getParameter("numero_posti")).thenReturn("150");
@@ -182,7 +195,7 @@ class ModificaAulaServletTest {
     }
 
     @Test
-    void TC_5_8() throws Exception {
+    void TC_5_9() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("ppppppppppppppppppp11155555");
         when(req.getParameter("numero_posti")).thenReturn("150");
@@ -195,7 +208,7 @@ class ModificaAulaServletTest {
     }
 
     @Test
-    void TC_5_9() throws Exception {
+    void TC_5_10() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P22@12");
         when(req.getParameter("numero_posti")).thenReturn("150");
@@ -208,7 +221,7 @@ class ModificaAulaServletTest {
     }
 
     @Test
-    void TC_5_10() throws Exception {
+    void TC_5_11() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P45");
         when(req.getParameter("numero_posti")).thenReturn("150");
@@ -221,7 +234,7 @@ class ModificaAulaServletTest {
     }
 
     @Test
-    void TC_5_11() throws Exception {
+    void TC_5_12() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P4");
         when(req.getParameter("numero_posti")).thenReturn("160");
@@ -248,7 +261,7 @@ class ModificaAulaServletTest {
     }
 
     @Test
-    void TC_5_14() throws Exception {
+    void TC_5_13() throws Exception {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P4");
         when(req.getParameter("numero_posti")).thenReturn("150");

@@ -109,7 +109,7 @@ class InserisciAulaServletBlackBoxTest {
         servlet.doPost(req, res);
         assertEquals("Edificio non selezionato",
                 session.getAttribute("SessionManager.error"));
-        //assertNull(aulaDAO.retriveByName("P22"));
+        assertNull(aulaDAO.retriveByName("P22"));
     }
 
     @Test
@@ -236,14 +236,12 @@ class InserisciAulaServletBlackBoxTest {
 
     @Test
     void TC_5_11() throws Exception {
-        when(req.getParameter("edificio")).thenReturn("F2");
+        when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P33");
         when(req.getParameter("numero_posti")).thenReturn("100");
         when(req.getParameter("disp_aula")).thenReturn("11:00-16:00");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
-
         servlet.doPost(req, res);
-        System.out.println(aulaDAO.retriveAll());
         assertEquals("P33",aulaDAO.retriveByName("P33").getNome());
     }
 
