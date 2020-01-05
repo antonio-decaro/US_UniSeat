@@ -93,27 +93,35 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
             ArrayList<Servizio> servizi = new ArrayList<>();
 
-            if ( servizi_extra_computer != null && servizi_extra_computer.equals(Servizio.COMPUTER.toString())) {
+            if (servizi_extra_computer != null) {
 
-                servizi_extra = Servizio.COMPUTER;
-                servizi.add(servizi_extra);
+                if (servizi_extra_computer.equals(Servizio.COMPUTER.toString())) {
 
-            } else {
-                response.getWriter().print(400);
-                SessionManager.setError(session, "Servizi non validi");
-                return;
-            }
-            if (servizi_extra_prese != null && servizi_extra_prese.equals(Servizio.PRESE.toString())) {
+                    servizi_extra = Servizio.COMPUTER;
+                    servizi.add(servizi_extra);
 
-                servizi_extra = Servizio.PRESE;
-                servizi.add(servizi_extra);
+                } else {
 
-            } else {
-                response.getWriter().print(400);
-                SessionManager.setError(session, "Servizi non validi");
-                return;
+                    response.getWriter().print(400);
+                    SessionManager.setError(session, "Servizi non validi");
+                    return;
+                }
             }
 
+            if (servizi_extra_prese != null) {
+
+                if (servizi_extra_prese.equals(Servizio.PRESE.toString())) {
+
+                    servizi_extra = Servizio.PRESE;
+                    servizi.add(servizi_extra);
+
+                } else {
+
+                    response.getWriter().print(400);
+                    SessionManager.setError(session, "Servizi non validi");
+                    return;
+                }
+            }
 
             if (disponibilita == null) {
 
@@ -145,7 +153,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
 
             Aula nuova_aula = new Aula(nome,n_posti,disponibilita,ed);
             nuova_aula.setServizi(servizi);
-
+            System.out.println(nuova_aula);
             try {
                 aulaDAO.insert(nuova_aula);
             } catch (ViolazioneEntityException e) {
