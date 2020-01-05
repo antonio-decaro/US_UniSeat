@@ -54,7 +54,7 @@ public class ModificaAulaServlet extends HttpServlet {
         int n_posti = 0;
         String disponibilita = request.getParameter("disp_aula");
 
-        if (edificio == null || edificio.length() < 1) {
+        if (edificio == null) {
             response.getWriter().print(400);
             SessionManager.setError(session, "Edificio non selezionato");
             return;
@@ -90,25 +90,34 @@ public class ModificaAulaServlet extends HttpServlet {
 
             ArrayList<Servizio> servizi = new ArrayList<>();
 
-            if (servizi_extra_computer != null && servizi_extra_computer.equals(Servizio.COMPUTER.toString())) {
+            if (servizi_extra_computer != null) {
 
-                servizi_extra = Servizio.COMPUTER;
-                servizi.add(servizi_extra);
+                if (servizi_extra_computer.equals(Servizio.COMPUTER.toString())) {
 
-            } else {
-                response.getWriter().print(400);
-                SessionManager.setError(session, "Servizi non validi");
-                return;
+                    servizi_extra = Servizio.COMPUTER;
+                    servizi.add(servizi_extra);
+
+                } else {
+
+                    response.getWriter().print(400);
+                    SessionManager.setError(session, "Servizi non validi");
+                    return;
+                }
             }
-            if (servizi_extra_prese != null && servizi_extra_prese.equals(Servizio.PRESE.toString())) {
 
-                servizi_extra = Servizio.PRESE;
-                servizi.add(servizi_extra);
+            if (servizi_extra_prese != null) {
 
-            } else {
-                response.getWriter().print(400);
-                SessionManager.setError(session, "Servizi non validi");
-                return;
+                if (servizi_extra_prese.equals(Servizio.PRESE.toString())) {
+
+                    servizi_extra = Servizio.PRESE;
+                    servizi.add(servizi_extra);
+
+                } else {
+
+                    response.getWriter().print(400);
+                    SessionManager.setError(session, "Servizi non validi");
+                    return;
+                }
             }
 
 
@@ -116,15 +125,6 @@ public class ModificaAulaServlet extends HttpServlet {
 
                 response.getWriter().print(400);
                 SessionManager.setError(session, "Orari di disponibilità errati");
-                return;
-            }
-            AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
-            Aula b = aulaDAO.retriveByName(nome);
-            System.out.println(b);
-
-            if (b == null) {
-                response.getWriter().print(400);
-                SessionManager.setError(session, "Aula non esistente");
                 return;
             }
 
@@ -141,8 +141,19 @@ public class ModificaAulaServlet extends HttpServlet {
                 return;
             }
 
+            AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
+            Aula b = aulaDAO.retriveByName(nome);
+
+            if (b == null) {
+                response.getWriter().print(400);
+                SessionManager.setError(session, "Aula non esistente");
+                return;
+            }
+
+
             Aula nuova_aula = new Aula(nome, n_posti, disponibilita, ed);
             nuova_aula.setServizi(servizi);
+            nuova_aula.setId(b.getId());
 
             try {
                 aulaDAO.update(nuova_aula);
