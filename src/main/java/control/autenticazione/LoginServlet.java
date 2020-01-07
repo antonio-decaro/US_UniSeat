@@ -37,8 +37,9 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-        if (!session.isNew()){ // se già autenticato reindirizzo alla home
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/home");
+        Utente utente = SessionManager.getUtente(session);
+        if (utente != null){ // se già autenticato reindirizzo alla home
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/index.jsp");
             return;
         }
 
@@ -49,7 +50,7 @@ public class LoginServlet extends HttpServlet {
             password = parsePassword(req.getParameter("password"));
         } catch (IllegalArgumentException e) {
             SessionManager.setError(session, e.getMessage());
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/login.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/login.jsp");
             return;
         }
         // fine controllo validità campi
@@ -59,12 +60,14 @@ public class LoginServlet extends HttpServlet {
         Utente u = utenteDAO.retriveByEmail(email);
         if (u == null || !u.getPassword().equals(PassowrdEncrypter.criptaPassword(password))) {
             SessionManager.setError(session, "Credenziali non corrette");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/login.jsp");
+            System.out.println(u);
+            System.out.println(u.getPassword());
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/login.jsp");
             return;
         }
 
         SessionManager.autentica(session, u);
-        resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/index.jsp");
+        resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/index.jsp");
     }
 
     private String parsePassword(String param) {

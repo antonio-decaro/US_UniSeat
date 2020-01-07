@@ -74,7 +74,7 @@ public class SessionManager {
      * @since 0.1
      * */
     public static String getError(HttpSession sessione) {
-        return sessione.getAttribute(ERROR).toString();
+        return (String) sessione.getAttribute(ERROR);
     }
 
     /**

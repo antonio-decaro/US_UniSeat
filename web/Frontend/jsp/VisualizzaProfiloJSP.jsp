@@ -1,25 +1,17 @@
 <%--
   Created by IntelliJ IDEA.
-  User: simon
-  Date: 04/01/2020
-  Time: 20:48
+  User: User
+  Date: 07/01/2020
+  Time: 15:24
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="control.utili.SessionManager" %>
-<%
-    String errorMessage = null;
-    if (session != null) {
-        errorMessage = SessionManager.getError(session);
-        if (errorMessage != null) {
-            SessionManager.cleanError(session);
-        }
-    }
-%>
-<html>
+<%@ page contentType=
+                 "text/html;charset=UTF-8" pageEncoding="UTF-8" %><!DOCTYPE html>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Login</title>
+    <title>Profilo</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="keywords">
     <meta name="description">
@@ -42,47 +34,55 @@
     <!-- Main Stylesheet File -->
     <link href="${pageContext.request.contextPath}/Frontend/css/style.css" rel="stylesheet">
 </head>
+
 <body>
 <%@ include file="header.jsp" %>
+<!--==========================
+Header
+============================-->
+
 <section id="hero">
     <div class="hero-container">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                    <div class="card cap  img-fluid card-signin my-5">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Accedi</h5>
-                            <form class="form-signin" action="${pageContext.request.contextPath}/login">
-                                <% if (errorMessage != null) { %>
-                                <div class="alert alert-danger" role="alert">
-                                    <%=errorMessage%>
-                                </div>
-                                <%}%>
-                                <div class="form-label-group">
-                                    <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address"
-                                           required autofocus>
-                                    <label for="inputEmail">E-Mail</label>
-                                </div>
-                                <div class="form-label-group">
-                                    <input name="password" type="password" id="inputPassword" class="form-control"
-                                           placeholder="Password" required>
-                                    <label for="inputPassword">Password</label>
-                                </div>
-                                <div class="custom-control mb-3">
-                                    <a href="registrazione.jsp">Non hai un account?</a>
-                                </div>
-                                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
-                                    Accedi
-                                </button>
-                            </form>
+        <div class="container  wow fadeInUp">
+            <br>
+            <div id="contact">
+                <h3 class="section-title">Impostazioni</h3>
+                <div class="container wow fadeInUp mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form">
+                                <div id="exercitationrormessage"></div>
+                                <form action="" method="post" role="form" class="contactForm">
+                                    <div class="form-group">
+                                        <span class="input"><%=u.getNome()%></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="input"><%=u.getCognome()%></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="input"><%=u.getEmail()%>></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="input" type="password"><%=u.getPassword()%>></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="input" type="Password">Verifica Password</span>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
+
                     </div>
                 </div>
+                <div class="form form-group toggle"><button type="submit">Modifica</button></div>
             </div>
+
         </div>
     </div>
 </section>
+<%@ include file="contattaci.jsp" %>
 
+<%@ include file="footer.jsp" %>
 <!-- JavaScript Libraries -->
 <script src="${pageContext.request.contextPath}/Frontend/lib/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/Frontend/lib/jquery/jquery-migrate.min.js"></script>
@@ -97,5 +97,9 @@
 <script src="${pageContext.request.contextPath}/Frontend/contactform/contactform.js"></script>
 <!-- Template Main Javascript File -->
 <script src="${pageContext.request.contextPath}/Frontend/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/Frontend/js/edifici.js"></script>
+
 </body>
 </html>
+
+
