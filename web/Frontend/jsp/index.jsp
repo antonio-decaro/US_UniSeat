@@ -69,7 +69,9 @@
 
         <% } else { %>
 
-        <h1>Ciao, ${u.nome}</h1>
+        <h1>Ciao, <%=u.getNome()%></h1>
+
+        <%System.out.println(u.getNome());%>
 
         <% } %>
     </div>

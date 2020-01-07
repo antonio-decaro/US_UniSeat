@@ -60,8 +60,6 @@ public class LoginServlet extends HttpServlet {
         Utente u = utenteDAO.retriveByEmail(email);
         if (u == null || !u.getPassword().equals(PassowrdEncrypter.criptaPassword(password))) {
             SessionManager.setError(session, "Credenziali non corrette");
-            System.out.println(u);
-            System.out.println(u.getPassword());
             resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/login.jsp");
             return;
         }
