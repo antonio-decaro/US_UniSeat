@@ -21,7 +21,7 @@ public class DBConnection {
         dbConnection = new DBConnection();
         try {
             Context ctx = new InitialContext();
-            dbConnection.setDataSource((DataSource) ctx.lookup("jdbc/UniSeatDB"));
+            dbConnection.setDataSource((DataSource) ctx.lookup("java:comp/env/jdbc/UniSeatDB"));
         } catch (NamingException e) {
             logger.log(Level.SEVERE, "{0}", e.toString());
         }

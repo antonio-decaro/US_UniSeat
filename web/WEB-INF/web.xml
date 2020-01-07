@@ -13,6 +13,6 @@
 	<context-param>
 		<description>Indirizzo IP/Hostname del server</description>
 		<param-name>hostname</param-name>
-		<param-value>localhost/JamAmmo</param-value>
+		<param-value>localhost/UniSeat</param-value>
 	</context-param>
 </web-app>

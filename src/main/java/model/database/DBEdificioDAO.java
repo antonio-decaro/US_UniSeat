@@ -30,6 +30,7 @@ public class DBEdificioDAO implements EdificioDAO {
     public static EdificioDAO getInstance(){
         if (dao == null){
             dao = new DBEdificioDAO(DBConnection.getInstance().getConnection());
+            logger.log(Level.INFO, dao.connection.toString());
         }
         return dao;
     }
