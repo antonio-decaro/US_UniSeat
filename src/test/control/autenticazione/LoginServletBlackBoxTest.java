@@ -1,6 +1,7 @@
 package control.autenticazione;
 
 import control.utili.PassowrdEncrypter;
+import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.daostub.StubUtenteDAO;
 import model.pojo.TipoUtente;
@@ -70,8 +71,8 @@ class LoginServletBlackBoxTest {
         when(req.getParameter("password")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo email non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
-        assertNull(session.getAttribute("SessionManager.user"));
+                SessionManager.getError(session));
+        assertNull(SessionManager.getUtente(session));
     }
 
     @Test
@@ -80,8 +81,8 @@ class LoginServletBlackBoxTest {
         when(req.getParameter("password")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo email non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
-        assertNull(session.getAttribute("SessionManager.user"));
+                SessionManager.getError(session));
+        assertNull(SessionManager.getUtente(session));
     }
 
     @Test
@@ -90,8 +91,8 @@ class LoginServletBlackBoxTest {
         when(req.getParameter("password")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo E-mail non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
-        assertNull(session.getAttribute("SessionManager.user"));
+                SessionManager.getError(session));
+        assertNull(SessionManager.getUtente(session));
     }
 
     @Test
@@ -100,8 +101,8 @@ class LoginServletBlackBoxTest {
         when(req.getParameter("password")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Credenziali non corrette",
-                session.getAttribute("SessionManager.error"));
-        assertNull(session.getAttribute("SessionManager.user"));
+                SessionManager.getError(session));
+        assertNull(SessionManager.getUtente(session));
     }
 
     @Test
@@ -110,8 +111,8 @@ class LoginServletBlackBoxTest {
         when(req.getParameter("password")).thenReturn("MarioRo");
         servlet.doPost(req, res);
         assertEquals("Il campo Password non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
-        assertNull(session.getAttribute("SessionManager.user"));
+                SessionManager.getError(session));
+        assertNull(SessionManager.getUtente(session));
     }
 
     @Test
@@ -120,8 +121,8 @@ class LoginServletBlackBoxTest {
         when(req.getParameter("password")).thenReturn("Abcdefghilmnopqrstuvwxyz1234567890");
         servlet.doPost(req, res);
         assertEquals("Il campo Password non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
-        assertNull(session.getAttribute("SessionManager.user"));
+                SessionManager.getError(session));
+        assertNull(SessionManager.getUtente(session));
     }
 
     @Test
@@ -130,8 +131,8 @@ class LoginServletBlackBoxTest {
         when(req.getParameter("password")).thenReturn("MarioRossi");
         servlet.doPost(req, res);
         assertEquals("Il campo Password non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
-        assertNull(session.getAttribute("SessionManager.user"));
+                SessionManager.getError(session));
+        assertNull(SessionManager.getUtente(session));
     }
 
     @Test
@@ -140,8 +141,8 @@ class LoginServletBlackBoxTest {
         when(req.getParameter("password")).thenReturn("MarioRossi42");
         servlet.doPost(req, res);
         assertEquals("Credenziali non corrette",
-                session.getAttribute("SessionManager.error"));
-        assertNull(session.getAttribute("SessionManager.user"));
+                SessionManager.getError(session));
+        assertNull(SessionManager.getUtente(session));
     }
 
     @Test
@@ -152,8 +153,8 @@ class LoginServletBlackBoxTest {
         when(req.getParameter("email")).thenReturn("m.rossi12@studenti.unisa.it");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
-        assertNotNull(session.getAttribute("SessionManager.user"));
-        assertEquals(session.getAttribute("SessionManager.user"),
+        assertNotNull(SessionManager.getUtente(session));
+        assertEquals(SessionManager.getUtente(session),
                 utenteDAO.retriveByEmail("m.rossi12@studenti.unisa.it"));
     }
 }

@@ -14,6 +14,9 @@
         if (errorMessage != null) {
             SessionManager.cleanError(session);
         }
+        if (SessionManager.isAlradyAuthenticated(session)) {
+            response.sendRedirect(request.getContextPath() + "/Frontend/jsp/index.jsp");
+        }
     }
 %>
 <html>
@@ -43,7 +46,6 @@
     <link href="${pageContext.request.contextPath}/Frontend/css/style.css" rel="stylesheet">
 </head>
 <body>
-<%@ include file="header.jsp" %>
 <section id="hero">
     <div class="hero-container">
         <div class="container">
@@ -52,12 +54,12 @@
                     <div class="card cap  img-fluid card-signin my-5">
                         <div class="card-body">
                             <h5 class="card-title text-center">Accedi</h5>
-                            <form class="form-signin" action="${pageContext.request.contextPath}/login">
+                            <form class="form-signin" action="${pageContext.request.contextPath}/login" method="post">
                                 <% if (errorMessage != null) { %>
                                 <div class="alert alert-danger" role="alert">
                                     <%=errorMessage%>
                                 </div>
-                                <%}%>
+                                <% } %>
                                 <div class="form-label-group">
                                     <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address"
                                            required autofocus>

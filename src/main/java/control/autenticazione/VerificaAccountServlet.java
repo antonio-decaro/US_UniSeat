@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/verificaAccount")
+@WebServlet("/verifica")
 public class VerificaAccountServlet extends HttpServlet {
 
     @Override
@@ -28,7 +28,7 @@ public class VerificaAccountServlet extends HttpServlet {
         HttpSession session = req.getSession();
         Utente utente = SessionManager.getUtente(session);
         if (utente == null || utente.getCodiceVerifica() == 0) {
-            resp.sendRedirect(req.getContextPath() + "/comuni/index.jsp");
+            resp.sendRedirect(req.getContextPath() + "/Frontend/jsp/index.jsp");
             return;
         }
 
@@ -50,7 +50,7 @@ public class VerificaAccountServlet extends HttpServlet {
         }
 
         session.invalidate();
-        resp.sendRedirect(req.getContextPath() + "/comuni/login.jsp");
+        resp.sendRedirect(req.getContextPath() + "/Frontend/jsp/login.jsp");
     }
 
     @Override

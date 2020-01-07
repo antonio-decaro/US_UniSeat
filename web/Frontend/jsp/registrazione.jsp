@@ -1,4 +1,4 @@
-<%--
+<%@ page import="control.utili.SessionManager" %><%--
   Created by IntelliJ IDEA.
   User: simon
   Date: 04/01/2020
@@ -6,6 +6,23 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%
+    String errorMessage = null;
+    String message = null;
+    if (session != null) {
+        errorMessage = SessionManager.getError(session);
+        message = SessionManager.getMessage(session);
+        if (errorMessage != null) {
+            SessionManager.cleanError(session);
+        }
+        if (message != null) {
+            SessionManager.cleanMessage(session);
+        }
+        if (SessionManager.isAlradyAuthenticated(session)) {
+            response.sendRedirect(request.getContextPath() + "/Frontend/jsp/index.jsp");
+        }
+    }
+%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -51,31 +68,40 @@
                     <div class="card card-signin my-5">
                         <div class="card-body">
                             <h5 class="card-title text-center">Registrati</h5>
-                            <form class="form-signin">
+                            <form class="form-signin" action="${pageContext.request.contextPath}/signin" method="post">
+                                <% if (errorMessage != null) { %>
+                                <div class="alert alert-danger" role="alert">
+                                    <%=errorMessage%>
+                                </div>
+                                <% } if (message != null) { %>
+                                <div class="alert alert-success" role="alert">
+                                    <%=message%>
+                                </div>
+                                <%}%>
                                 <div class="form-label-group">
-                                    <input type="text" id="inputName" class="form-control" placeholder="Name" required
+                                    <input name="nome" type="text" id="inputName" class="form-control" placeholder="Nome" required
                                            autofocus>
                                     <label for="inputName">Nome</label>
                                 </div>
                                 <div class="form-label-group">
-                                    <input type="text" id="inputSurname" class="form-control" placeholder="Surname"
+                                    <input name="cognome" type="text" id="inputSurname" class="form-control" placeholder="Cognome"
                                            required autofocus>
                                     <label for="inputSurname">Cognome</label>
                                 </div>
                                 <div class="form-label-group">
-                                    <input type="text" id="inputMatricola" class="form-control"
-                                           placeholder="Matricola" required autofocus>
-                                    <label for="inputMatricola">Matricola</label>
+                                    <input name = "email" type="email" id="inputEmail" class="form-control"
+                                           placeholder="E-Mail" required autofocus>
+                                    <label for="inputEmail">Email</label>
                                 </div>
 
                                 <div class="form-label-group">
-                                    <input type="password" id="inputPassword" class="form-control"
+                                    <input name="password" type="password" id="inputPassword" class="form-control"
                                            placeholder="Password" required>
                                     <label for="inputPassword">Password</label>
                                 </div>
 
                                 <div class="form-label-group">
-                                    <input type="password" id="verificaPassword" class="form-control"
+                                    <input name="confPassword" type="password" id="verificaPassword" class="form-control"
                                            placeholder="verifica Password" required>
                                     <label for="verificaPassword">Verifica password</label>
                                 </div>
@@ -84,8 +110,8 @@
                                     <a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp">Sei già
                                         registrato?</a>
                                 </div>
-                                <button class="btn btn-lg btn-primary btn-block text-uppercase center-block"
-                                        type="submit">Registrati
+                                <button class="btn btn-lg btn-primary btn-block text-uppercase center-block" type="submit">
+                                    Registrati
                                 </button>
                             </form>
                         </div>

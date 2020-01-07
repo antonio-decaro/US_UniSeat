@@ -64,6 +64,12 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
+        if (u.getCodiceVerifica() != 0) {
+            SessionManager.setError(session, "Devi confermare l'email prima di poter accedere");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/login.jsp");
+            return;
+        }
+
         SessionManager.autentica(session, u);
         resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/index.jsp");
     }
