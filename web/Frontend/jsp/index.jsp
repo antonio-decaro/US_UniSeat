@@ -88,7 +88,7 @@
         <div class="row counters">
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
                 <div class="box">
-                    <div class="icon"><i class="fa fa-desktop"></i></div>
+                    <div class="icon"><i class="fa fa-building"></i></div>
                     <h4 class="title">Edificio F</h4>
                     <div class="counters">200 posti disponibili</div> <!-- da capire come aggiornare i dati-->
                     <br>
@@ -99,7 +99,7 @@
         </div>
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
             <div class="box">
-                <div class="icon"><i class="fa fa-bar-chart"></i></div>
+                <div class="icon"><i class="fa fa-building"></i></div>
                 <h4 class="title">Edificio F2</h4>
                 <div class="counters">450 posti disponibili</div>
                 <div>
@@ -111,7 +111,7 @@
         </div>
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
             <div class="box">
-                <div class="icon"><i class="fa fa-paper-plane"></i></div>
+                <div class="icon"><i class="fa fa-building"></i></div>
                 <h4 class="title">Edificio F3</h4>
                 <div class="counters">800 posti disponibili</div>
                 <div>
