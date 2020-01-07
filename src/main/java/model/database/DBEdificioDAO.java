@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.jar.JarOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,17 +46,21 @@ public class DBEdificioDAO implements EdificioDAO {
     public Edificio retriveByName(String nome) {
         final String QUERY = "SELECT * FROM edificio WHERE nome = ?";
 
+        if (nome == null || nome.equals(""))
+            throw new IllegalArgumentException("Nome non valido.");
+
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);
             stm.setString(1, nome);
             stm.execute();
 
             ResultSet rs = stm.getResultSet();
-            if (!rs.next())
+            if (!rs.next()) {
                 return null;
+            }
             return getEdificioFromResultSet(rs);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "{0}", e);
+            logger.log(Level.SEVERE, e.getMessage());
             return null;
         }
     }
@@ -76,7 +81,7 @@ public class DBEdificioDAO implements EdificioDAO {
             return ret;
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "{0}", e);
+            logger.log(Level.SEVERE, e.getMessage());
             return null;
         }
     }

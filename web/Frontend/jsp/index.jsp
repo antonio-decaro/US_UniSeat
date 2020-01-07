@@ -5,13 +5,36 @@
   Time: 12:10
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType=
-                 "text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="model.database.DBEdificioDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="model.pojo.*" %>
+<%@ page contentType= "text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%
+    List<Edificio> edifici = DBEdificioDAO.getInstance().retriveAll();
+    HashMap<Edificio, Integer> postiDisponibili = new HashMap<>();
+    int nAule = 0;
+    int nPosti = 0;
+    int nComputers = 0;
+    for (Edificio e : edifici) {
+        int val = 0;
+        for (Aula a : e.getAule()) {
+            nAule += 1;
+            nPosti += a.getPosti();
+            if (a.getServizi().contains(Servizio.COMPUTER)) {
+                nComputers += a.getPosti();
+            }
+            val += a.getPosti() - a.getPostiOccupati();
+        }
+        postiDisponibili.put(e, val);
+    }
+%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Index</title>
+    <title>UniSeat - Home</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="keywords">
     <meta name="description">
@@ -59,19 +82,19 @@
         <br>
         <div class="row counters">
             <div class="col-lg-3 col-6 text-center">
-                <span data-toggle="counter-up">3</span>
+                <span data-toggle="counter-up"><%=edifici.size()%></span>
                 <p>Edifici</p>
             </div>
             <div class="col-lg-3 col-6 text-center">
-                <span data-toggle="counter-up">65</span>
+                <span data-toggle="counter-up"><%=nAule%></span>
                 <p>Aule</p>
             </div>
             <div class="col-lg-3 col-6 text-center">
-                <span data-toggle="counter-up">1,463</span>
+                <span data-toggle="counter-up"><%=nPosti%></span>
                 <p>Posti</p>
             </div>
             <div class="col-lg-3 col-6 text-center">
-                <span data-toggle="counter-up">456</span>
+                <span data-toggle="counter-up"><%=nComputers%></span>
                 <p>Computer</p>
             </div>
         </div>
@@ -83,41 +106,26 @@
             <h3 class="section-title">Scegli dove studiare</h3>
             <p class="section-description">Prenotare posti non è mai stato così semplice con UniSeat!</p>
         </div>
-
-        <div class="row counters">
+        <div class="row counters" id="edifici">
+            <% for (Edificio e : edifici) { %>
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
                 <div class="box">
                     <div class="icon"><i class="fa fa-building"></i></div>
-                    <h4 class="title">Edificio F</h4>
-                    <div class="counters">200 posti disponibili</div>
+                    <h4 class="title"><%=e.getNome()%></h4>
+                    <%if (u != null && !u.getTipoUtente().equals(TipoUtente.STUDENTE)) { %>
+                    <div class="counters"><%=e.getAule().size()%> aule</div>
+                    <% } else { %>
+                    <div class="counters"><%=postiDisponibili.get(e)%> posti disponibili</div>
+                    <% } %>
                     <div>
                         <br>
-                        <button type="button" class="btn btn-primary"><a href="aule.html">Prenota</a></button>
+                        <button type="button" class="btn btn-primary">
+                            <a href="${pageContext.request.contextPath}/Frontend/jsp/aule.jsp?edificio=<%=e.getNome()%>">Seleziona</a>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="box">
-                    <div class="icon"><i class="fa fa-building"></i></div>
-                    <h4 class="title">Edificio F2</h4>
-                    <div class="counters">450 posti disponibili</div>
-                    <div>
-                        <br>
-                        <button type="button" class="btn btn-primary"><a href="aule.html">Prenota</a></button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-                <div class="box">
-                    <div class="icon"><i class="fa fa-building"></i></div>
-                    <h4 class="title">Edificio F3</h4>
-                    <div class="counters">800 posti disponibili</div>
-                    <div>
-                        <br>
-                        <button type="button" class="btn btn-primary"><a href="aule.html">Prenota</a></button>
-                    </div>
-                </div>
-            </div>
+            <% } %>
         </div>
     </div>
 </section>
