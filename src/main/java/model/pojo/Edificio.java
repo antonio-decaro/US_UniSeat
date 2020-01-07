@@ -1,5 +1,6 @@
 package model.pojo;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -70,4 +71,5 @@ public class Edificio {
                 ", aule=" + aule +
                 '}';
     }
+
 }
