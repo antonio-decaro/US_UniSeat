@@ -46,6 +46,20 @@
     <h1>Benvenuto</h1>
     <a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp" class="btn-get-started">Accedi</a>
 
+    <% } else if (u.getTipoUtente().equals(TipoUtente.ADMIN)) { %>
+
+    <h1>Ciao, <%u.getNome()%></h1>
+
+    <% } else if (u.getTipoUtente().equals(TipoUtente.STUDENTE)) { %>
+
+    <h1>Ciao, <%u.getNome()%></h1>
+    <a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp#services" class="btn-get-started">Prenota</a>
+
+    <% } else if (u.getTipoUtente().equals(TipoUtente.DOCENTE)) { %>
+
+    <h1>Ciao, <%u.getNome()%> </h1>
+    <a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp#services" class="btn-get-started">Prenota</a>
+
     <% } %>
 </div>
 
@@ -75,6 +89,9 @@
         </div>
     </div>
 </section>
+
+<% if (u == null) {%>
+
 <section id="services">
     <div class="container wow fadeIn">
         <div class="section-header">
@@ -82,12 +99,10 @@
             <p class="section-description">Prenotare posti non è mai stato così semplice con UniSeat.</p>
         </div>
 
-        <% if (u == null) {%>
-
         <div class="row counters">
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="col-lg-4 col-md-4 col-6 wow fadeInUp" data-wow-delay="0.2s">
                 <div class="box">
-                    <div class="icon"><i class="fa fa-desktop"></i></div>
+                    <div class="icon"><i class="fa fa-building"></i></div>
                     <h4 class="title">Edificio F</h4>
                     <div class="counters">200 posti disponibili</div> <!-- da capire come aggiornare i dati-->
                     <br>
@@ -96,9 +111,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+        <div class="col-lg-4 col-md-4 col-6 wow fadeInUp" data-wow-delay="0.3s">
             <div class="box">
-                <div class="icon"><i class="fa fa-bar-chart"></i></div>
+                <div class="icon"><i class="fa fa-building"></i></div>
                 <h4 class="title">Edificio F2</h4>
                 <div class="counters">450 posti disponibili</div>
                 <div>
@@ -108,9 +123,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+        <div class="col-lg-4 col-md-4 col-6 wow fadeInUp" data-wow-delay="0.4s">
             <div class="box">
-                <div class="icon"><i class="fa fa-paper-plane"></i></div>
+                <div class="icon"><i class="fa fa-building"></i></div>
                 <h4 class="title">Edificio F3</h4>
                 <div class="counters">800 posti disponibili</div>
                 <div>
@@ -128,7 +143,7 @@
     <div class="row">
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
             <div class="box">
-                <div class="icon"><i class="fa fa-desktop"></i></div>
+                <div class="icon"><i class="fa fa-building"></i></div>
                 <h4 class="title">Edificio F</h4>
                 <div>
                     <br>
@@ -142,7 +157,7 @@
         </div>
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
             <div class="box">
-                <div class="icon"><i class="fa fa-bar-chart"></i></div>
+                <div class="icon"><i class="fa fa-building"></i></div>
                 <h4 class="title">Edificio F2</h4>
                 <div>
                     <br>
@@ -156,7 +171,7 @@
         </div>
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
             <div class="box">
-                <div class="icon"><i class="fa fa-paper-plane"></i></div>
+                <div class="icon"><i class="fa fa-building"></i></div>
                 <h4 class="title">Edificio F3</h4>
                 <div>
                     <br>
@@ -219,7 +234,7 @@
     <div class="row counters">
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
             <div class="box">
-                <div class="icon"><i class="fa fa-desktop"></i></div>
+                <div class="icon"><i class="fa fa-building"></i></div>
                 <h4 class="title">Edificio F</h4>
                 <div class="counters">200 posti disponibili</div>
                 <br>
@@ -231,7 +246,7 @@
     </div>
     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
         <div class="box">
-            <div class="icon"><i class="fa fa-bar-chart"></i></div>
+            <div class="icon"><i class="fa fa-building"></i></div>
             <h4 class="title">Edificio F2</h4>
             <div class="counters">450 posti disponibili</div>
             <div>
@@ -244,7 +259,7 @@
     </div>
     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
         <div class="box">
-            <div class="icon"><i class="fa fa-paper-plane"></i></div>
+            <div class="icon"><i class="fa fa-building"></i></div>
             <h4 class="title">Edificio F3</h4>
             <div class="counters">800 posti disponibili</div>
             <div>
