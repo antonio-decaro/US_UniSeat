@@ -44,7 +44,7 @@ public class EmailManager {
 
         String subject = "Conferma Email";
         String body = "Link di attivazione account: "
-                + "<a href=\"http://" + hostname + "/verify?email=" + email + "&code=" + code
+                + "<a href=\"http://" + hostname + "/verifica?email=" + email + "&code=" + code
                 + "\">Activation Code</a>";
         send(subject, body, email);
     }
@@ -99,9 +99,11 @@ public class EmailManager {
             message.setSubject(subject);
             message.setText(body,"UTF-8", "html");
 
+            logger.log(Level.INFO, "Trying to send an email to " + to);
+
             Transport.send(message);
 
-            System.out.println("Done");
+            logger.log(Level.INFO, "Email sent");
 
         } catch (MessagingException e) {
             logger.log(Level.SEVERE, "Message: {0}\nCause: {1}", new Object[]{e.getMessage(), e.getCause()});

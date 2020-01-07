@@ -44,7 +44,7 @@ public class RegistrazioneServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         if (SessionManager.isAlradyAuthenticated(session)) {
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/index.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/index.jsp");
             return;
         }
 
@@ -58,7 +58,7 @@ public class RegistrazioneServlet extends HttpServlet {
             password = parsePassword(req.getParameter("password"), req.getParameter("confPassword"));
         } catch(IllegalArgumentException e) {
             SessionManager.setError(session, e.getMessage());
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/studente/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/registrazione.jsp");
             return;
         }
         // fine controllo validità campi
@@ -67,16 +67,17 @@ public class RegistrazioneServlet extends HttpServlet {
 
         Utente utente = new Utente(email, nome, cognome, PassowrdEncrypter.criptaPassword(password), TipoUtente.STUDENTE);
         Random rand = new Random();
-        utente.setCodiceVerifica(rand.nextLong());
+        utente.setCodiceVerifica(rand.nextInt());
 
         try {
             utenteDAO.insert(utente);
             EmailManager emailManager = (EmailManager) req.getServletContext().getAttribute(EMAIL_PARAM);
-            emailManager.inviaEmailConferma(utente);
+            new Thread(()->emailManager.inviaEmailConferma(utente)).start();
+            SessionManager.setMessage(session, "E-Mail di conferma inviata al tuo indirizzo di posta");
         } catch (ViolazioneEntityException e) {
             SessionManager.setError(session, e.getMessage());
         }
-        resp.sendRedirect(req.getServletContext().getContextPath() + "/studente/registrazione.jsp");
+        resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/registrazione.jsp");
     }
 
     private String parsePassword(String password, String confPassword) {

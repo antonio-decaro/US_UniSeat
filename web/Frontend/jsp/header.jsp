@@ -15,6 +15,7 @@
             <ul class="nav-menu">
                 <li><a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp">Home</a></li>
                 <li><a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp">Login</a></li>
+                <li><a href="${pageContext.request.contextPath}/Frontend/jsp/registrazione.jsp">Registrazione</a></li>
             </ul>
         </nav>
 

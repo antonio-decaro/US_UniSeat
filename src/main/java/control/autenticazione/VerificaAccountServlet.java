@@ -26,25 +26,29 @@ public class VerificaAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-        Utente utente = SessionManager.getUtente(session);
-        if (utente == null || utente.getCodiceVerifica() == 0) {
+        String email = req.getParameter("email");
+        String code = req.getParameter("code");
+        if (email == null || SessionManager.isAlradyAuthenticated(session)) {
             resp.sendRedirect(req.getContextPath() + "/Frontend/jsp/index.jsp");
             return;
         }
 
-        String email = req.getParameter("email");
-        String code = req.getParameter("code");
+        UtenteDAO utenteDAO = (UtenteDAO) req.getServletContext().getAttribute(UTENTE_DAO);
+        Utente utente = utenteDAO.retriveByEmail(email);
+        if (utente == null) {
+            resp.sendRedirect(req.getContextPath() + "/Frontend/jsp/index.jsp");
+            return;
+        }
 
-        if (email == null || code == null) {
+        if (code == null) {
             EmailManager emailManager = new EmailManager(req.getServletContext().getInitParameter("hostname"));
-            emailManager.inviaEmailConferma(utente);
+            new Thread(() -> emailManager.inviaEmailConferma(utente)).start();
         }
 
         else {
-            long verification = utente.getCodiceVerifica();
-            if (Long.parseLong(code) == verification) {
+            int verification = utente.getCodiceVerifica();
+            if (Integer.parseInt(code) == verification) {
                 utente.setCodiceVerifica(0);
-                UtenteDAO utenteDAO = (UtenteDAO) req.getServletContext().getAttribute(UTENTE_DAO);
                 utenteDAO.update(utente);
             }
         }

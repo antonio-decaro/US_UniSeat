@@ -109,7 +109,7 @@ public class SessionManager {
      * @since 0.1
      * */
     public static String getMessage(HttpSession sessione) {
-        return sessione.getAttribute(MESSAGE).toString();
+        return (String) sessione.getAttribute(MESSAGE);
     }
 
     /**

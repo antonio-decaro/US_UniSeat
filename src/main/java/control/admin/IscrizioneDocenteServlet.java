@@ -99,7 +99,7 @@ public class IscrizioneDocenteServlet extends HttpServlet {
 
         Random rand = new Random();
         Utente utente = new Utente(email, nome, cognome, PassowrdEncrypter.criptaPassword(password), TipoUtente.DOCENTE);
-        utente.setCodiceVerifica(rand.nextLong());
+        utente.setCodiceVerifica(rand.nextInt());
 
         try {
             utenteDAO.insert(utente);

@@ -68,11 +68,7 @@
         <a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp" class="btn-get-started">Accedi</a>
 
         <% } else { %>
-
         <h1>Ciao, <%=u.getNome()%></h1>
-
-        <%System.out.println(u.getNome());%>
-
         <% } %>
     </div>
 </section>
