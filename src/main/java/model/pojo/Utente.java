@@ -17,7 +17,7 @@ public class Utente {
     private String cognome;
     private String password;
     private TipoUtente utente;
-    private long codiceVerifica;
+    private int codiceVerifica;
 
     public Utente() {
     }
@@ -70,11 +70,11 @@ public class Utente {
         this.utente = utente;
     }
 
-    public long getCodiceVerifica() {
+    public int getCodiceVerifica() {
         return codiceVerifica;
     }
 
-    public void setCodiceVerifica(long codiceVerifica) {
+    public void setCodiceVerifica(int codiceVerifica) {
         this.codiceVerifica = codiceVerifica;
     }
 
