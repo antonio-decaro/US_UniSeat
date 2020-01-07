@@ -83,8 +83,6 @@
             <p class="section-description">Prenotare posti non è mai stato così semplice con UniSeat.</p>
         </div>
 
-        <% if (u == null) {%>
-
         <div class="row counters">
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
                 <div class="box">
@@ -121,9 +119,7 @@
                 </div>
             </div>
         </div>
-        <% } %>
     </div>
-
 
 </section>
 <%@ include file="contattaci.jsp" %>
