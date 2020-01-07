@@ -54,11 +54,11 @@
         <% } if (u != null && u.getTipoUtente().toString().equals(TipoUtente.STUDENTE.toString())) { %>
         <nav id="nav-menu-container">
             <ul class="nav-menu">
-                <li><a href="index.jsp">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp">Home</a></li>
                 <li><a href="">Prenota</a></li>
-                <li><a href="prenotazione.jsp">La mia prenotazione</a></li>
-                <li><a href="settings.jsp">Impostazioni</a></li>
-                <li><a href="login.jsp">Logout</a></li>
+                <li><a href="">La mia prenotazione</a></li>
+                <li><a href="">Impostazioni</a></li>
+                <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
             </ul>
         </nav>
         <% } %>
