@@ -50,14 +50,8 @@ class DBAulaDAOTest {
     @Test
     void retriveById_NOK() {
         int id = -1;
-        String msg = null;
-        Aula aula = null;
-        try {
-            aula = aulaDAO.retriveById(id);
-        } catch (IllegalArgumentException e) {
-            msg = e.getMessage();
-            assertEquals("L'id " + id + " non è valido.", msg);
-        }
+        String expectedMessage = "L'id " + id + " non è valido.";
+        assertThrows(IllegalArgumentException.class, () -> aulaDAO.retriveById(id), expectedMessage);
     }
 
     @Test
@@ -79,14 +73,8 @@ class DBAulaDAOTest {
     @Test
     void retriveByName_NOK() {
         String name = "";
-        String msg = null;
-        Aula aula = null;
-        try {
-            aula = aulaDAO.retriveByName(name);
-        } catch (IllegalArgumentException e) {
-            msg = e.getMessage();
-            assertEquals("Nome non valido.", msg);
-        }
+        String expectedMessage = "Nome non valido.";
+        assertThrows(IllegalArgumentException.class, () -> aulaDAO.retriveByName(name), expectedMessage);
     }
 
     @Test
@@ -108,12 +96,9 @@ class DBAulaDAOTest {
     @Test
     void update_NOK() {
         Aula aula = aulaDAO.retriveById(10000);
-        try {
-            aulaDAO.update(aula);
-        } catch (ViolazioneEntityException e) {
-            String msg = e.getMessage();
-            assertEquals("Aula non esistente!", msg);
-        }
+
+        String expectedMessage = "Aula non esistente!";
+        assertThrows(ViolazioneEntityException.class, () -> aulaDAO.update(aula), expectedMessage);
     }
 
     @Test
@@ -131,12 +116,9 @@ class DBAulaDAOTest {
         Edificio edificio = aulaDAO.retriveById(21).getEdificio();
         Aula p4 = new Aula(1, "P4", 0, 100, "", edificio);
         p4.setServizi(new ArrayList<>());
-        try {
-            aulaDAO.insert(p4);
-        } catch (ViolazioneEntityException e) {
-            String msg = e.getMessage();
-            assertEquals("Aula già esistente!", msg);
-        }
+
+        String expectedMessage = "Aula già esistente!";
+        assertThrows(ViolazioneEntityException.class, () -> aulaDAO.insert(p4), expectedMessage);
     }
 
 //    @Test
@@ -148,7 +130,7 @@ class DBAulaDAOTest {
 //        aulaDAO.insert(p3);
 //        assertEquals(p3, aulaDAO.retriveById(id));
 //    }
-//
+
 //    @Test
 //    void insert_OK2() {
 //        int id = 31;
@@ -172,12 +154,10 @@ class DBAulaDAOTest {
     void retriveByEdificio_NULL() {
         String msg;
         Edificio edificio = new Edificio("F42");
-        try {
-            Set<Aula> aule = aulaDAO.retriveByEdificio(edificio);
-        } catch (ViolazioneEntityException e) {
-            msg = e.getMessage();
-            assertEquals("Non esiste l'edificio " + edificio + " nel database", msg);
-        }
+
+        String expectedMessage = "Non esiste l'edificio " + edificio + " nel database";
+        assertThrows(ViolazioneEntityException.class, () -> aulaDAO.retriveByEdificio(edificio), expectedMessage);
+
     }
 
     @Test
