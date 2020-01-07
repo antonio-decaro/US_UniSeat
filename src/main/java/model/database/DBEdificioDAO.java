@@ -117,8 +117,10 @@ public class DBEdificioDAO implements EdificioDAO {
         a.setDisponibilita(rs.getString("disponibilita"));
         a.setPostiOccupati(rs.getInt("n_posti_occupati"));
         ArrayList<Servizio> servizi = new ArrayList<>();
-        for (String s : rs.getString("servizi").split(";"))
-            servizi.add(Servizio.valueOf(s));
+        if (!rs.getString("servizi").equals("")) {
+            for (String s : rs.getString("servizi").split(";"))
+                servizi.add(Servizio.valueOf(s));
+        }
         a.setServizi(servizi);
         return a;
     }
