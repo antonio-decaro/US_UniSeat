@@ -155,7 +155,7 @@ public class DBUtenteDAO implements UtenteDAO {
         ret.setCognome(rs.getString("cognome"));
         ret.setNome(rs.getString("nome"));
         ret.setPassword(rs.getString("password"));
-        ret.setTipoUtente(TipoUtente.valueOf(rs.getString("utente")));
+        ret.setTipoUtente(TipoUtente.valueOf(rs.getString("tipo")));
         ret.setCodiceVerifica(rs.getLong("codice_verifica"));
         return ret;
     }
