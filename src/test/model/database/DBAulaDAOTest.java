@@ -2,12 +2,18 @@ package model.database;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import model.dao.AulaDAO;
+import model.dao.ViolazioneEntityException;
 import model.pojo.Aula;
+import model.pojo.Edificio;
+import model.pojo.Servizio;
 import org.junit.jupiter.api.*;
 
 import javax.sql.DataSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.ArrayList;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class DBAulaDAOTest {
 
@@ -16,7 +22,7 @@ class DBAulaDAOTest {
     private AulaDAO aulaDAO;
 
     @BeforeAll
-    static void init() throws Exception{
+    static void init() throws Exception {
         dbConnection = DBConnection.getInstance();
         MysqlDataSource mysqlDS = new MysqlDataSource();
         mysqlDS.setURL("jdbc:mysql://localhost:3306/UniSeatDB");
@@ -42,27 +48,143 @@ class DBAulaDAOTest {
     }
 
     @Test
-    void retriveById() {
-        Aula aula = aulaDAO.retriveById(1);
+    void retriveById_NOK() {
+        int id = -1;
+        String msg = null;
+        Aula aula = null;
+        try {
+            aula = aulaDAO.retriveById(id);
+        } catch (IllegalArgumentException e) {
+            msg = e.getMessage();
+            assertEquals("L'id " + id + " non è valido.", msg);
+        }
+    }
+
+    @Test
+    void retriveById_NULL() {
+        int id = 800;
+        Aula aula = aulaDAO.retriveById(id);
+        assertNull(aula);
+    }
+
+    @Test
+    void retriveById_OK() {
+        int id = 1;
+        Aula aula = aulaDAO.retriveById(id);
         System.out.println(aula);
+        assertEquals(id, aula.getId());
         assertEquals(50, aula.getPosti());
     }
 
     @Test
-    void update() {
-
+    void retriveByName_NOK() {
+        String name = "";
+        String msg = null;
+        Aula aula = null;
+        try {
+            aula = aulaDAO.retriveByName(name);
+        } catch (IllegalArgumentException e) {
+            msg = e.getMessage();
+            assertEquals("Nome non valido.", msg);
+        }
     }
 
     @Test
-    void insert() {
-
+    void retriveByName_NULL() {
+        String name = "FFFF";
+        Aula aula = aulaDAO.retriveByName(name);
+        assertNull(aula);
     }
 
     @Test
-    void retriveAll() {
+    void retriveByName_OK() {
+        String name = "E1";
+        Aula aula = aulaDAO.retriveByName(name);
+        System.out.println(aula);
+        assertEquals(name, aula.getNome());
+        assertEquals(50, aula.getPosti());
     }
 
     @Test
-    void retriveByEdificio() {
+    void update_NOK() {
+        Aula aula = aulaDAO.retriveById(10000);
+        try {
+            aulaDAO.update(aula);
+        } catch (ViolazioneEntityException e) {
+            String msg = e.getMessage();
+            assertEquals("Aula non esistente!", msg);
+        }
+    }
+
+    @Test
+    void update_OK() {
+        Aula aula = aulaDAO.retriveById(1);
+        aula.setPosti(80);
+        aula.setPostiOccupati(40);
+        aulaDAO.update(aula);
+        assertEquals(80, aula.getPosti());
+        assertEquals(40, aula.getPostiOccupati());
+    }
+
+    @Test
+    void insert_NOK() {
+        Edificio edificio = aulaDAO.retriveById(21).getEdificio();
+        Aula p4 = new Aula(1, "P4", 0, 100, "", edificio);
+        p4.setServizi(new ArrayList<>());
+        try {
+            aulaDAO.insert(p4);
+        } catch (ViolazioneEntityException e) {
+            String msg = e.getMessage();
+            assertEquals("Aula già esistente!", msg);
+        }
+    }
+
+//    @Test
+//    void insert_OK() {
+//        int id = 31;
+//        Edificio edificio = aulaDAO.retriveById(21).getEdificio();
+//        Aula p3 = new Aula(id,"P3", 0, 100, "", edificio);
+//        p3.setServizi(new ArrayList<>());
+//        aulaDAO.insert(p3);
+//        assertEquals(p3, aulaDAO.retriveById(id));
+//    }
+//
+//    @Test
+//    void insert_OK2() {
+//        int id = 31;
+//        ArrayList<Servizio> s = null;
+//        Edificio edificio = aulaDAO.retriveById(21).getEdificio();
+//        Aula p3 = new Aula(id,"P3", 0, 100, "", edificio);
+//        s.add(Servizio.PRESE);
+//        p3.setServizi(s);
+//        aulaDAO.insert(p3);
+//        assertEquals(p3, aulaDAO.retriveById(id));
+//    }
+
+    @Test
+    void retriveAll_OK() {
+        Set<Aula> aule = aulaDAO.retriveAll();
+        System.out.println(aule);
+        assertEquals(aule, aulaDAO.retriveAll());
+    }
+
+    @Test
+    void retriveByEdificio_NULL() {
+        String msg;
+        Edificio edificio = new Edificio("F42");
+        try {
+            Set<Aula> aule = aulaDAO.retriveByEdificio(edificio);
+        } catch (ViolazioneEntityException e) {
+            msg = e.getMessage();
+            assertEquals("Non esiste l'edificio " + edificio + " nel database", msg);
+        }
+    }
+
+    @Test
+    void retriveByEdificio_OK() {
+        Edificio edificio = new Edificio("F3");
+        Set<Aula> aule = aulaDAO.retriveByEdificio(edificio);
+        System.out.println(aule);
+        assertEquals(aule, aulaDAO.retriveByEdificio(edificio));
     }
 }

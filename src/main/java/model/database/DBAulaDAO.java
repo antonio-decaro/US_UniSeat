@@ -16,10 +16,11 @@ import java.util.logging.Logger;
 
 /**
  * Questa classe implementa l'interfaccia AulaDAO, utilizzando come gestore della persistenza il DataBase
+ *
  * @author De Caro Antonio, De Santis Marco
  * @version 0.1
  * @see AulaDAO
- * */
+ */
 public class DBAulaDAO implements AulaDAO {
 
     private static Logger logger = Logger.getLogger(DBAulaDAO.class.getName());
@@ -30,9 +31,9 @@ public class DBAulaDAO implements AulaDAO {
      *
      * @return l'oggetto DBAulaDAO che accede agli oggetti Aula persistenti
      * @since 0.1
-     * */
-    public static AulaDAO getInstance(){
-        if (dao == null){
+     */
+    public static AulaDAO getInstance() {
+        if (dao == null) {
             dao = new DBAulaDAO(DBConnection.getInstance().getConnection());
         }
         return dao;
@@ -70,7 +71,7 @@ public class DBAulaDAO implements AulaDAO {
     public Aula retriveByName(String name) {
         final String QUERY = "SELECT * FROM aula WHERE nome = ?";
 
-        if (name == null)
+        if (name == null || name.equals(""))
             throw new IllegalArgumentException(String.format("Nome non valido."));
 
         try {
@@ -90,25 +91,25 @@ public class DBAulaDAO implements AulaDAO {
 
     @Override
     public void update(Aula aula) throws ViolazioneEntityException {
-        final String QUERY="UPDATE aula SET id = ?, nome = ?, edificio = ?,n_posti = ?,n_posti_occupati = ?,servizi = ?,disponibilita = ? WHERE id = ?";
-        if(DBEdificioDAO.getInstance().retriveByName(aula.getNome()) == null)
+        final String QUERY = "UPDATE aula SET id = ?, nome = ?, edificio = ?,n_posti = ?,n_posti_occupati = ?,servizi = ?,disponibilita = ? WHERE id = ?";
+        if (aula == null)
             throw new ViolazioneEntityException("Aula non esistente!");
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);
 
-            stm.setInt(1,aula.getId());
-            stm.setString(2,aula.getNome());
-            stm.setString(3,aula.getEdificio().getNome());
-            stm.setInt(4,aula.getPosti());
-            stm.setInt(5,aula.getPostiOccupati());
+            stm.setInt(1, aula.getId());
+            stm.setString(2, aula.getNome());
+            stm.setString(3, aula.getEdificio().getNome());
+            stm.setInt(4, aula.getPosti());
+            stm.setInt(5, aula.getPostiOccupati());
             StringBuilder servizi_db = new StringBuilder();
-            for (Servizio s : aula.getServizi()){
+            for (Servizio s : aula.getServizi()) {
                 servizi_db.append(s.name());
                 servizi_db.append(";");
             }
-            stm.setString(6,servizi_db.toString());
-            stm.setString(7,aula.getDisponibilita());
-            stm.setInt(8,aula.getId());
+            stm.setString(6, servizi_db.toString());
+            stm.setString(7, aula.getDisponibilita());
+            stm.setInt(8, aula.getId());
             stm.executeUpdate();
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "{0}", e);
@@ -130,12 +131,15 @@ public class DBAulaDAO implements AulaDAO {
             stm.setInt(4, aula.getPosti());
             stm.setInt(5, aula.getPostiOccupati());
             StringBuilder servizi_db = new StringBuilder();
-            for (Servizio s : aula.getServizi()){
-                servizi_db.append(s.name());
-                servizi_db.append(";");
-            }
-            stm.setString(6,servizi_db.toString());
-            stm.setString(7,aula.getDisponibilita());
+            if (!aula.getServizi().isEmpty()) {
+                for (Servizio s : aula.getServizi()) {
+                    servizi_db.append(s.name());
+                    servizi_db.append(";");
+                }
+                stm.setString(6, servizi_db.toString());
+            } else stm.setString(6,null);
+
+            stm.setString(7, aula.getDisponibilita());
             stm.executeUpdate();
 
 
@@ -159,7 +163,7 @@ public class DBAulaDAO implements AulaDAO {
             stm.execute();
 
             ResultSet rs = stm.getResultSet();
-            while(rs.next()){
+            while (rs.next()) {
                 ret.add(getAulaFromResultSet(rs));
             }
             return ret;
@@ -171,11 +175,11 @@ public class DBAulaDAO implements AulaDAO {
     }
 
     @Override
-    public Set<Aula> retriveByEdificio(Edificio edificio) throws ViolazioneEntityException{
+    public Set<Aula> retriveByEdificio(Edificio edificio) throws ViolazioneEntityException {
         final String QUERY = "SELECT * FROM aula WHERE edificio = ?";
 
-        if(DBEdificioDAO.getInstance().retriveByName(edificio.getNome()) == null)
-            throw new ViolazioneEntityException(String.format("Non esiste l'edificio %s nel database",edificio.toString()));
+        if (DBEdificioDAO.getInstance().retriveByName(edificio.getNome()) == null)
+            throw new ViolazioneEntityException(String.format("Non esiste l'edificio %s nel database", edificio.toString()));
 
         Set<Aula> ret = new HashSet<>();
         try {
@@ -184,7 +188,7 @@ public class DBAulaDAO implements AulaDAO {
             stm.execute();
 
             ResultSet rs = stm.getResultSet();
-            while(rs.next()){
+            while (rs.next()) {
                 ret.add(getAulaFromResultSet(rs));
             }
             return ret;
@@ -205,8 +209,10 @@ public class DBAulaDAO implements AulaDAO {
         a.setDisponibilita(rs.getString("disponibilita"));
         a.setPostiOccupati(rs.getInt("n_posti_occupati"));
         ArrayList<Servizio> servizi = new ArrayList<>();
-        for (String s : rs.getString("servizi").split(";"))
-            servizi.add(Servizio.valueOf(s));
+        if (!rs.getString("servizi").equals("")) {
+            for (String s : rs.getString("servizi").split(";"))
+                servizi.add(Servizio.valueOf(s));
+        }
         a.setServizi(servizi);
         return a;
     }
