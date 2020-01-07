@@ -80,7 +80,7 @@
     <div class="container wow fadeIn">
         <div class="section-header">
             <h3 class="section-title">Scegli dove studiare</h3>
-            <p class="section-description">Prenotare posti non è mai stato così semplice con UniSeat.</p>
+            <p class="section-description">Prenotare posti non è mai stato così semplice con UniSeat!</p>
         </div>
 
         <div class="row counters">
@@ -88,39 +88,37 @@
                 <div class="box">
                     <div class="icon"><i class="fa fa-building"></i></div>
                     <h4 class="title">Edificio F</h4>
-                    <div class="counters">200 posti disponibili</div> <!-- da capire come aggiornare i dati-->
-                    <br>
-                    <button type="button" class="btn btn-primary"><a
-                            href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp">Accedi</a></button>
+                    <div class="counters">200 posti disponibili</div>
+                    <div>
+                        <br>
+                        <button type="button" class="btn btn-primary"><a href="aule.html">Prenota</a></button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="box">
-                <div class="icon"><i class="fa fa-building"></i></div>
-                <h4 class="title">Edificio F2</h4>
-                <div class="counters">450 posti disponibili</div>
-                <div>
-                    <br>
-                    <button type="button" class="btn btn-primary"><a
-                            href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp">Accedi</a></button>
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="box">
+                    <div class="icon"><i class="fa fa-building"></i></div>
+                    <h4 class="title">Edificio F2</h4>
+                    <div class="counters">450 posti disponibili</div>
+                    <div>
+                        <br>
+                        <button type="button" class="btn btn-primary"><a href="aule.html">Prenota</a></button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-            <div class="box">
-                <div class="icon"><i class="fa fa-building"></i></div>
-                <h4 class="title">Edificio F3</h4>
-                <div class="counters">800 posti disponibili</div>
-                <div>
-                    <br>
-                    <button type="button" class="btn btn-primary"><a
-                            href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp">Accedi</a></button>
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+                <div class="box">
+                    <div class="icon"><i class="fa fa-building"></i></div>
+                    <h4 class="title">Edificio F3</h4>
+                    <div class="counters">800 posti disponibili</div>
+                    <div>
+                        <br>
+                        <button type="button" class="btn btn-primary"><a href="aule.html">Prenota</a></button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
 <%@ include file="contattaci.jsp" %>
 
