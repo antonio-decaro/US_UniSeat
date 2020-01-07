@@ -1,14 +1,9 @@
 package control.comuni;
 
 import com.google.gson.Gson;
-import control.utili.SessionManager;
-import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
-import model.daostub.StubAulaDAO;
 import model.daostub.StubEdificioDAO;
 import model.pojo.Edificio;
-import model.pojo.TipoUtente;
-import model.pojo.Utente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -27,7 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 class PrelevaEdificiServletTest {
@@ -39,7 +35,7 @@ class PrelevaEdificiServletTest {
     @Mock private HttpSession session;
     private EdificioDAO edificioDAO = new StubEdificioDAO();
     private HashMap<String, Object> attributes = new HashMap<>();
-    private PrelevaEdificiServlet servlet = new PrelevaEdificiServlet();
+    private control.comuni.PrelevaEdificiServlet servlet = new control.comuni.PrelevaEdificiServlet();
     private StringWriter stringWriter;
 
     @BeforeEach
@@ -49,7 +45,7 @@ class PrelevaEdificiServletTest {
         when(req.getSession()).thenReturn(session);
         when(resp.getWriter()).thenReturn(new PrintWriter(stringWriter));
         when(req.getServletContext()).thenReturn(ctx);
-        when(ctx.getAttribute(PrelevaEdificiServlet.EDIFICI_DAO_PARAM)).thenReturn(edificioDAO);
+        when(ctx.getAttribute(control.comuni.PrelevaEdificiServlet.EDIFICI_DAO_PARAM)).thenReturn(edificioDAO);
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
             String key = (String) invocation.getArguments()[0];

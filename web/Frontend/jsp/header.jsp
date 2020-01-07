@@ -1,44 +1,15 @@
-<%@ page import="model.pojo.Utente" %>
 <%@ page import="control.utili.SessionManager" %>
 <%@ page import="model.pojo.TipoUtente" %>
+<%@ page import="model.pojo.Utente" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <% Utente u = SessionManager.getUtente(request.getSession());%>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Header</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta name="keywords">
-    <meta name="description">
-
-    <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/Frontend/img/favicon.png" rel="icon">
-    <link href="${pageContext.request.contextPath}/Frontend/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700"
-          rel="stylesheet">
-
-    <!-- Bootstrap CSS File -->
-    <link href="${pageContext.request.contextPath}/Frontend/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Libraries CSS Files -->
-    <link href="${pageContext.request.contextPath}/Frontend/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/Frontend/lib/animate/animate.min.css" rel="stylesheet">
-
-    <!-- Main Stylesheet File -->
-    <link href="${pageContext.request.contextPath}/Frontend/css/style.css" rel="stylesheet">
-</head>
-<body>
 <header id="header">
     <div class="container">
         <div id="logo" class="pull-left">
             <h1><a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp">Uni Seat</a></h1>
         </div>
 
-        <%
-            if (u == null) {
-        %>
+        <% if (u == null) {%>
         <nav id="nav-menu-container">
             <ul class="nav-menu">
                 <li><a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp">Home</a></li>
@@ -46,9 +17,7 @@
             </ul>
         </nav>
 
-        <%
-        } else if (u.getTipoUtente().toString().equals(TipoUtente.DOCENTE.toString())) {
-        %>
+        <% } else if (u.getTipoUtente().toString().equals(TipoUtente.DOCENTE.toString())) { %>
 
         <nav id="nav-menu-container">
             <ul class="nav-menu">
@@ -60,9 +29,7 @@
             </ul>
         </nav>
 
-        <%
-        } else if (u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) {
-        %>
+        <% } else if (u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { %>
 
         <nav id="nav-menu-container">
             <ul class="nav-menu">
@@ -83,11 +50,7 @@
             </ul>
         </nav>
 
-        <%
-            }
-            assert u != null;
-            if (u.getTipoUtente().toString().equals(TipoUtente.STUDENTE.toString())) {
-        %>
+        <% } if (u != null && u.getTipoUtente().toString().equals(TipoUtente.STUDENTE.toString())) { %>
 
         <nav id="nav-menu-container">
             <ul class="nav-menu">
@@ -99,9 +62,7 @@
             </ul>
         </nav>
 
-        <%
-            }
-        %>
+        <% } %>
 
     </div>
 </header>
@@ -119,5 +80,3 @@
 <script src="${pageContext.request.contextPath}/Frontend/contactform/contactform.js"></script>
 <!-- Template Main Javascript File -->
 <script src="${pageContext.request.contextPath}/Frontend/js/main.js"></script>
-</body>
-</html>
