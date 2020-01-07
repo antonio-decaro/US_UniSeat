@@ -18,18 +18,6 @@
             </ul>
         </nav>
 
-        <% } else if (u.getTipoUtente().toString().equals(TipoUtente.DOCENTE.toString())) { %>
-
-        <nav id="nav-menu-container">
-            <ul class="nav-menu">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#services">Prenota</a></li>
-                <li><a href="prenotazioniDocente.html">Le mie prenotazioni</a></li>
-                <li><a href="settings.html">Impostazioni</a></li>
-                <li><a href="login.html">Logout</a></li>
-            </ul>
-        </nav>
-
         <% } else if (u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { %>
 
         <nav id="nav-menu-container">
@@ -47,11 +35,11 @@
                         <li><a href="#services">Visualizza edifici</a></li>
                     </ul>
                 <li><a href="settings.html">Impostazioni</a></li>
-                <li><a href="login.html">Logout</a></li>
+                <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
             </ul>
         </nav>
 
-        <% } if (u != null && u.getTipoUtente().toString().equals(TipoUtente.STUDENTE.toString())) { %>
+        <% } else { %>
         <nav id="nav-menu-container">
             <ul class="nav-menu">
                 <li><a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp">Home</a></li>

@@ -54,7 +54,7 @@
     <div class="container">
 
         <div id="logo" class="pull-left">
-            <h1><a href="${pageContext.request.contextPath}/Frontend/jsp/registrazione.jsp">Uni Seat</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp">Uni Seat</a></h1>
         </div>
         <nav id="nav-menu-container">
         </nav>
@@ -107,8 +107,7 @@
                                 </div>
 
                                 <div class="custom-control mb-3">
-                                    <a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp">Sei già
-                                        registrato?</a>
+                                    <a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp">Sei già registrato?</a>
                                 </div>
                                 <button class="btn btn-lg btn-primary btn-block text-uppercase center-block" type="submit">
                                     Registrati

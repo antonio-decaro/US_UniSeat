@@ -46,6 +46,16 @@
     <link href="${pageContext.request.contextPath}/Frontend/css/style.css" rel="stylesheet">
 </head>
 <body>
+<header id="header">
+    <div class="container">
+
+        <div id="logo" class="pull-left">
+            <h1><a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp">Uni Seat</a></h1>
+        </div>
+        <nav id="nav-menu-container">
+        </nav>
+    </div>
+</header>
 <section id="hero">
     <div class="hero-container">
         <div class="container">
@@ -71,7 +81,7 @@
                                     <label for="inputPassword">Password</label>
                                 </div>
                                 <div class="custom-control mb-3">
-                                    <a href="registrazione.jsp">Non hai un account?</a>
+                                    <a href="${pageContext.request.contextPath}/Frontend/jsp/registrazione.jsp">Non hai un account?</a>
                                 </div>
                                 <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
                                     Accedi

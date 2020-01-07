@@ -1136,6 +1136,10 @@ button:focus {
   background-color: #3b5998;
 }
 
+.custom-control a:hover {
+  color: #1d2124;
+}
+
 /* Fallback for Edge
 -------------------------------------------------- */
 
