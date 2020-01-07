@@ -1,8 +1,9 @@
+
 <%@ page import="control.utili.SessionManager" %>
 <%@ page import="model.pojo.TipoUtente" %>
 <%@ page import="model.pojo.Utente" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<% Utente u = SessionManager.getUtente(request.getSession());%>
+<% Utente u = SessionManager.getUtente(session); %>
 <header id="header">
     <div class="container">
         <div id="logo" class="pull-left">
@@ -51,7 +52,6 @@
         </nav>
 
         <% } if (u != null && u.getTipoUtente().toString().equals(TipoUtente.STUDENTE.toString())) { %>
-
         <nav id="nav-menu-container">
             <ul class="nav-menu">
                 <li><a href="index.jsp">Home</a></li>
@@ -61,9 +61,7 @@
                 <li><a href="login.jsp">Logout</a></li>
             </ul>
         </nav>
-
         <% } %>
-
     </div>
 </header>
 <!-- JavaScript Libraries -->

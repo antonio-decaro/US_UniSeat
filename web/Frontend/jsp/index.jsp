@@ -5,11 +5,7 @@
   Time: 12:10
   To change this template use File | Settings | File Templates.
 --%>
-
-<%@ include file="header.jsp" %>
-
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<%! Utente u;%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,17 +34,22 @@
     <link href="${pageContext.request.contextPath}/Frontend/css/style.css" rel="stylesheet">
 </head>
 <body>
+<%@ include file="header.jsp" %>
+<section id="hero">
+    <div class="hero-container">
 
-<div class="hero-container">
+        <% if (u == null) { %>
 
-    <% if (u == null) { %>
+        <h1>Benvenuto</h1>
+        <a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp" class="btn-get-started">Accedi</a>
 
-    <h1>Benvenuto</h1>
-    <a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp" class="btn-get-started">Accedi</a>
+        <% } else { %>
 
-    <% } %>
-</div>
+        <h1>Ciao, ${u.nome}</h1>
 
+        <% } %>
+    </div>
+</section>
 <section id="facts">
     <div class="container wow fadeIn">
         <div class="section-header">
@@ -120,142 +121,10 @@
                 </div>
             </div>
         </div>
+        <% } %>
     </div>
 
-    <%} else if (u.getTipoUtente().equals(TipoUtente.ADMIN)) { %>
 
-    <br>
-    <div class="row">
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-            <div class="box">
-                <div class="icon"><i class="fa fa-desktop"></i></div>
-                <h4 class="title">Edificio F</h4>
-                <div>
-                    <br>
-                    <button type="button" class="btn btn-primary"><a
-                            href="${pageContext.request.contextPath}java/control/comuni/PrelevaAuleServlet.java">Visualizza
-                        aule</a>
-                    </button>
-                </div>
-                <input id="toggle-one" checked type="checkbox">Disponibile
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="box">
-                <div class="icon"><i class="fa fa-bar-chart"></i></div>
-                <h4 class="title">Edificio F2</h4>
-                <div>
-                    <br>
-                    <button type="button" class="btn btn-primary"><a
-                            href="${pageContext.request.contextPath}java/control/comuni/PrelevaAuleServlet.java">Visualizza
-                        aule</a>
-                    </button>
-                </div>
-                <input id="toggle-one1" checked type="checkbox">Disponibile
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-            <div class="box">
-                <div class="icon"><i class="fa fa-paper-plane"></i></div>
-                <h4 class="title">Edificio F3</h4>
-                <div>
-                    <br>
-                    <button type="button" class="btn btn-primary"><a
-                            href="${pageContext.request.contextPath}java/control/comuni/PrelevaAuleServlet.java">Visualizza
-                        aule</a>
-                    </button>
-                </div>
-                <input id="toggle-one2" checked type="checkbox">Disponibile
-            </div>
-        </div>
-    </div>
-
-    <% } else if (u.getTipoUtente().equals(TipoUtente.DOCENTE)) { %>
-
-    <div class="row">
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-            <div class="box">
-                <div class="icon"><i class="fa fa-building"></i></div>
-                <h4 class="title">Edificio F</h4>
-                <div class="counters">15 aule disponibili</div>
-                <div>
-                    <br>
-                    <button type="button" class="btn btn-primary"><a
-                            href="${pageContext.request.contextPath}java/control/comuni/PrelevaAuleServlet.java">Prenota</a>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="box">
-                <div class="icon"><i class="fa fa-building"></i></div>
-                <h4 class="title">Edificio F2</h4>
-                <div class="counters">15 aule disponibili</div>
-                <div>
-                    <br>
-                    <button type="button" class="btn btn-primary"><a
-                            href="${pageContext.request.contextPath}java/control/comuni/PrelevaAuleServlet.java">Prenota</a>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-            <div class="box">
-                <div class="icon"><i class="fa fa-building"></i></div>
-                <h4 class="title">Edificio F3</h4>
-                <div class="counters">0 aule disponibili</div>
-                <div>
-                    <br>
-                    <button type="button" class="btn btn-primary"><a
-                            href="${pageContext.request.contextPath}java/control/comuni/PrelevaAuleServlet.java">Prenota</a>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <% } else if (u.getTipoUtente().toString().equals(TipoUtente.STUDENTE.toString())) { %>
-
-    <div class="row counters">
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-            <div class="box">
-                <div class="icon"><i class="fa fa-desktop"></i></div>
-                <h4 class="title">Edificio F</h4>
-                <div class="counters">200 posti disponibili</div>
-                <br>
-                <button type="button" class="btn btn-primary"><a
-                        href="${pageContext.request.contextPath}java/control/comuni/PrelevaAuleServlet.java">prenota</a>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-        <div class="box">
-            <div class="icon"><i class="fa fa-bar-chart"></i></div>
-            <h4 class="title">Edificio F2</h4>
-            <div class="counters">450 posti disponibili</div>
-            <div>
-                <br>
-                <button type="button" class="btn btn-primary"><a
-                        href="${pageContext.request.contextPath}java/control/comuni/PrelevaAuleServlet.java">Prenota</a>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-        <div class="box">
-            <div class="icon"><i class="fa fa-paper-plane"></i></div>
-            <h4 class="title">Edificio F3</h4>
-            <div class="counters">800 posti disponibili</div>
-            <div>
-                <br>
-                <button type="button" class="btn btn-primary"><a
-                        href="${pageContext.request.contextPath}java/control/comuni/PrelevaAuleServlet.java">Prenota</a>
-                </button>
-            </div>
-        </div>
-    </div>
-    <% } %>
 </section>
 <%@ include file="contattaci.jsp" %>
 
