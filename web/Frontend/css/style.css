@@ -1004,8 +1004,8 @@ body.mobile-nav-active #mobile-nav-toggle {
   transition: all 0.3s ease 0s;
 }
 
-.btn-primary:hover {
-  color: #1778bc;
+.btn-primary:hover  {
+  color: white !important;
   background: #1778bc;
   border: 2px solid rgba(58, 133, 191, 0.75);
 }

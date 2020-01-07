@@ -1,22 +1,41 @@
-<%@ page import="javax.resource.spi.AdministeredObject" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: simon
   Date: 03/01/2020
   Time: 12:10
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="model.database.DBEdificioDAO" %>
+<%@ page import="model.pojo.Edificio" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.pojo.Aula" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page contentType= "text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%
+    List<Edificio> edifici = DBEdificioDAO.getInstance().retriveAll();
+    HashMap<Edificio, Integer> postiDisponibili = new HashMap<>();
+    for (Edificio e : edifici) {
+        int val = 0;
+        for (Aula a : e.getAule()) {
+            val += a.getPosti();
+            val -= a.getPostiOccupati();
+        }
+        postiDisponibili.put(e, val);
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Index</title>
+    <title>UniSeat - Home</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="keywords">
     <meta name="description">
 
     <!-- Favicons -->
     <link href="${pageContext.request.contextPath}/Frontend/img/favicon.png" rel="icon">
-<%--    <link href="${pageContext.request.contextPath}/Frontend/img/apple-touch-icon.png" rel="apple-touch-icon">--%>
+    <link href="${pageContext.request.contextPath}/Frontend/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700"
@@ -42,14 +61,9 @@
         <h1>Benvenuto</h1>
         <a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp" class="btn-get-started">Accedi</a>
 
-        <% } else if (u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { %>
-
-        <h1>Ciao, ${u.nome}</h1>
-
         <% } else { %>
 
         <h1>Ciao, ${u.nome}</h1>
-        <a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp#services" class="btn-get-started">Prenota</a>
 
         <% } %>
     </div>
@@ -86,41 +100,26 @@
             <h3 class="section-title">Scegli dove studiare</h3>
             <p class="section-description">Prenotare posti non è mai stato così semplice con UniSeat!</p>
         </div>
-
-        <div class="row counters">
+        <div class="row counters" id="edifici">
+            <% for (Edificio e : edifici) { %>
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
                 <div class="box">
                     <div class="icon"><i class="fa fa-building"></i></div>
-                    <h4 class="title">Edificio F</h4>
-                    <div class="counters">200 posti disponibili</div>
+                    <h4 class="title"><%=e.getNome()%></h4>
+                    <%if (u != null && !u.getTipoUtente().equals(TipoUtente.STUDENTE)) { %>
+                    <div class="counters"><%=e.getAule().size()%> aule</div>
+                    <% } else { %>
+                    <div class="counters"><%=postiDisponibili.get(e)%> posti disponibili</div>
+                    <% } %>
                     <div>
                         <br>
-                        <button type="button" class="btn btn-primary"><a href="aule.html">Prenota</a></button>
+                        <button type="button" class="btn btn-primary">
+                            <a href="${pageContext.request.contextPath}/Frontend/jsp/aule.jsp?edificio=<%=e.getNome()%>">Seleziona</a>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="box">
-                    <div class="icon"><i class="fa fa-building"></i></div>
-                    <h4 class="title">Edificio F2</h4>
-                    <div class="counters">450 posti disponibili</div>
-                    <div>
-                        <br>
-                        <button type="button" class="btn btn-primary"><a href="aule.html">Prenota</a></button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-                <div class="box">
-                    <div class="icon"><i class="fa fa-building"></i></div>
-                    <h4 class="title">Edificio F3</h4>
-                    <div class="counters">800 posti disponibili</div>
-                    <div>
-                        <br>
-                        <button type="button" class="btn btn-primary"><a href="aule.html">Prenota</a></button>
-                    </div>
-                </div>
-            </div>
+            <% } %>
         </div>
     </div>
 </section>
@@ -141,6 +140,7 @@
 <script src="${pageContext.request.contextPath}/Frontend/contactform/contactform.js"></script>
 <!-- Template Main Javascript File -->
 <script src="${pageContext.request.contextPath}/Frontend/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/Frontend/js/edifici.js"></script>
 
 </body>
 </html>
