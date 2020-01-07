@@ -1,13 +1,11 @@
-<%--
+<%@ page import="javax.resource.spi.AdministeredObject" %><%--
   Created by IntelliJ IDEA.
   User: simon
   Date: 03/01/2020
   Time: 12:10
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType=
-                 "text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +16,7 @@
 
     <!-- Favicons -->
     <link href="${pageContext.request.contextPath}/Frontend/img/favicon.png" rel="icon">
-    <link href="${pageContext.request.contextPath}/Frontend/img/apple-touch-icon.png" rel="apple-touch-icon">
+<%--    <link href="${pageContext.request.contextPath}/Frontend/img/apple-touch-icon.png" rel="apple-touch-icon">--%>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700"
@@ -44,9 +42,14 @@
         <h1>Benvenuto</h1>
         <a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp" class="btn-get-started">Accedi</a>
 
+        <% } else if (u.getTipoUtente().toString().equals(TipoUtente.ADMIN.toString())) { %>
+
+        <h1>Ciao, ${u.nome}</h1>
+
         <% } else { %>
 
         <h1>Ciao, ${u.nome}</h1>
+        <a href="${pageContext.request.contextPath}/Frontend/jsp/index.jsp#services" class="btn-get-started">Prenota</a>
 
         <% } %>
     </div>
@@ -138,7 +141,6 @@
 <script src="${pageContext.request.contextPath}/Frontend/contactform/contactform.js"></script>
 <!-- Template Main Javascript File -->
 <script src="${pageContext.request.contextPath}/Frontend/js/main.js"></script>
-<script src="${pageContext.request.contextPath}/Frontend/js/edifici.js"></script>
 
 </body>
 </html>
