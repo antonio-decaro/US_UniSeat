@@ -50,7 +50,7 @@
 
         <% } else { %>
 
-        <h1>Ciao, ${u.nome}</h1>
+        <h1>Ciao, <%=u.getNome()%></h1>
 
         <% } %>
     </div>

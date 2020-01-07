@@ -123,7 +123,7 @@ public class SessionManager {
         sessione.removeAttribute(MESSAGE);
     }
 
-    private static final String USER = "SessionManager.user";
-    private static final String ERROR = "SessionManager.error";
-    private static final String MESSAGE = "SessionManager.message";
+    private static final String USER = "user";
+    private static final String ERROR = "error";
+    private static final String MESSAGE = "message";
 }
