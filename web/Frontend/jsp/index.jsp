@@ -6,20 +6,26 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="model.database.DBEdificioDAO" %>
-<%@ page import="model.pojo.Edificio" %>
 <%@ page import="java.util.List" %>
-<%@ page import="model.pojo.Aula" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="model.pojo.*" %>
 <%@ page contentType= "text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
     List<Edificio> edifici = DBEdificioDAO.getInstance().retriveAll();
     HashMap<Edificio, Integer> postiDisponibili = new HashMap<>();
+    int nAule = 0;
+    int nPosti = 0;
+    int nComputers = 0;
     for (Edificio e : edifici) {
         int val = 0;
         for (Aula a : e.getAule()) {
-            val += a.getPosti();
-            val -= a.getPostiOccupati();
+            nAule += 1;
+            nPosti += a.getPosti();
+            if (a.getServizi().contains(Servizio.COMPUTER)) {
+                nComputers += a.getPosti();
+            }
+            val += a.getPosti() - a.getPostiOccupati();
         }
         postiDisponibili.put(e, val);
     }
@@ -76,19 +82,19 @@
         <br>
         <div class="row counters">
             <div class="col-lg-3 col-6 text-center">
-                <span data-toggle="counter-up">3</span>
+                <span data-toggle="counter-up"><%=edifici.size()%></span>
                 <p>Edifici</p>
             </div>
             <div class="col-lg-3 col-6 text-center">
-                <span data-toggle="counter-up">65</span>
+                <span data-toggle="counter-up"><%=nAule%></span>
                 <p>Aule</p>
             </div>
             <div class="col-lg-3 col-6 text-center">
-                <span data-toggle="counter-up">1,463</span>
+                <span data-toggle="counter-up"><%=nPosti%></span>
                 <p>Posti</p>
             </div>
             <div class="col-lg-3 col-6 text-center">
-                <span data-toggle="counter-up">456</span>
+                <span data-toggle="counter-up"><%=nComputers%></span>
                 <p>Computer</p>
             </div>
         </div>

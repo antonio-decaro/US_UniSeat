@@ -18,7 +18,7 @@ a {
 }
 
 a:hover, a:active, a:focus {
-  color: #2dca98;
+  color: white;
   outline: none;
   text-decoration: none;
 }

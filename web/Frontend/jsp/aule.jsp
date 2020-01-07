@@ -40,6 +40,21 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
+<section id="hero">
+    <div class="hero-container">
+
+        <% if (u == null) { %>
+
+        <h1>Benvenuto</h1>
+        <a href="${pageContext.request.contextPath}/Frontend/jsp/login.jsp" class="btn-get-started">Accedi</a>
+
+        <% } else { %>
+
+        <h1>Ciao, ${u.nome}</h1>
+
+        <% } %>
+    </div>
+</section>
 <section id="services">
     <div class="container wow fadeIn">
         <div class="section-header">
@@ -51,7 +66,7 @@
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
                 <div class="box">
                     <div class="icon"><i class="fa fa-pencil"></i></div>
-                    <h4 class="title">Edificio <%=a.getNome()%>
+                    <h4 class="title"><%=a.getNome()%>
                     </h4>
                     <div class="counters"><%=a.getPosti() - a.getPostiOccupati()%> posti disponibili</div>
                     <div>
