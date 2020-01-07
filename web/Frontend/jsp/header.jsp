@@ -93,7 +93,7 @@
             <ul class="nav-menu">
                 <li><a href="index.jsp">Home</a></li>
                 <li><a href="">Prenota</a></li>
-                <li><a href="">La mia prenotazione</a></li>
+                <li><a href="prenotazione.jsp">La mia prenotazione</a></li>
                 <li><a href="settings.jsp">Impostazioni</a></li>
                 <li><a href="login.jsp">Logout</a></li>
             </ul>
