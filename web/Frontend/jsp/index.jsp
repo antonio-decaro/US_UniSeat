@@ -137,6 +137,7 @@
 <script src="${pageContext.request.contextPath}/Frontend/contactform/contactform.js"></script>
 <!-- Template Main Javascript File -->
 <script src="${pageContext.request.contextPath}/Frontend/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/Frontend/js/edifici.js"></script>
 
 </body>
 </html>

@@ -142,6 +142,8 @@ $('.toggle').click(function(e) {
   } else {
     $(this).text('edit');
   }
+
+
   
   $('.input').each(function(){
     var that = $(this);
