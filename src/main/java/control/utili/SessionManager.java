@@ -34,6 +34,7 @@ public class SessionManager {
      * @since 0.1
      * */
     public static void autentica(HttpSession session, Utente utente){
+        session.setMaxInactiveInterval(600000);
         session.setAttribute(USER, utente);
     }
 

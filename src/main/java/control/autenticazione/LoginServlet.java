@@ -70,6 +70,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
+        u.setPassword(password);
         SessionManager.autentica(session, u);
         resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/index.jsp");
     }

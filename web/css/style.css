@@ -17,6 +17,8 @@ a {
   color: #1778bc;
 }
 
+
+
 a:hover, a:active, a:focus {
   color: white;
   outline: none;
@@ -1168,4 +1170,10 @@ button:focus {
 /* settings editable*/
 .hidden {
   display: none;
+}
+
+#errN {
+  position: absolute;
+  top: 10%;
+
 }

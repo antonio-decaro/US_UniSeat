@@ -1,5 +1,6 @@
 package control.studente;
 
+import control.utili.PassowrdEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
@@ -62,46 +63,47 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
 
         if (nome == null || nome.length() < 1 || nome.length() > 20) {
             SessionManager.setError(ssn, "Il campo Nome non rispetta la lunghezza");
-            response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
+            response.getWriter().print(400);
             return;
         }
         if (nome.matches(Rgx1)) {
             u.setNome(nome);
         } else {
             SessionManager.setError(ssn, "Il campo Nome non rispetta il formato");
-            response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
+            response.getWriter().print(400);
             return;
         }
 
         if (cognome == null || cognome.length() < 1 || cognome.length() > 20) {
             SessionManager.setError(ssn, "Il campo Cognome non rispetta la lunghezza");
-            response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
+            response.getWriter().print(400);
             return;
         }
         if (cognome.matches(Rgx1)) {
             u.setCognome(cognome);
         } else {
             SessionManager.setError(ssn, "Il campo Cognome non rispetta il formato");
-            response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
+            response.getWriter().print(400);
             return;
         }
 
         if (password == null || password.length() > 32 || password.length() < 8) {
             SessionManager.setError(ssn, "Il campo Password non rispetta la lunghezza");
-            response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
+            response.getWriter().print(400);
             return;
         }
         if (password.matches(Rgx2)) {
             if (password.equals(cPassword)) {
+                PassowrdEncrypter.criptaPassword(password);
                 u.setPassword(password);
             } else {
                 SessionManager.setError(ssn, "Le Password non corrispondono");
-                response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
+                response.getWriter().print(400);
                 return;
             }
         } else {
             SessionManager.setError(ssn, "Il campo Password non rispetta il formato");
-            response.sendRedirect(request.getServletContext().getContextPath() + "/VisualizzaProfilo");
+            response.getWriter().print(400);
             return;
         }
 
@@ -111,11 +113,11 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             u.setTipoUtente(user.getTipoUtente());
             utenteDAO.update(u);
         } catch (ViolazioneEntityException e) {
+            response.getWriter().print(400);
             SessionManager.setError(ssn, e.getMessage());
             addres = "error.jsp";
         }
-
-        response.sendRedirect(request.getServletContext().getContextPath() + addres);
+        response.getWriter().print(200);
     }
 
 
