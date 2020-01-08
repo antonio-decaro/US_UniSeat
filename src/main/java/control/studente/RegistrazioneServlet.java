@@ -58,7 +58,7 @@ public class RegistrazioneServlet extends HttpServlet {
             password = parsePassword(req.getParameter("password"), req.getParameter("confPassword"));
         } catch(IllegalArgumentException e) {
             SessionManager.setError(session, e.getMessage());
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/_studente/registrazione.jsp");
             return;
         }
         // fine controllo validità campi
@@ -77,7 +77,7 @@ public class RegistrazioneServlet extends HttpServlet {
         } catch (ViolazioneEntityException e) {
             SessionManager.setError(session, e.getMessage());
         }
-        resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/registrazione.jsp");
+        resp.sendRedirect(req.getServletContext().getContextPath() + "/_studente/registrazione.jsp");
     }
 
     private String parsePassword(String password, String confPassword) {

@@ -107,7 +107,7 @@
                                 </div>
 
                                 <div class="custom-control mb-3">
-                                    <a href="${pageContext.request.contextPath}/jsp/login.jsp">Sei già registrato?</a>
+                                    <a href="${pageContext.request.contextPath}/_comuni/login.jsp">Sei già registrato?</a>
                                 </div>
                                 <button class="btn btn-lg btn-primary btn-block text-uppercase center-block" type="submit">
                                     Registrati

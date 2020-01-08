@@ -64,14 +64,14 @@
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 </head>
 <body>
-<%@ include file="jsp/header.jsp" %>
+<%@ include file="_fragments/header.jsp" %>
 <section id="hero">
     <div class="hero-container">
 
         <% if (u == null) { %>
 
         <h1>Benvenuto</h1>
-        <a href="${pageContext.request.contextPath}/jsp/login.jsp" class="btn-get-started">Accedi</a>
+        <a href="${pageContext.request.contextPath}/_comuni/login.jsp" class="btn-get-started">Accedi</a>
 
         <% } else { %>
         <h1>Ciao, <%=u.getNome()%></h1>
@@ -79,12 +79,12 @@
     </div>
 </section>
 <section id="facts">
-    <% if (errorMessage != null) { %>
-    <div class="alert alert-danger" role="alert">
-        <%=errorMessage%>
-    </div>
-    <% } %>
     <div class="container wow fadeIn">
+        <% if (errorMessage != null) { %>
+        <div class="alert alert-danger" role="alert">
+            <%=errorMessage%>
+        </div>
+        <% } %>
         <div class="section-header">
             <h3 class="section-title">Disponibilità</h3>
         </div>
@@ -129,7 +129,7 @@
                     <div>
                         <br>
                         <button type="button" class="btn btn-primary">
-                            <a href="${pageContext.request.contextPath}/jsp/aule.jsp?edificio=<%=e.getNome()%>">Seleziona</a>
+                            <a href="${pageContext.request.contextPath}/_comuni/aule.jsp?edificio=<%=e.getNome()%>">Seleziona</a>
                         </button>
                     </div>
                 </div>
@@ -138,9 +138,9 @@
         </div>
     </div>
 </section>
-<%@ include file="jsp/contattaci.jsp" %>
+<%@ include file="_fragments/contattaci.jsp" %>
 
-<%@ include file="jsp/footer.jsp" %>
+<%@ include file="_fragments/footer.jsp" %>
 <!-- JavaScript Libraries -->
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery-migrate.min.js"></script>

@@ -52,7 +52,7 @@ public class PrenotaPostoServlet extends HttpServlet {
         HttpSession session = req.getSession();
         Utente utente = SessionManager.getUtente(session);
         if (session.isNew() || utente == null) {
-            resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp");
+            resp.sendRedirect(req.getContextPath() + "/_comuni/login.jsp");
             SessionManager.setError(session, "Utente non loggato");
             return;
         }
@@ -79,7 +79,7 @@ public class PrenotaPostoServlet extends HttpServlet {
             durata = parseDurata(req.getParameter("durata"));
         } catch (IllegalArgumentException e) {
             SessionManager.setError(session, e.getMessage());
-            resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp");
+            resp.sendRedirect(req.getContextPath() + "/_comuni/aule.jsp");
             return;
         }
         // fine controllo campi
@@ -94,7 +94,7 @@ public class PrenotaPostoServlet extends HttpServlet {
         for (Prenotazione p : prenotazioniUtente) {
             if (p.getData().equals(data) && p.getOraFine().after(oraInizio)) {
                 SessionManager.setError(session, "Hai già effettuato una prenotazione");
-                resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp");
+                resp.sendRedirect(req.getContextPath() + "/_comuni/aule.jsp");
                 return;
             }
         }
@@ -109,14 +109,14 @@ public class PrenotaPostoServlet extends HttpServlet {
 
         if (durata == 0) {
             SessionManager.setError(session, "Aula non disponibile");
-            resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp?edificio=" + edificio.getNome());
+            resp.sendRedirect(req.getContextPath() + "/_comuni/aule.jsp?edificio=" + edificio.getNome());
             return;
         }
 
         if (changed) {
             SessionManager.setError(session, String.format("L'aula è disponibile fino alle %s",
                     oraFine.toString()));
-            resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp?edificio=" + edificio.getNome());
+            resp.sendRedirect(req.getContextPath() + "/_comuni/aule.jsp?edificio=" + edificio.getNome());
             return;
         }
 

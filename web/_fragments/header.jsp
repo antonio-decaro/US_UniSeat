@@ -13,8 +13,8 @@
         <nav id="nav-menu-container">
             <ul class="nav-menu">
                 <li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/jsp/login.jsp">Login</a></li>
-                <li><a href="${pageContext.request.contextPath}/jsp/registrazione.jsp">Registrazione</a></li>
+                <li><a href="${pageContext.request.contextPath}/_comuni/login.jsp">Login</a></li>
+                <li><a href="${pageContext.request.contextPath}/_studente/registrazione.jsp">Registrazione</a></li>
             </ul>
         </nav>
 
@@ -44,7 +44,7 @@
             <ul class="nav-menu">
                 <li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
                 <li><a href="">La mia prenotazione</a></li>
-                <li><a href="${pageContext.request.contextPath}/jsp/VisualizzaProfiloJSP.jsp">Impostazioni</a></li>
+                <li><a href="${pageContext.request.contextPath}/_studente/VisualizzaProfiloJSP.jsp">Impostazioni</a></li>
                 <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
             </ul>
         </nav>

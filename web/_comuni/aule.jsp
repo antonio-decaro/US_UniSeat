@@ -52,14 +52,14 @@
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="../_fragments/header.jsp" %>
 <section id="hero">
     <div class="hero-container">
 
         <% if (u == null) { %>
 
         <h1>Benvenuto</h1>
-        <a href="${pageContext.request.contextPath}/jsp/login.jsp" class="btn-get-started">Accedi</a>
+        <a href="${pageContext.request.contextPath}/_comuni/login.jsp" class="btn-get-started">Accedi</a>
 
         <% } else { %>
 
@@ -136,6 +136,7 @@
                                         </div>
                                     </div>
                                     <% if (isDocente) { %>
+
                                     <% } %>
                                     <% if (isDocente || isStudente) { %>
                                     <div class="form-group row">
@@ -172,8 +173,8 @@
         <!-- info -->
     </div>
 </section>
-<%@ include file="contattaci.jsp" %>
-<%@ include file="footer.jsp" %>
+<%@ include file="../_fragments/contattaci.jsp" %>
+<%@ include file="../_fragments/footer.jsp" %>
 <!-- JavaScript Libraries -->
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery-migrate.min.js"></script>

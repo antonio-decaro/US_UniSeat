@@ -34,7 +34,7 @@
 </head>
 <body>
 
-<%@include file="header.jsp"%>
+<%@include file="../_fragments/header.jsp"%>
 
 <section id="hero">
     <div class="hero-container">
@@ -42,7 +42,7 @@
     </div>
 </section>
 
-<%@include file="footer.jsp"%>
+<%@include file="../_fragments/footer.jsp"%>
 
 <!-- JavaScript Libraries -->
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery.min.js"></script>

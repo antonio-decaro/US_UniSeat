@@ -48,7 +48,7 @@
 </head>
 
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="../_fragments/header.jsp" %>
 <!--==========================
 Header
 ============================-->
@@ -123,9 +123,9 @@ Header
         </div>
     </div>
 </section>
-<%@ include file="contattaci.jsp" %>
+<%@ include file="../_fragments/contattaci.jsp" %>
 
-<%@ include file="footer.jsp" %>
+<%@ include file="../_fragments/footer.jsp" %>
 <!-- JavaScript Libraries -->
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery-migrate.min.js"></script>

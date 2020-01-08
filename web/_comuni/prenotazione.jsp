@@ -11,7 +11,7 @@
     <title>prenotazione</title>
 </head>
 <body>
-<%@ include file="header.jsp"%>
-<%@ include file="footer.jsp"%>
+<%@ include file="../_fragments/header.jsp"%>
+<%@ include file="../_fragments/footer.jsp"%>
 </body>
 </html>
