@@ -30,6 +30,11 @@
         }
         postiDisponibili.put(e, val);
     }
+
+    String errorMessage = SessionManager.getError(session);
+    if (errorMessage != null) {
+        SessionManager.cleanError(session);
+    }
 %>
 
 <!DOCTYPE html>
@@ -74,6 +79,11 @@
     </div>
 </section>
 <section id="facts">
+    <% if (errorMessage != null) { %>
+    <div class="alert alert-danger" role="alert">
+        <%=errorMessage%>
+    </div>
+    <% } %>
     <div class="container wow fadeIn">
         <div class="section-header">
             <h3 class="section-title">Disponibilità</h3>

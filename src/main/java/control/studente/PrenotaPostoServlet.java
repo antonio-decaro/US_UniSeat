@@ -11,6 +11,7 @@ import model.database.DBPrenotazioneDAO;
 import model.pojo.*;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ import java.sql.Time;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  * Questa classe si occupa di gestire le prenotazione dei posti effettuate dagli studenti.
@@ -28,6 +30,7 @@ import java.time.LocalTime;
  * @author De Caro Antonio
  * @version 0.1
  * */
+@WebServlet("/PrenotaPostoServlet")
 public class PrenotaPostoServlet extends HttpServlet {
 
     @Override
@@ -49,7 +52,7 @@ public class PrenotaPostoServlet extends HttpServlet {
         HttpSession session = req.getSession();
         Utente utente = SessionManager.getUtente(session);
         if (session.isNew() || utente == null) {
-            resp.sendRedirect(req.getContextPath() + "/autenticazione/log-in.jsp");
+            resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp");
             SessionManager.setError(session, "Utente non loggato");
             return;
         }
@@ -58,7 +61,7 @@ public class PrenotaPostoServlet extends HttpServlet {
             final String ERROR = "Non hai i permessi per accedere a questa funzionalità";
             SessionManager.setError(session, ERROR);
             resp.sendError(HttpServletResponse.SC_FORBIDDEN, ERROR);
-            resp.sendRedirect(req.getContextPath() + "/comuni/index.jsp");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
             return;
         }
 
@@ -76,7 +79,7 @@ public class PrenotaPostoServlet extends HttpServlet {
             durata = parseDurata(req.getParameter("durata"));
         } catch (IllegalArgumentException e) {
             SessionManager.setError(session, e.getMessage());
-            resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
+            resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp");
             return;
         }
         // fine controllo campi
@@ -85,6 +88,16 @@ public class PrenotaPostoServlet extends HttpServlet {
         Date data = Date.valueOf(LocalDate.now(clock));
         Time oraInizio = Time.valueOf(LocalTime.now(clock));
         Time oraFine = Time.valueOf(oraInizio.toLocalTime().plusMinutes(durata));
+
+        // controllo se l'utente non ha già altre prenotazioni attive.
+        List<Prenotazione> prenotazioniUtente = prenotazioneDAO.retriveByUtente(utente);
+        for (Prenotazione p : prenotazioniUtente) {
+            if (p.getData().equals(data) && p.getOraFine().after(oraInizio)) {
+                SessionManager.setError(session, "Hai già effettuato una prenotazione");
+                resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp");
+                return;
+            }
+        }
 
         DisponibilitaManager disponibilita = new DisponibilitaManager(aula, prenotazioneDAO);
         boolean changed = false;
@@ -96,14 +109,14 @@ public class PrenotaPostoServlet extends HttpServlet {
 
         if (durata == 0) {
             SessionManager.setError(session, "Aula non disponibile");
-            resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
+            resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp?edificio=" + edificio.getNome());
             return;
         }
 
         if (changed) {
             SessionManager.setError(session, String.format("L'aula è disponibile fino alle %s",
                     oraFine.toString()));
-            resp.sendRedirect(req.getContextPath() + "/studente/prenotazionePosto.jsp");
+            resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp?edificio=" + edificio.getNome());
             return;
         }
 
@@ -118,7 +131,7 @@ public class PrenotaPostoServlet extends HttpServlet {
         aula.setPostiOccupati(aula.getPostiOccupati() + 1); // aggiorno aula
         aulaDAO.update(aula);
 
-        resp.sendRedirect(req.getContextPath() + "/comuni/prenotazioni.jsp");
+        resp.sendRedirect(req.getContextPath() + "/index.jsp");
     }
 
     private int parseDurata(String param) {

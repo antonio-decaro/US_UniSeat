@@ -72,7 +72,7 @@ public class DBAulaDAO implements AulaDAO {
         final String QUERY = "SELECT * FROM aula WHERE nome = ?";
 
         if (name == null || name.equals(""))
-            throw new IllegalArgumentException(String.format("Nome non valido."));
+            throw new IllegalArgumentException("Nome non valido.");
 
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);

@@ -7,10 +7,7 @@ import model.dao.PrenotazioneDAO;
 import model.daostub.StubAulaDAO;
 import model.daostub.StubEdificioDAO;
 import model.daostub.StubPrenotazioneDAO;
-import model.pojo.Aula;
-import model.pojo.Edificio;
-import model.pojo.TipoUtente;
-import model.pojo.Utente;
+import model.pojo.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,7 +86,7 @@ class PrenotaPostoServletTest {
 
         Edificio ed = new StubEdificioDAO().retriveByName("F3");
         String dispP3 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP3.json"));
-        String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP1.json"));
+        String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP4.json"));
         Aula aulaP3 = new Aula("P3", 70, 100, dispP3, ed);
         Aula aulaP4 = new Aula("P4", 0, 100, dispP4, ed);
         aulaP3.setId(1);

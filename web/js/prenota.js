@@ -34,5 +34,10 @@ function loadInfo(idAula) {
 }
 
 function sendInfo(form) {
-    alert(form);
+    var data = form.serialize();
+    // $.post("/PrenotaPostoServlet", data, function () {
+    //     alert("Prenotazione effettuata con successo.");
+    // }).fail(function (msg) {
+    //     alert(msg.toString())
+    // });
 }

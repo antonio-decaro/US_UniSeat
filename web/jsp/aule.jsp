@@ -9,14 +9,19 @@
     EdificioDAO edificioDAO = DBEdificioDAO.getInstance();
     String strEdificio = request.getParameter("edificio");
     if (strEdificio == null || strEdificio.strip().equals("") || edificioDAO.retriveByName(strEdificio) == null) {
-    response.sendRedirect(request.getContextPath() + "/Frontend/jsp/index.jsp");
-    return;
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        return;
     }
     Edificio edificio = edificioDAO.retriveByName(strEdificio);
 
     boolean isDocente = u != null && u.getTipoUtente().equals(TipoUtente.DOCENTE);
     boolean isStudente = u != null && u.getTipoUtente().equals(TipoUtente.STUDENTE);
     boolean isAdmin = u != null && u.getTipoUtente().equals(TipoUtente.ADMIN);
+
+    String errorMessage = SessionManager.getError(session);
+    if (errorMessage != null) {
+        SessionManager.cleanError(session);
+    }
 %>
 
 
@@ -66,6 +71,11 @@
 </section>
 <section id="services">
     <div class="container wow fadeIn">
+        <% if (errorMessage != null) { %>
+        <div class="alert alert-danger" role="alert">
+            <%=errorMessage%>
+        </div>
+        <% } %>
         <div class="section-header">
             <h3 class="section-title">Scegli dove studiare</h3>
             <p class="section-description">Prenotare posti non è mai stato così semplice con UniSeat!</p>
@@ -91,8 +101,9 @@
         </div>
         <!-- info -->
         <div class="modal fade" id="prenotazionePosto">
-            <form id="prenotazione_form" name="prenota_posto">
+            <form id="prenotazione_form" name="prenota_posto" action="${pageContext.request.contextPath}/PrenotaPostoServlet" method="post">
                 <input name="aula" id="id_aula" type="hidden"/>
+                <input name="edificio" id="id_edificio" type="hidden" value="<%=strEdificio%>"/>
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <!-- info Header -->
@@ -124,15 +135,16 @@
                                             </span>
                                         </div>
                                     </div>
-
+                                    <% if (isDocente) { %>
+                                    <% } %>
                                     <% if (isDocente || isStudente) { %>
                                     <div class="form-group row">
-                                        <label class="col-5 col-form-label" for="durata-prenotazione">Durata prenotazione</label>
+                                        <label class="col-5 col-form-label" for="durata_prenotazione">Durata prenotazione</label>
                                         <div class="col-4">
                                             <% if (isDocente) { %>
-                                            <input name="durata_prenotazione" id="durata-prenotazione" class="form-control" type="number" min="1" max="6" step="1"/>
+                                            <input name="durata" id="durata_prenotazione" class="form-control" type="number" min="1" max="6" step="1"/>
                                             <% } else {%>
-                                            <input name="durata_prenotazione" id="durata-prenotazione" class="form-control" type="number" min="30" max="300" step="30"/>
+                                            <input name="durata" id="durata_prenotazione" class="form-control" type="number" min="30" max="300" step="30"/>
                                             <% } %>
                                         </div>
                                         <label class="col-3 col-form-label">
@@ -149,7 +161,7 @@
                         <!-- info footer -->
                         <div class="modal-footer">
                             <% if (u != null && !u.getTipoUtente().equals(TipoUtente.ADMIN)) { %>
-                            <button id="submit_button" type="button" class="btn btn-primary">Prenota</button>
+                            <button id="submit_button" type="submit" class="btn btn-primary">Prenota</button>
                             <% } %>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
                         </div>
