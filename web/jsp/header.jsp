@@ -6,13 +6,13 @@
 <header id="header">
     <div class="container">
         <div id="logo" class="pull-left">
-            <h1><a href="${pageContext.request.contextPath}/jsp/index.jsp">Uni Seat</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/index.jsp">Uni Seat</a></h1>
         </div>
 
         <% if (u == null) {%>
         <nav id="nav-menu-container">
             <ul class="nav-menu">
-                <li><a href="${pageContext.request.contextPath}/jsp/index.jsp">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
                 <li><a href="${pageContext.request.contextPath}/jsp/login.jsp">Login</a></li>
                 <li><a href="${pageContext.request.contextPath}/jsp/registrazione.jsp">Registrazione</a></li>
             </ul>
@@ -42,10 +42,10 @@
         <% } else { %>
         <nav id="nav-menu-container">
             <ul class="nav-menu">
-                <li><a href="${pageContext.request.contextPath}/jsp/index.jsp">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
                 <li><a href="">Prenota</a></li>
                 <li><a href="">La mia prenotazione</a></li>
-                <li><a href="VisualizzaProfiloJSP.jsp">Impostazioni</a></li>
+                <li><a href="${pageContext.request.contextPath}/jsp/VisualizzaProfiloJSP.jsp">Impostazioni</a></li>
                 <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
             </ul>
         </nav>
