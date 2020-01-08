@@ -7,7 +7,7 @@
     EdificioDAO edificioDAO = DBEdificioDAO.getInstance();
     String strEdificio = request.getParameter("edificio");
     if (strEdificio == null || strEdificio.strip().equals("") || edificioDAO.retriveByName(strEdificio) == null) {
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        response.sendRedirect(request.getContextPath() + "/Frontend/jsp/index.jsp");
         return;
     }
     Edificio edificio = edificioDAO.retriveByName(strEdificio);
@@ -72,7 +72,7 @@
                     <div>
                         <br>
                         <button type="button" class="btn btn-primary">
-                            <a href="${pageContext.request.contextPath}/jsp/prenotazione.jsp?aula=<%=a.getId()%>">Seleziona</a>
+                            <a href="${pageContext.request.contextPath}/jsp/PrenotazioneAula.jsp?aula=<%=a.getId()%>">Seleziona</a>
                         </button>
                     </div>
                 </div>

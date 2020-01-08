@@ -44,7 +44,7 @@ public class RegistrazioneServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         if (SessionManager.isAlradyAuthenticated(session)) {
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/index.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/index.jsp");
             return;
         }
 
@@ -58,7 +58,7 @@ public class RegistrazioneServlet extends HttpServlet {
             password = parsePassword(req.getParameter("password"), req.getParameter("confPassword"));
         } catch(IllegalArgumentException e) {
             SessionManager.setError(session, e.getMessage());
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/registrazione.jsp");
             return;
         }
         // fine controllo validità campi
@@ -77,7 +77,7 @@ public class RegistrazioneServlet extends HttpServlet {
         } catch (ViolazioneEntityException e) {
             SessionManager.setError(session, e.getMessage());
         }
-        resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/registrazione.jsp");
+        resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/registrazione.jsp");
     }
 
     private String parsePassword(String password, String confPassword) {
