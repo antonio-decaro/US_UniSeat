@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession();
         Utente utente = SessionManager.getUtente(session);
         if (utente != null){ // se già autenticato reindirizzo alla home
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/index.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/index.jsp");
             return;
         }
 
@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
             password = parsePassword(req.getParameter("password"));
         } catch (IllegalArgumentException e) {
             SessionManager.setError(session, e.getMessage());
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/login.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/login.jsp");
             return;
         }
         // fine controllo validità campi
@@ -60,19 +60,18 @@ public class LoginServlet extends HttpServlet {
         Utente u = utenteDAO.retriveByEmail(email);
         if (u == null || !u.getPassword().equals(PassowrdEncrypter.criptaPassword(password))) {
             SessionManager.setError(session, "Credenziali non corrette");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/login.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/login.jsp");
             return;
         }
 
         if (u.getCodiceVerifica() != 0) {
             SessionManager.setError(session, "Devi confermare l'email prima di poter accedere");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/login.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/login.jsp");
             return;
         }
 
-        u.setPassword(password);
         SessionManager.autentica(session, u);
-        resp.sendRedirect(req.getServletContext().getContextPath() + "/Frontend/jsp/index.jsp");
+        resp.sendRedirect(req.getServletContext().getContextPath() + "index.jsp");
     }
 
     private String parsePassword(String param) {

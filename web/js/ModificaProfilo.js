@@ -39,10 +39,10 @@ function validation() {
 }
 
 function modificaDati(form) {
-    $.post("modificaProfilo",$(form).serialize(),function(msg){
+    $.post("/modificaProfilo",$(form).serialize(),function(msg){
 
         if(msg == 200){
-            $(window.location).attr('href','VisualizzaProfiloJSP.jsp');
+            $(window.location).attr('href','/web/jsp/VisualizzaProfiloJSP.jsp');
         }
 
     });
@@ -70,3 +70,4 @@ function blankLabel(id1){
     $('#'+id1).text(' ');
 
 }
+

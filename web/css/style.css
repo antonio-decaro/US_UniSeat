@@ -17,8 +17,6 @@ a {
   color: #1778bc;
 }
 
-
-
 a:hover, a:active, a:focus {
   color: white;
   outline: none;
