@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="model.pojo.Edificio" %>
-<%@ page import="model.pojo.Aula" %>
 <%@ page import="model.dao.EdificioDAO" %>
 <%@ page import="model.database.DBEdificioDAO" %>
+<%@ page import="model.pojo.Aula" %>
+<%@ page import="model.pojo.Edificio" %>
 <%
     EdificioDAO edificioDAO = DBEdificioDAO.getInstance();
     String strEdificio = request.getParameter("edificio");
@@ -13,9 +13,12 @@
     Edificio edificio = edificioDAO.retriveByName(strEdificio);
 %>
 
+<%!Utente u;%>
+
 <html>
 <head>
-    <title>UniSeat - Edificio <%=edificio.getNome()%></title>
+    <title>UniSeat - Edificio <%=edificio.getNome()%>
+    </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="keywords">
     <meta name="description">
@@ -50,7 +53,8 @@
 
         <% } else { %>
 
-        <h1>Ciao, <%=u.getNome()%></h1>
+        <h1>Ciao, <%=u.getNome()%>
+        </h1>
 
         <% } %>
     </div>
@@ -71,18 +75,75 @@
                     <div class="counters"><%=a.getPosti() - a.getPostiOccupati()%> posti disponibili</div>
                     <div>
                         <br>
-                        <button type="button" class="btn btn-primary">
-                            <a href="${pageContext.request.contextPath}/jsp/PrenotazioneAula.jsp?aula=<%=a.getId()%>">Seleziona</a>
+                        <button id="toogle_prenotazione" type="button" class="btn btn-primary" data-toggle="modal" data-target="#prenotazionePosto" value="<%=a.getId()%>">
+                            <%= u == null || u.getTipoUtente().equals(TipoUtente.ADMIN) ? "Info" : (u.getTipoUtente().equals(TipoUtente.STUDENTE) ? "Posto" : "Aula")%>
                         </button>
                     </div>
                 </div>
             </div>
             <% } %>
         </div>
+        <!-- info -->
+        <div class="modal fade" id="prenotazionePosto">
+            <form name="prenota_posto">
+                <input name="aula" id="id_aula" type="hidden"/>
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <!-- info Header -->
+                        <div class="modal-header">
+                            <h4 id="nome_aula" class="modal-title">Aula P1</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <!-- info body -->
+                        <div class="modal-body">
+                            <div class="form">
+                                <div id="exercitationrormessage"></div>
+                                <form action="" method="post" role="form" class="contactForm">
+                                    <div class="form-group">
+                                        <label>Posti</label>
+                                        <span class="input"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Computer</label>
+                                        <span class="input"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Altro</label>
+                                        <span class="input"></span>
+                                    </div>
+                                    <div><label for="toggle-one">Disponibile</label><input id="toggle-one" checked type="checkbox"/></div>
+                                    <hr>
+                                    <div class="form form-group toggle"><a href="#">Modifica</a></div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- info footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- info -->
     </div>
 </section>
 <%@ include file="contattaci.jsp" %>
-
 <%@ include file="footer.jsp" %>
+<!-- JavaScript Libraries -->
+<script src="${pageContext.request.contextPath}/lib/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/lib/jquery/jquery-migrate.min.js"></script>
+<script src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/lib/easing/easing.min.js"></script>
+<script src="${pageContext.request.contextPath}/lib/wow/wow.min.js"></script>
+<script src="${pageContext.request.contextPath}/lib/waypoints/waypoints.min.js"></script>
+<script src="${pageContext.request.contextPath}/lib/counterup/counterup.min.js"></script>
+<script src="${pageContext.request.contextPath}/lib/superfish/hoverIntent.js"></script>
+<script src="${pageContext.request.contextPath}/lib/superfish/superfish.min.js"></script>
+<!-- Contact Form JavaScript File -->
+<script src="${pageContext.request.contextPath}/contactform/contactform.js"></script>
+<!-- Template Main Javascript File -->
+<script src="${pageContext.request.contextPath}/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/js/prenota.js"></script>
 </body>
 </html>

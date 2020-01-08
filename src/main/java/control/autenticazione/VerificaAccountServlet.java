@@ -29,14 +29,14 @@ public class VerificaAccountServlet extends HttpServlet {
         String email = req.getParameter("email");
         String code = req.getParameter("code");
         if (email == null || SessionManager.isAlradyAuthenticated(session)) {
-            resp.sendRedirect(req.getContextPath() + "/jsp/index.jsp");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
             return;
         }
 
         UtenteDAO utenteDAO = (UtenteDAO) req.getServletContext().getAttribute(UTENTE_DAO);
         Utente utente = utenteDAO.retriveByEmail(email);
         if (utente == null) {
-            resp.sendRedirect(req.getContextPath() + "/jsp/index.jsp");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
             return;
         }
 

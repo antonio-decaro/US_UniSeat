@@ -44,7 +44,7 @@ public class RegistrazioneServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         if (SessionManager.isAlradyAuthenticated(session)) {
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/index.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/index.jsp");
             return;
         }
 

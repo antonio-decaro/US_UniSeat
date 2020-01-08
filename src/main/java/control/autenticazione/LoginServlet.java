@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession();
         Utente utente = SessionManager.getUtente(session);
         if (utente != null){ // se già autenticato reindirizzo alla home
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/index.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/index.jsp");
             return;
         }
 
@@ -71,7 +71,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         SessionManager.autentica(session, u);
-        resp.sendRedirect(req.getServletContext().getContextPath() + "/jsp/index.jsp");
+        resp.sendRedirect(req.getServletContext().getContextPath() + "/index.jsp");
     }
 
     private String parsePassword(String param) {
