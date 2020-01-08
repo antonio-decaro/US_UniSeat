@@ -255,8 +255,8 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
         Prenotazione ret = new Prenotazione();
         ret.setId(rs.getInt("id"));
         ret.setData(rs.getDate("data"));
-        ret.setOraInizio(rs.getTime("oraInizio"));
-        ret.setOraFine(rs.getTime("oraFine"));
+        ret.setOraInizio(rs.getTime("ora_inizio"));
+        ret.setOraFine(rs.getTime("ora_fine"));
         ret.setTipoPrenotazione(TipoPrenotazione.valueOf(rs.getString("tipo")));
         ret.setAula(aulaDAO.retriveById(rs.getInt("aula")));
         ret.setUtente(utenteDAO.retriveByEmail(rs.getString("utente")));

@@ -92,8 +92,8 @@ public class DBUtenteDAOTest {
         assertEquals(u.getCognome(),newUtente.getCognome());
         assertEquals(u.getPassword(),newUtente.getPassword());
         assertEquals(u.getTipoUtente(), newUtente.getTipoUtente());
-
     }
+
     @Test
     void insert_NOTOK() {
         Utente u = new Utente("l.capozzoli@studenti.unisa.it", "Lorenzo", "Capozzoli", "Lorenzo1", TipoUtente.STUDENTE);
