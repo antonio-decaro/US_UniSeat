@@ -111,7 +111,7 @@ Header
                                     </div>
                                     <h6 id="errP" style="color: #bd2130"></h6>
                                     <button id="buttonModifica" style="position: center" type="button" class="btn btn-lg btn-primary btn-block text-uppercase" onclick="setEditabili()">Modifica</button>
-                                    <button id="buttonConfermaModifica" style="position: center;display:none" type="button" class="btn btn-lg btn-primary btn-block text-uppercase" onclick="controllaFormModifica(formModifica)">Conferma</button>
+                                     <button id="buttonConfermaModifica" style="position: center;display:none" type="button" class="btn btn-lg btn-primary btn-block text-uppercase" onclick="controllaFormModifica(formModifica)">Conferma</button>
                                 </form>
                             </div>
                         </div>
