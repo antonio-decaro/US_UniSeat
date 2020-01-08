@@ -7,7 +7,7 @@
     EdificioDAO edificioDAO = DBEdificioDAO.getInstance();
     String strEdificio = request.getParameter("edificio");
     if (strEdificio == null || strEdificio.strip().equals("") || edificioDAO.retriveByName(strEdificio) == null) {
-        response.sendRedirect(request.getContextPath() + "/jsp/index.jsp");
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
         return;
     }
     Edificio edificio = edificioDAO.retriveByName(strEdificio);

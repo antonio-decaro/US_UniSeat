@@ -15,7 +15,7 @@
             SessionManager.cleanError(session);
         }
         if (SessionManager.isAlradyAuthenticated(session)) {
-            response.sendRedirect(request.getContextPath() + "/jsp/index.jsp");
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
         }
     }
 %>
@@ -50,7 +50,7 @@
     <div class="container">
 
         <div id="logo" class="pull-left">
-            <h1><a href="${pageContext.request.contextPath}/jsp/index.jsp">Uni Seat</a></h1>
+            <h1><a href="${pageContext.request.contextPath}/index.jsp">Uni Seat</a></h1>
         </div>
         <nav id="nav-menu-container">
         </nav>
