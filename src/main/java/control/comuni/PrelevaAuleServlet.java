@@ -50,7 +50,6 @@ public class PrelevaAuleServlet extends HttpServlet {
 
         Object toParse = null;
         if (aula != null) {
-            aula.setEdificio(null);
             toParse = aula;
         }
         else {
@@ -61,9 +60,6 @@ public class PrelevaAuleServlet extends HttpServlet {
                 aule = aulaDAO.retriveByEdificio(edificio);
             }
 
-            for (Aula a : aule) {
-                a.setEdificio(null);
-            }
             toParse = aule;
         }
 

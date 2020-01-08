@@ -49,10 +49,6 @@ public class PrelevaEdificiServlet extends HttpServlet {
         EdificioDAO edificioDAO = (EdificioDAO) req.getServletContext().getAttribute(EDIFICI_DAO_PARAM);
 
         List<Edificio> edifici = edificioDAO.retriveAll();
-        for (Edificio edificio : edifici) {
-            for (Aula aula : edificio.getAule())
-                aula.setEdificio(null); // per evitare loop infiniti
-        }
 
         Gson gson = new Gson();
         try (PrintWriter pw = resp.getWriter()) {

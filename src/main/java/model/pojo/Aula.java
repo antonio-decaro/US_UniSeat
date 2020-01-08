@@ -18,7 +18,7 @@ public class Aula implements Comparable<Aula>{
     private int nPostiOccupati;
     private int nPosti;
     private String disponibilita;
-    private Edificio edificio;
+    private transient Edificio edificio;
     private ArrayList<Servizio> servizi;
 
     {
