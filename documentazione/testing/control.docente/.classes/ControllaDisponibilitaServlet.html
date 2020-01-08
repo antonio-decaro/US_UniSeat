@@ -1,0 +1,227 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ControllaDisponibilitaServlet</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">control.docente</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ControllaDisponibilitaServlet (control.docente)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ControllaDisponibilitaServlet</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,7%
+  </span>
+  <span class="absValue">
+    (54/ 57)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package control.docente;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import control.utili.DisponibilitaManager;
+<i>4</i>&nbsp;import control.utili.SessionManager;
+<i>5</i>&nbsp;import model.dao.AulaDAO;
+<i>6</i>&nbsp;import model.dao.PrenotazioneDAO;
+<i>7</i>&nbsp;import model.database.DBAulaDAO;
+<i>8</i>&nbsp;import model.pojo.Aula;
+<i>9</i>&nbsp;import model.pojo.TipoUtente;
+<i>10</i>&nbsp;import model.pojo.Utente;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import javax.servlet.ServletException;
+<i>13</i>&nbsp;import javax.servlet.annotation.WebServlet;
+<i>14</i>&nbsp;import javax.servlet.http.HttpServlet;
+<i>15</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i>16</i>&nbsp;import javax.servlet.http.HttpServletResponse;
+<i>17</i>&nbsp;import javax.servlet.http.HttpSession;
+<i>18</i>&nbsp;import java.io.IOException;
+<i>19</i>&nbsp;import java.io.PrintWriter;
+<i>20</i>&nbsp;import java.sql.Date;
+<i>21</i>&nbsp;import java.sql.Time;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;/**
+<i>24</i>&nbsp; * Questa servlet controlla se una data aula è diponibile ad una determinata ora di un determinato giorno.
+<i>25</i>&nbsp; * Scrive la risposta all&#39;interno del ServletOutputStream. Non effettua il redirect a nessun&#39;altra risorsa del server.
+<i>26</i>&nbsp; *
+<i>27</i>&nbsp; * @author De Caro Antonio
+<i>28</i>&nbsp; * @version 0.1
+<i>29</i>&nbsp; * */
+<i>30</i>&nbsp;@WebServlet(&quot;/controllaDisponibilita&quot;)
+<b class="fc"><i>31</i>&nbsp;public class ControllaDisponibilitaServlet extends HttpServlet {</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @Override
+<i>34</i>&nbsp;    public void init() throws ServletException {
+<b class="nc"><i>35</i>&nbsp;        super.init();</b>
+<b class="nc"><i>36</i>&nbsp;        getServletContext().setAttribute(AULA_DAO, DBAulaDAO.getInstance());</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @Override
+<i>40</i>&nbsp;    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+<b class="nc"><i>41</i>&nbsp;        doPost(req, resp);</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @Override
+<i>45</i>&nbsp;    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+<b class="fc"><i>46</i>&nbsp;        HttpSession session = req.getSession();</b>
+<b class="fc"><i>47</i>&nbsp;        AulaDAO aulaDAO = (AulaDAO) req.getServletContext().getAttribute(AULA_DAO);</b>
+<b class="fc"><i>48</i>&nbsp;        PrenotazioneDAO prenotazioneDAO = (PrenotazioneDAO) req.getServletContext().getAttribute(PRENOTAZIONE_DAO);</b>
+<i>49</i>&nbsp;
+<b class="pc"><i>50</i>&nbsp;        try (PrintWriter pw = resp.getWriter()) {</b>
+<b class="fc"><i>51</i>&nbsp;            Utente utente = SessionManager.getUtente(session);</b>
+<b class="fc"><i>52</i>&nbsp;            if (utente == null) {</b>
+<b class="fc"><i>53</i>&nbsp;                final String ERROR = &quot;Utente non loggato&quot;;</b>
+<b class="fc"><i>54</i>&nbsp;                SessionManager.setError(session, ERROR);</b>
+<b class="fc"><i>55</i>&nbsp;                resp.setStatus(HttpServletResponse.SC_FORBIDDEN);</b>
+<b class="fc"><i>56</i>&nbsp;                pw.print(ERROR);</b>
+<i>57</i>&nbsp;                return;
+<i>58</i>&nbsp;            }
+<b class="fc"><i>59</i>&nbsp;            else if (!utente.getTipoUtente().equals(TipoUtente.DOCENTE)) {</b>
+<b class="fc"><i>60</i>&nbsp;                final String ERROR = &quot;Non hai i permessi per accedere a questa risorsa&quot;;</b>
+<b class="fc"><i>61</i>&nbsp;                SessionManager.setError(session, ERROR);</b>
+<b class="fc"><i>62</i>&nbsp;                resp.setStatus(HttpServletResponse.SC_FORBIDDEN);</b>
+<b class="fc"><i>63</i>&nbsp;                pw.print(ERROR);</b>
+<i>64</i>&nbsp;                return;
+<i>65</i>&nbsp;            }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;            Aula aula;
+<i>68</i>&nbsp;            Date data;
+<i>69</i>&nbsp;            Time oraInizio, oraFine;
+<i>70</i>&nbsp;            int durata;
+<i>71</i>&nbsp;            try {
+<b class="fc"><i>72</i>&nbsp;                aula = parseAula(req.getParameter(&quot;aula&quot;), aulaDAO);</b>
+<b class="fc"><i>73</i>&nbsp;                data = parseDate(req.getParameter(&quot;data&quot;));</b>
+<b class="fc"><i>74</i>&nbsp;                oraInizio = parseOra(req.getParameter(&quot;oraInizio&quot;));</b>
+<b class="fc"><i>75</i>&nbsp;                durata = parseDurata(req.getParameter(&quot;durata&quot;));</b>
+<b class="fc"><i>76</i>&nbsp;                oraFine = Time.valueOf(oraInizio.toLocalTime().plusHours(durata));</b>
+<b class="fc"><i>77</i>&nbsp;            } catch (IllegalArgumentException e) {</b>
+<b class="fc"><i>78</i>&nbsp;                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);</b>
+<b class="fc"><i>79</i>&nbsp;                pw.print(e.getMessage());</b>
+<i>80</i>&nbsp;                return;
+<b class="fc"><i>81</i>&nbsp;            }</b>
+<i>82</i>&nbsp;
+<b class="fc"><i>83</i>&nbsp;            DisponibilitaManager disponibilitaManager = new DisponibilitaManager(aula, prenotazioneDAO);</b>
+<b class="fc"><i>84</i>&nbsp;            if (disponibilitaManager.isAulaDisponibile(data, oraInizio, oraFine)) {</b>
+<b class="fc"><i>85</i>&nbsp;                pw.print(true);</b>
+<i>86</i>&nbsp;            } else {
+<b class="fc"><i>87</i>&nbsp;                pw.print(false);</b>
+<i>88</i>&nbsp;            }
+<i>89</i>&nbsp;
+<b class="fc"><i>90</i>&nbsp;            resp.setStatus(HttpServletResponse.SC_OK);</b>
+<b class="fc"><i>91</i>&nbsp;            pw.flush();</b>
+<b class="pc"><i>92</i>&nbsp;        }</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    private int parseDurata(String param) {
+<b class="pc"><i>96</i>&nbsp;        if (param == null || param.strip().equals(&quot;&quot;) || !param.matches(&quot;^[+\\-]?[0-9]+$&quot;)) {</b>
+<b class="fc"><i>97</i>&nbsp;            throw new IllegalArgumentException(&quot;Durata non valida&quot;);</b>
+<i>98</i>&nbsp;        }
+<i>99</i>&nbsp;
+<b class="fc"><i>100</i>&nbsp;        int durata = Integer.parseInt(param);</b>
+<b class="fc"><i>101</i>&nbsp;        if (durata &lt;= 0) {</b>
+<b class="fc"><i>102</i>&nbsp;            throw new IllegalArgumentException(&quot;Durata non valida&quot;);</b>
+<i>103</i>&nbsp;        }
+<b class="fc"><i>104</i>&nbsp;        return durata;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    private Time parseOra(String param) {
+<b class="fc"><i>108</i>&nbsp;        if (param == null || param.strip().equals(&quot;&quot;)) {</b>
+<b class="fc"><i>109</i>&nbsp;            throw new IllegalArgumentException(&quot;Ora non valida&quot;);</b>
+<i>110</i>&nbsp;        }
+<i>111</i>&nbsp;        try {
+<b class="fc"><i>112</i>&nbsp;            return Time.valueOf(param);</b>
+<b class="fc"><i>113</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="fc"><i>114</i>&nbsp;            throw new IllegalArgumentException(&quot;Formato ora non valido&quot;);</b>
+<i>115</i>&nbsp;        }
+<i>116</i>&nbsp;    }
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    private Date parseDate(String param) {
+<b class="fc"><i>119</i>&nbsp;        if (param == null || param.strip().equals(&quot;&quot;))</b>
+<b class="fc"><i>120</i>&nbsp;            throw new IllegalArgumentException(&quot;Data non valida&quot;);</b>
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;        try {
+<b class="fc"><i>123</i>&nbsp;            return Date.valueOf(param);</b>
+<b class="fc"><i>124</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="fc"><i>125</i>&nbsp;            throw new IllegalArgumentException(&quot;Formato data non valido&quot;);</b>
+<i>126</i>&nbsp;        }
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    private Aula parseAula(String parameter, AulaDAO aulaDAO) {
+<b class="fc"><i>130</i>&nbsp;        if (parameter == null || parameter.equals(&quot;&quot;)) {</b>
+<b class="fc"><i>131</i>&nbsp;            throw new IllegalArgumentException(&quot;Aula non valida&quot;);</b>
+<i>132</i>&nbsp;        }
+<b class="fc"><i>133</i>&nbsp;        Aula aula = aulaDAO.retriveById(Integer.parseInt(parameter));</b>
+<b class="fc"><i>134</i>&nbsp;        if (aula == null) {</b>
+<b class="fc"><i>135</i>&nbsp;            throw new IllegalArgumentException(&quot;Aula non valida&quot;);</b>
+<i>136</i>&nbsp;        }
+<i>137</i>&nbsp;
+<b class="fc"><i>138</i>&nbsp;        return aula;</b>
+<i>139</i>&nbsp;    }
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    static final String AULA_DAO = &quot;ControllaDisponibilitaServlet.AulaDAO&quot;;
+<i>143</i>&nbsp;    static final String PRENOTAZIONE_DAO = &quot;ControllaDisponibilitaServlet.PrenotazioneDAO&quot;;
+<i>144</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-08 22:47</div>
+</div>
+</body>
+</html>
