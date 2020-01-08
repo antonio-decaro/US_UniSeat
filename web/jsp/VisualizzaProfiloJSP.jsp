@@ -9,6 +9,18 @@
                  "text/html;charset=UTF-8" pageEncoding="UTF-8" %><!DOCTYPE html>
 
 <!DOCTYPE html>
+<%
+    String errorMessage = null;
+    if (session != null) {
+        errorMessage = SessionManager.getError(session);
+        if (errorMessage != null) {
+            SessionManager.cleanError(session);
+        }
+        if (!SessionManager.isAlradyAuthenticated(session)) {
+            response.sendRedirect(request.getContextPath() + "/jsp/login.jsp");
+        }
+    }
+%>
 <html lang="en">
 <head>
     <title>Profilo</title>
@@ -52,29 +64,60 @@ Header
                         <div class="col-lg-4 col-md-4">
                             <div class="form">
                                 <div id="exercitationrormessage"></div>
-                                <form action="" method="post" role="form" class="contactForm">
-                                    <div class="form-group">
-                                        <span class="input"><%=u.getNome()%></span>
+                                <form name="formModifica" method="post" class="form-signin">
+                                    <% if (errorMessage != null) { %>
+                                    <div id="alertErrorNome" class="alert alert-danger" role="alert">
+                                        <%=errorMessage%>
                                     </div>
-                                    <div class="form-group">
-                                        <span class="input"><%=u.getCognome()%></span>
+                                    <% } %>
+                                    <div class="form-label-group">
+                                        <input name="nome" type="text" id="inputNome" class="form-control" onClick="blankLabel('errN')" value=<%=u.getNome()%> readonly>
+                                        <label for="inputNome">Nome</label>
                                     </div>
-                                    <div class="form-group">
-                                        <span class="input"><%=u.getEmail()%>></span>
+                                    <h6 id="errN" style="color: #bd2130"></h6>
+
+                                    <% if (errorMessage != null) { %>
+                                    <div id="alertErrorCognome" class="alert alert-danger" role="alert">
+                                        <%=errorMessage%>
                                     </div>
-                                    <div class="form-group">
-                                        <span class="input" type="password"><%=u.getPassword()%>></span>
+                                    <% } %>
+                                    <div class="form-label-group">
+                                        <input name="cognome" type="text" id="inputCognome" class="form-control" onClick="blankLabel('errC')" value="<%=u.getCognome()%>"
+                                               readonly>
+                                        <label for="inputCognome">Cognome</label>
+
                                     </div>
-                                    <div class="form-group">
-                                        <span class="input" type="Password">Verifica Password</span>
+                                    <h6 id="errC" style="color: #bd2130"></h6>
+                                    <div class="form-label-group">
+                                        <input name="email" type="email" id="inputEmail" class="form-control" value="<%=u.getEmail()%>"
+                                               readonly>
+                                        <label for="inputEmail">E-Mail</label>
                                     </div>
+                                    <% if (errorMessage != null) { %>
+                                    <div id="alertErrorPass" class="alert alert-danger" role="alert">
+                                        <%=errorMessage%>
+                                    </div>
+                                    <% } %>
+                                    <div class="form-label-group" id="divPassHide" style="display:none">
+                                        <input name="password" type="password" id="inputPassword" class="form-control" onClick="blankLabel('errP')"
+                                               value="<%=u.getPassword()%>" readonly>
+                                        <label for="inputPassword">Password</label>
+                                    </div>
+                                    <div class="form-label-group" id="divConfPassHide" style="display:none">
+                                        <input name="confPassword" type="password" id="inputConfPassword" class="form-control" onClick="blankLabel('errP')"
+                                               value="<%=u.getPassword()%>" readonly>
+                                        <label for="inputConfPassword">Conferma Password</label>
+
+                                    </div>
+                                    <h6 id="errP" style="color: #bd2130"></h6>
+                                    <button id="buttonModifica" style="position: center" type="button" class="btn btn-lg btn-primary btn-block text-uppercase" onclick="setEditabili()">Modifica</button>
+                                     <button id="buttonConfermaModifica" style="position: center;display:none" type="button" class="btn btn-lg btn-primary btn-block text-uppercase" onclick="controllaFormModifica(formModifica)">Conferma</button>
                                 </form>
                             </div>
                         </div>
 
                     </div>
                 </div>
-                <div class="form form-group toggle"><button type="submit">Modifica</button></div>
             </div>
 
         </div>
@@ -98,6 +141,8 @@ Header
 <!-- Template Main Javascript File -->
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/edifici.js"></script>
+<script src="${pageContext.request.contextPath}/js/ModificaProfilo.js"></script>
+
 
 </body>
 </html>

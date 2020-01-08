@@ -1,4 +1,3 @@
-
 <%@ page import="control.utili.SessionManager" %>
 <%@ page import="model.pojo.TipoUtente" %>
 <%@ page import="model.pojo.Utente" %>
@@ -35,7 +34,7 @@
                         <li><a href="visualizzaPrenotazioniAdmin.html">Visualizza prenotazioni</a></li>
                         <li><a href="#services">Visualizza edifici</a></li>
                     </ul>
-                <li><a href="settings.html">Impostazioni</a></li>
+
                 <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
             </ul>
         </nav>
@@ -45,7 +44,7 @@
             <ul class="nav-menu">
                 <li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
                 <li><a href="">La mia prenotazione</a></li>
-                <li><a href="">Impostazioni</a></li>
+                <li><a href="${pageContext.request.contextPath}/jsp/VisualizzaProfiloJSP.jsp">Impostazioni</a></li>
                 <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
             </ul>
         </nav>

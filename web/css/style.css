@@ -1169,3 +1169,9 @@ button:focus {
 .hidden {
   display: none;
 }
+
+#errN {
+  position: absolute;
+  top: 10%;
+
+}
