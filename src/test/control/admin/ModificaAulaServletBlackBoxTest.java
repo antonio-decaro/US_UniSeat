@@ -92,14 +92,14 @@ class ModificaAulaServletBlackBoxTest {
 
     @Test
     void TC_5_1() throws Exception {
-        when(req.getParameter("edificio")).thenReturn("");
+        when(req.getParameter("edificio")).thenReturn(null);
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("150");
         when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Edificio non selezionato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         //assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -112,7 +112,7 @@ class ModificaAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Formato numero posti non valido",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -125,7 +125,7 @@ class ModificaAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Numero posti non corretto",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -138,7 +138,7 @@ class ModificaAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Numero posti non corretto",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -152,7 +152,7 @@ class ModificaAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Servizi non validi",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -166,7 +166,7 @@ class ModificaAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Orari di disponibilità errati",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -180,7 +180,7 @@ class ModificaAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Nome aula non valido",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -194,7 +194,7 @@ class ModificaAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Nome aula non valido",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -208,7 +208,7 @@ class ModificaAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Nome aula non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 

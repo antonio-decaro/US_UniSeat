@@ -69,7 +69,7 @@ class EliminaUtenteServletTest {
 
         Utente u = new Utente();
         u.setTipoUtente(TipoUtente.ADMIN);
-        session.setAttribute("SessionManager.user", u);
+        SessionManager.autentica(session, u);
 
         Utente u1 = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
                 PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
@@ -91,7 +91,7 @@ class EliminaUtenteServletTest {
         when(req.getParameter("email_utente")).thenReturn(null);
         servlet.doPost(req, res);
         assertEquals("Utente non selezionato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
 
     @Test
@@ -119,7 +119,7 @@ class EliminaUtenteServletTest {
         when(req.getSession()).thenReturn(session);
         Utente u = new Utente();
         u.setTipoUtente(TipoUtente.STUDENTE);
-        session.setAttribute("SessionManager.user", u);
+        SessionManager.autentica(session, u);
         servlet.doPost(req, res);
     }
 }

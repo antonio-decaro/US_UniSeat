@@ -2,6 +2,7 @@ package control.studente;
 
 import control.utili.EmailManager;
 import control.utili.PassowrdEncrypter;
+import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.daostub.StubUtenteDAO;
 import model.pojo.TipoUtente;
@@ -79,7 +80,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Nome non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -91,7 +92,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Nome non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -103,7 +104,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Nome non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -115,7 +116,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Cognome non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -127,7 +128,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Cognome non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -139,7 +140,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Cognome non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -151,7 +152,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo E-mail non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -163,7 +164,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo E-mail non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -177,7 +178,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Utente già esistente",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -189,7 +190,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Password non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -201,7 +202,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Password non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -213,7 +214,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("confPassword")).thenReturn("LuigiVerdi14");
         servlet.doPost(req, res);
         assertEquals("Le password non corrispondono",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
     @Test
@@ -224,7 +225,7 @@ class RegistrazioneServletBlackBoxTest {
         when(req.getParameter("password")).thenReturn("MarioRossi12");
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
-        assertNull(session.getAttribute("SessionManager.error"));
+        assertNull(SessionManager.getError(session));
         assertNotNull(utenteDAO.retriveByEmail("m.rossi13@studenti.unisa.it"));
     }
 }

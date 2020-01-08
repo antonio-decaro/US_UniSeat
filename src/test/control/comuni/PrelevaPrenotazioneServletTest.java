@@ -119,7 +119,7 @@ public class PrelevaPrenotazioneServletTest {
         SessionManager.autentica(session, null);
         servlet.doGet(req, res);
         assertEquals("LogIn non effettuato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
 
 //    @Test
@@ -128,7 +128,7 @@ public class PrelevaPrenotazioneServletTest {
 //        Date d = Date.valueOf(LocalDate.now());
 //        servlet.doGet(req, res);
 //        assertEquals("La data "+d+" ancora deve avvenire",
-//                session.getAttribute("SessionManager.error"));
+//                SessionManager.getError(session));
 //    }
 
     @Test
@@ -136,7 +136,7 @@ public class PrelevaPrenotazioneServletTest {
         Utente us =utenteDAO.retriveByEmail("m.rossi12@studenti.unisa.it");
         SessionManager.autentica(session, us);
         servlet.doGet(req, res);
-        assertNull(session.getAttribute("SessionManager.error"));
+        assertNull(SessionManager.getError(session));
     }
 
     @Test

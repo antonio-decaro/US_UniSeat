@@ -113,7 +113,7 @@ public class EliminaPrenotazioneServletTest {
     void testPostAndAuth() throws Exception {
         servlet.doPost(req, res);
         assertEquals("LogIn non effettuato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
 
     @Test
@@ -123,7 +123,7 @@ public class EliminaPrenotazioneServletTest {
         when(req.getParameter("id_prenotazione")).thenReturn(id);
         servlet.doGet(req, res);
         assertEquals("L'id " + id + " non è valido.",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
 
     @Test
@@ -132,7 +132,7 @@ public class EliminaPrenotazioneServletTest {
         when(req.getParameter("id_prenotazione")).thenReturn("104");
         servlet.doGet(req, res);
         assertEquals("Prenotazione non presente nel DB",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class EliminaPrenotazioneServletTest {
         SessionManager.autentica(session, utenteDAO.retriveAll().get(1));
         when(req.getParameter("id_prenotazione")).thenReturn("1");
         servlet.doGet(req, res);
-        assertNull(session.getAttribute("SessionManager.error"));
+        assertNull(SessionManager.getError(session));
     }
 
     @Test
@@ -148,6 +148,6 @@ public class EliminaPrenotazioneServletTest {
         SessionManager.autentica(session, utenteDAO.retriveAll().get(2));
         when(req.getParameter("id_prenotazione")).thenReturn("2");
         servlet.doGet(req, res);
-        assertNull(session.getAttribute("SessionManager.error"));
+        assertNull(SessionManager.getError(session));
     }
 }

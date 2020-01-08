@@ -1,5 +1,6 @@
 package control.admin;
 
+import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
 import model.daostub.StubAulaDAO;
@@ -82,7 +83,7 @@ class InserisciAulaServletBlackBoxTest {
 
         Utente u = new Utente();
         u.setTipoUtente(TipoUtente.ADMIN);
-        session.setAttribute("SessionManager.user", u);
+        SessionManager.autentica(session, u);
 
         Edificio ed = new StubEdificioDAO().retriveByName("F3");
         String dispP3 = "11:00-15:00";
@@ -108,7 +109,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Edificio non selezionato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -121,7 +122,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Formato numero posti non valido",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -134,7 +135,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Numero posti non corretto",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -147,7 +148,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Numero posti non corretto",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -161,7 +162,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Servizi non validi",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -175,7 +176,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Orari di disponibilità errati",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -189,7 +190,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Nome aula non valido",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -203,7 +204,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Nome aula non valido",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -217,7 +218,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Nome aula non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
         assertNull(aulaDAO.retriveByName("P22"));
     }
 
@@ -231,7 +232,7 @@ class InserisciAulaServletBlackBoxTest {
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
         assertEquals("Aula già esistente!",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
 
     @Test

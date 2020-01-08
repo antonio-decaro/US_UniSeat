@@ -115,7 +115,7 @@ public class EliminaPrenotazioneServletTestBlackBox {
         when(req.getParameter("id_prenotazione")).thenReturn("");
         servlet.doGet(req, res);
         assertEquals("Prenotazione non presente",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
 
     @Test
@@ -123,7 +123,7 @@ public class EliminaPrenotazioneServletTestBlackBox {
         SessionManager.autentica(session, utenteDAO.retriveAll().get(1));
         when(req.getParameter("id_prenotazione")).thenReturn("1");
         servlet.doGet(req, res);
-        assertNull(session.getAttribute("SessionManager.error"));
+        assertNull(SessionManager.getError(session));
     }
 
     @Test
@@ -132,13 +132,13 @@ public class EliminaPrenotazioneServletTestBlackBox {
         when(req.getParameter("id_prenotazione")).thenReturn(null);
         servlet.doGet(req, res);
         assertEquals("Prenotazione non presente",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
     @Test
     void TC_8_2() throws Exception {
         SessionManager.autentica(session, utenteDAO.retriveAll().get(2));
         when(req.getParameter("id_prenotazione")).thenReturn("2");
         servlet.doGet(req, res);
-        assertNull(session.getAttribute("SessionManager.error"));
+        assertNull(SessionManager.getError(session));
     }
 }

@@ -1,6 +1,7 @@
 package control.admin;
 
 import control.utili.EmailManager;
+import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.daostub.StubUtenteDAO;
 import model.pojo.TipoUtente;
@@ -67,7 +68,7 @@ class EliminaUtenteServletBlackBoxTest {
 
         Utente u = new Utente();
         u.setTipoUtente(TipoUtente.ADMIN);
-        session.setAttribute("SessionManager.user", u);
+        SessionManager.autentica(session, u);
     }
 
     @AfterEach
@@ -79,7 +80,7 @@ class EliminaUtenteServletBlackBoxTest {
         when(req.getParameter("email_utente")).thenReturn(null);
         servlet.doPost(req, res);
         assertEquals("Utente non selezionato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
 
     @Test

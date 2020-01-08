@@ -17,6 +17,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,17 +37,20 @@ class ModificaDatiProfiloServletTest {
     private StubUtenteDAO utenteDAO = new StubUtenteDAO();
     private ModificaDatiProfiloServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
+    private StringWriter stringWriter;
 
     @BeforeEach
     void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
         servlet = new ModificaDatiProfiloServlet();
+        stringWriter = new StringWriter();
 
         when(req.getServletContext()).thenReturn(ctx);
         when(ctx.getAttribute(ModificaDatiProfiloServlet.UTENTE_DAO_PARAM)).thenReturn(utenteDAO);
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
         when(SessionManager.isAlradyAuthenticated(session)).thenReturn(true);
+        when(res.getWriter()).thenReturn(new PrintWriter(stringWriter));
         doNothing().when(res).sendRedirect(anyString());
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
@@ -78,7 +83,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("LogIn non effettuato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
     @Test
     void TC_1_2() throws Exception {
@@ -90,7 +95,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Nome non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
     @Test
     void TC_1_3() throws Exception {
@@ -102,7 +107,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Nome non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
     @Test
     void TC_1_4() throws Exception {
@@ -114,7 +119,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Nome non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
     @Test
     void TC_1_5() throws Exception {
@@ -126,7 +131,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Cognome non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
     @Test
     void TC_1_6() throws Exception {
@@ -138,7 +143,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Cognome non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
     @Test
     void TC_1_7() throws Exception {
@@ -150,7 +155,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Cognome non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
     @Test
     void TC_1_8() throws Exception {
@@ -162,7 +167,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Password non rispetta la lunghezza",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
     @Test
     void TC_1_9() throws Exception {
@@ -174,7 +179,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Password non rispetta il formato",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
     @Test
     void TC_1_10() throws Exception {
@@ -186,7 +191,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("confPassword")).thenReturn("LuigiVerdi14");
         servlet.doPost(req, res);
         assertEquals("Le Password non corrispondono",
-                session.getAttribute("SessionManager.error"));
+                SessionManager.getError(session));
     }
 
     @Test
@@ -198,7 +203,7 @@ class ModificaDatiProfiloServletTest {
         when(req.getParameter("password")).thenReturn("MariaRossi12");
         when(req.getParameter("confPassword")).thenReturn("MariaRossi12");
         servlet.doPost(req, res);
-        assertNull(session.getAttribute("SessionManager.error"));
+        assertNull(SessionManager.getError(session));
     }
 
 //    @Test
@@ -210,7 +215,7 @@ class ModificaDatiProfiloServletTest {
 //        when(req.getParameter("password")).thenReturn("MariaRossi12");
 //        when(req.getParameter("confPassword")).thenReturn("MariaRossi12");
 //        servlet.doPost(req, res);
-//        assertNull(session.getAttribute("SessionManager.error"));
+//        assertNull(SessionManager.getError(session));
 //    }
 
     @Test
