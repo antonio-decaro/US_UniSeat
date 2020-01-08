@@ -122,4 +122,16 @@ class PrelevaAuleServletTest {
         servlet.doPost(req, resp);
         assertEquals(gson.toJson(aule), stringWriter.toString());
     }
+
+    @Test
+    void testSingleAula() throws Exception {
+        Aula p3 = new Aula("P3", 100, "", null);
+        p3.setId(1);
+        aulaDAO.insert(p3);
+
+        when(req.getParameter("aula")).thenReturn("1");
+        Gson gson = new Gson();
+        servlet.doPost(req, resp);
+        assertEquals(gson.toJson(p3), stringWriter.toString());
+    }
 }

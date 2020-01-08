@@ -46,21 +46,43 @@ public class PrelevaAuleServlet extends HttpServlet {
         EdificioDAO edificioDAO = (EdificioDAO) req.getServletContext().getAttribute(EDIFICIO_DAO_PARAM);
 
         Edificio edificio = parseEdificio(req.getParameter("edificio"), edificioDAO);
-        Set<Aula> aule;
-        if (edificio == null) {
-            aule = aulaDAO.retriveAll();
-        } else {
-            aule = aulaDAO.retriveByEdificio(edificio);
-        }
+        Aula aula = parseAula(req.getParameter("aula"), aulaDAO);
 
-        for (Aula a : aule) {
-            a.setEdificio(null);
+        Object toParse = null;
+        if (aula != null) {
+            aula.setEdificio(null);
+            toParse = aula;
+        }
+        else {
+            Set<Aula> aule;
+            if (edificio == null) {
+                aule = aulaDAO.retriveAll();
+            } else {
+                aule = aulaDAO.retriveByEdificio(edificio);
+            }
+
+            for (Aula a : aule) {
+                a.setEdificio(null);
+            }
+            toParse = aule;
         }
 
         Gson gson = new Gson();
         try (PrintWriter pw = resp.getWriter()) {
             resp.setStatus(HttpServletResponse.SC_OK);
-            pw.print(gson.toJson(aule));
+            pw.print(gson.toJson(toParse));
+        }
+    }
+
+    private Aula parseAula(String param, AulaDAO aulaDAO) {
+        if (param == null || param.strip().equals(""))
+            return null;
+        try {
+           int id = Integer.parseInt(param);
+           return aulaDAO.retriveById(id);
+
+        } catch (NumberFormatException e) {
+            return null;
         }
     }
 

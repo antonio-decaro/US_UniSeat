@@ -3,7 +3,7 @@
 <%@ page import="model.pojo.TipoUtente" %>
 <%@ page import="model.pojo.Utente" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<% Utente u = SessionManager.getUtente(session); %>
+<%! Utente u;%>
 <header id="header">
     <div class="container">
         <div id="logo" class="pull-left">
@@ -44,7 +44,6 @@
         <nav id="nav-menu-container">
             <ul class="nav-menu">
                 <li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
-                <li><a href="">Prenota</a></li>
                 <li><a href="">La mia prenotazione</a></li>
                 <li><a href="">Impostazioni</a></li>
                 <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>

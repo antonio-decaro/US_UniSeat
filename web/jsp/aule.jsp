@@ -3,17 +3,22 @@
 <%@ page import="model.database.DBEdificioDAO" %>
 <%@ page import="model.pojo.Aula" %>
 <%@ page import="model.pojo.Edificio" %>
+
 <%
+    Utente u = SessionManager.getUtente(session);
     EdificioDAO edificioDAO = DBEdificioDAO.getInstance();
     String strEdificio = request.getParameter("edificio");
     if (strEdificio == null || strEdificio.strip().equals("") || edificioDAO.retriveByName(strEdificio) == null) {
-        response.sendRedirect(request.getContextPath() + "/Frontend/jsp/index.jsp");
-        return;
+    response.sendRedirect(request.getContextPath() + "/Frontend/jsp/index.jsp");
+    return;
     }
     Edificio edificio = edificioDAO.retriveByName(strEdificio);
+
+    boolean isDocente = u != null && u.getTipoUtente().equals(TipoUtente.DOCENTE);
+    boolean isStudente = u != null && u.getTipoUtente().equals(TipoUtente.STUDENTE);
+    boolean isAdmin = u != null && u.getTipoUtente().equals(TipoUtente.ADMIN);
 %>
 
-<%!Utente u;%>
 
 <html>
 <head>
@@ -75,8 +80,9 @@
                     <div class="counters"><%=a.getPosti() - a.getPostiOccupati()%> posti disponibili</div>
                     <div>
                         <br>
-                        <button id="toogle_prenotazione" type="button" class="btn btn-primary" data-toggle="modal" data-target="#prenotazionePosto" value="<%=a.getId()%>">
-                            <%= u == null || u.getTipoUtente().equals(TipoUtente.ADMIN) ? "Info" : (u.getTipoUtente().equals(TipoUtente.STUDENTE) ? "Posto" : "Aula")%>
+                        <button name="toggle_prenotazione" type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#prenotazionePosto" value="<%=a.getId()%>">
+                            <%= u == null || isAdmin ? "Info" : ("Prenota " + (isDocente ? "Aula" : "Posto"))%>
                         </button>
                     </div>
                 </div>
@@ -85,13 +91,13 @@
         </div>
         <!-- info -->
         <div class="modal fade" id="prenotazionePosto">
-            <form name="prenota_posto">
+            <form id="prenotazione_form" name="prenota_posto">
                 <input name="aula" id="id_aula" type="hidden"/>
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <!-- info Header -->
                         <div class="modal-header">
-                            <h4 id="nome_aula" class="modal-title">Aula P1</h4>
+                            <h4 id="nome_aula" class="modal-title">#Name#</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <!-- info body -->
@@ -100,25 +106,51 @@
                                 <div id="exercitationrormessage"></div>
                                 <form action="" method="post" role="form" class="contactForm">
                                     <div class="form-group">
-                                        <label>Posti</label>
+                                        <b>Posti Totali:</b> <label id="posti_aula"></label>
                                         <span class="input"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label>Computer</label>
+                                        <b>Posti Disponibili:</b> <label id="posti_disponibili"></label>
                                         <span class="input"></span>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Altro</label>
-                                        <span class="input"></span>
+                                    <div class="form-group row">
+                                        <label class="col-2"><b>Servizi: </b></label>
+                                        <div class="col-3">
+                                            <span class="icon col-1" style="color: black; font-size: medium">
+                                                <i id="servizi_prese" class="fa fa-bolt" data-toggle="tooltip" title="L'aula è dotata di prese sul banco"></i>
+                                            </span>
+                                            <span class="icon col-1" style="color: black; font-size: medium">
+                                                <i id="servizi_computer" class="fa fa-laptop" data-toggle="tooltip" title="L'aula è dotata di postazioni pc"></i>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div><label for="toggle-one">Disponibile</label><input id="toggle-one" checked type="checkbox"/></div>
-                                    <hr>
+
+                                    <% if (isDocente || isStudente) { %>
+                                    <div class="form-group row">
+                                        <label class="col-5 col-form-label" for="durata-prenotazione">Durata prenotazione</label>
+                                        <div class="col-4">
+                                            <% if (isDocente) { %>
+                                            <input name="durata_prenotazione" id="durata-prenotazione" class="form-control" type="number" min="1" max="6" step="1"/>
+                                            <% } else {%>
+                                            <input name="durata_prenotazione" id="durata-prenotazione" class="form-control" type="number" min="30" max="300" step="30"/>
+                                            <% } %>
+                                        </div>
+                                        <label class="col-3 col-form-label">
+                                            <%= isDocente ? "ore" : "minuti" %>
+                                        </label>
+                                    </div>
+                                    <% } %>
+                                    <% if (isAdmin) { %>
                                     <div class="form form-group toggle"><a href="#">Modifica</a></div>
+                                    <% } %>
                                 </form>
                             </div>
                         </div>
                         <!-- info footer -->
                         <div class="modal-footer">
+                            <% if (u != null && !u.getTipoUtente().equals(TipoUtente.ADMIN)) { %>
+                            <button id="submit_button" type="button" class="btn btn-primary">Prenota</button>
+                            <% } %>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
                         </div>
                     </div>

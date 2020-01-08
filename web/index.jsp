@@ -12,6 +12,7 @@
 <%@ page contentType= "text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
+    Utente u = SessionManager.getUtente(session);
     List<Edificio> edifici = DBEdificioDAO.getInstance().retriveAll();
     HashMap<Edificio, Integer> postiDisponibili = new HashMap<>();
     int nAule = 0;
