@@ -30,10 +30,9 @@ public interface PrenotazioneDAO {
      *
      * @param data data in cui cercare le prenotazioni
      * @return la lista ordinata per data e ora delle prenotazioni di quella determinata data
-     * @throws IllegalArgumentException se la data specificata ancora deve avvenire
      * @since ver 0.1
      */
-    List<Prenotazione> retriveByData(Date data) throws IllegalArgumentException;
+    List<Prenotazione> retriveByData(Date data);
 
     /**
      * Cerca all'interno del gestore della persistenza gli oggetti Prenotazione di una determinata ora di un giorno.
@@ -41,10 +40,9 @@ public interface PrenotazioneDAO {
      * @param data data in cui cercare le prenotazioni
      * @param ora ora in cui cercare le prenotazioni
      * @return la lista ordinata per data e ora delle prenotazioni di quella determinata data e ora
-     * @throws IllegalArgumentException se la data e l'ora specificati ancora devono avvenire
      * @since ver 0.1
      */
-    List<Prenotazione> retriveByDataOra(Date data, Time ora) throws IllegalArgumentException;
+    List<Prenotazione> retriveByDataOra(Date data, Time ora);
 
     /**
      * Cerca all'interno del gestore della persistenza gli oggetti Prenotazioni creati da un determinato utente.

@@ -1,13 +1,15 @@
-var AULE;
-
 $(function () {
 
     $("[name='toggle_prenotazione']").click(function() {
         loadInfo($(this).val());
     });
 
-    $("#submit_button").click(function () {
-        sendInfo($(this).parents('form:first'));
+    $("form[name='prenota_posto'] #submit_button").click(function () {
+        prenotaPosto($(this).parents('form:first'));
+    });
+
+    $("form[name='prenota_aula'] #submit_button").click(function () {
+        prenotaAula($(this).parents('form:first'));
     });
 });
 
@@ -33,11 +35,23 @@ function loadInfo(idAula) {
     });
 }
 
-function sendInfo(form) {
+function prenotaPosto(form) {
     var data = form.serialize();
-    // $.post("/PrenotaPostoServlet", data, function () {
-    //     alert("Prenotazione effettuata con successo.");
-    // }).fail(function (msg) {
-    //     alert(msg.toString())
-    // });
+    $.post("/PrenotaPostoServlet", data, function (msg) {
+        showMessage(msg);
+    }).fail(function (msg) {
+        showError(msg.responseText);
+    });
+}
+
+function prenotaAula(form) {
+    var selector = "#oraInizio_prenotazione";
+    var oraInizio = $(selector).val();
+    $(selector).val(oraInizio + ":00");
+    var data = form.serialize();
+    $.post("/PrenotaAulaServlet", data, function (msg) {
+        showMessage(msg);
+    }).fail(function (msg) {
+        showError(msg.responseText);
+    })
 }

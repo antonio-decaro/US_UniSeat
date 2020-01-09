@@ -80,11 +80,13 @@
 </section>
 <section id="facts">
     <div class="container wow fadeIn">
-        <% if (errorMessage != null) { %>
-        <div class="alert alert-danger" role="alert">
-            <%=errorMessage%>
-        </div>
-        <% } %>
+<%--        ERRORE SESSIONE         --%>
+<%--        <% if (errorMessage != null) { %>--%>
+<%--        <div class="alert alert-danger" role="alert">--%>
+<%--            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>--%>
+<%--            <%=errorMessage%>--%>
+<%--        </div>--%>
+<%--        <% } %>--%>
         <div class="section-header">
             <h3 class="section-title">Disponibilità</h3>
         </div>
@@ -156,6 +158,5 @@
 <!-- Template Main Javascript File -->
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/edifici.js"></script>
-
 </body>
 </html>

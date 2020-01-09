@@ -63,7 +63,7 @@ public class EmailManager {
         String subject = "Avviso prenotazione Aula";
         String body = String.format("Gentile %s %s,\nvogliamo informarla che l'aula verrà occupata dalle ore %s alle ore " +
                 "%s del giorno %s. " +
-                "La preghiamo pertanto di abbandonare per l'orario richiesot al fine di evitare situazioni scomode.",
+                "La preghiamo pertanto di abbandonare l'aula per l'orario richiesto al fine di evitare situazioni scomode.",
                 utente.getCognome(), utente.getNome(), prenotazione.getOraInizio().toString(),
                 prenotazione.getOraFine().toString(), prenotazione.getData().toString());
 

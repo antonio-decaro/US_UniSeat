@@ -20,10 +20,20 @@
             &copy; Copyright <strong>Uni Seat</strong>. All Rights Reserved
         </div>
     </div>
-    <% if (message != null) { %>
-        <script>
-            alert(<%=message%>);
-        </script>
-    <% } %>
 </footer>
+
+<div id="my_error-dialog">
+    <div class="alert alert-danger" role="alert">
+        <span class="close" aria-label="close">&times;</span>
+        <p class="message"></p>
+    </div>
+</div>
+
+<div id="my_success-dialog">
+    <div class="alert alert-success" role="alert">
+        <span class="close" aria-label="close">&times;</span>
+        <p class="message"></p>
+    </div>
+</div>
+
 <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>

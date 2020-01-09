@@ -1173,5 +1173,16 @@ button:focus {
 #errN {
   position: absolute;
   top: 10%;
+}
 
+/* error and success dialogs */
+
+#my_error-dialog, #my_success-dialog {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  display: none;
+  min-height: 120px;
+  min-width: 300px;
+  margin-bottom: 15px;
 }

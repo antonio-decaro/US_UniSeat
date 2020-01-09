@@ -18,11 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.Clock;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -31,7 +33,7 @@ import java.util.List;
  * @author De Caro Antonio
  * @version 0.1
  * */
-@WebServlet("/prenotaAula")
+@WebServlet("/PrenotaAulaServlet")
 public class PrenotaAulaServlet extends HttpServlet {
 
     @Override
@@ -54,17 +56,22 @@ public class PrenotaAulaServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         Utente utente = SessionManager.getUtente(session);
+        PrintWriter printWriter = resp.getWriter();
+        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         if (utente == null) {
-            resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp");
-            SessionManager.setError(session, "Utente non loggato");
+            final String ERROR = "Utente non loggato";
+            printWriter.print(ERROR);
+            SessionManager.setError(session, ERROR);
+//            resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp");
             return;
         }
 
         if (!utente.getTipoUtente().equals(TipoUtente.DOCENTE)) {
             final String ERROR = "Non hai i permessi per accedere a questa funzionalità";
+            printWriter.print(ERROR);
             SessionManager.setError(session, ERROR);
             resp.sendError(HttpServletResponse.SC_FORBIDDEN, ERROR);
-            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+//            resp.sendRedirect(req.getContextPath() + "/index.jsp");
             return;
         }
 
@@ -85,8 +92,9 @@ public class PrenotaAulaServlet extends HttpServlet {
             oraInizio = parseOra(req.getParameter("oraInizio"));
             durata = parseDurata(req.getParameter("durata"));
         } catch (IllegalArgumentException e) {
+            printWriter.print(e.getMessage());
             SessionManager.setError(session, e.getMessage());
-            resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp");
+//            resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp");
             return;
         }
         Time oraFine = Time.valueOf(oraInizio.toLocalTime().plusHours(durata));
@@ -94,8 +102,10 @@ public class PrenotaAulaServlet extends HttpServlet {
 
         DisponibilitaManager disponibilita = new DisponibilitaManager(aula, prenotazioneDAO);
         if (!disponibilita.isAulaDisponibile(data, oraInizio, oraFine)) {
-            SessionManager.setError(session, "Aula non disponibile");
-            resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp");
+            final String ERROR = "Aula non disponibile";
+            printWriter.print(ERROR);
+            SessionManager.setError(session, ERROR);
+//            resp.sendRedirect(req.getContextPath() + "/jsp/aule.jsp");
             return;
         }
 
@@ -124,9 +134,16 @@ public class PrenotaAulaServlet extends HttpServlet {
                     prenotazioneDAO.delete(p);
                 }
             }
+
+            if (Time.valueOf(LocalTime.now(clock)).after(prenotazione.getOraInizio())) {
+                aula.setPostiOccupati(aula.getPosti());
+                aulaDAO.update(aula);
+            }
         }
 
-        resp.sendRedirect(req.getContextPath() + "/jsp/prenotazione.jsp");
+        resp.setStatus(HttpServletResponse.SC_OK);
+        printWriter.print("Prenotazione avvenuta con successo");
+//        resp.sendRedirect(req.getContextPath() + "/jsp/prenotazione.jsp");
     }
 
     private Time parseOra(String param) {

@@ -22,6 +22,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Clock;
@@ -29,8 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -63,6 +64,8 @@ class PrenotaAulaServletBlackBoxTest {
         when(req.getContextPath()).thenReturn("");
         when(ctx.getContextPath()).thenReturn("");
         when(session.isNew()).thenReturn(false);
+        when(res.getWriter()).thenReturn(new PrintWriter(new StringWriter()));
+        doNothing().when(res).setStatus(anyInt());
         doNothing().when(res).sendRedirect(anyString());
         doNothing().when(emailManager).inviaEmailConferma(any());
 

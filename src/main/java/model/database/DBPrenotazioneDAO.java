@@ -7,8 +7,6 @@ import model.pojo.TipoPrenotazione;
 import model.pojo.Utente;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -66,11 +64,8 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     }
 
     @Override
-    public List<Prenotazione> retriveByData(Date data) throws IllegalArgumentException {
+    public List<Prenotazione> retriveByData(Date data) {
         final String QUERY = "SELECT * FROM prenotazione WHERE data = ?";
-
-        if (data.after(Date.valueOf(LocalDate.now()))) // controlla la precondizione
-            throw new IllegalArgumentException(String.format("La data %s ancora deve avvenire", data.toString()));
 
         List<Prenotazione> ret = new LinkedList<>();
         try {
@@ -92,11 +87,8 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
 
 
     @Override
-    public List<Prenotazione> retriveByDataOra(Date data, Time ora) throws IllegalArgumentException {
+    public List<Prenotazione> retriveByDataOra(Date data, Time ora) {
         final String QUERY = "SELECT * FROM prenotazione WHERE data=? AND ora_inizio=?";
-
-        if (data.after(Date.valueOf(LocalDate.now())) && ora.after(Time.valueOf(LocalTime.now())))
-            throw new IllegalArgumentException(String.format("La data %s ancora deve avvenire", data.toString()));
 
         List<Prenotazione> ret = new LinkedList<>();
         try {
@@ -171,8 +163,8 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     public void insert(Prenotazione prenotazione) throws ViolazioneEntityException {
         final String QUERY = "INSERT INTO prenotazione(utente, aula, data, ora_inizio, ora_fine, tipo)  " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
-
         try {
+            connection.setAutoCommit(false);
             PreparedStatement stm = connection.prepareStatement(QUERY);
             stm.setString(1, prenotazione.getUtente().getEmail());
             stm.setInt(2, prenotazione.getAula().getId());
@@ -183,10 +175,25 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
             stm.executeUpdate();
 
             createEvent(prenotazione);
+            if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.AULA)) {
+                createEventForStart(prenotazione);
+            }
 
+            connection.commit();
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "{0}", e);
+            logger.log(Level.SEVERE, e.getMessage());
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, e.getMessage());
+            }
             throw new ViolazioneEntityException(e.getMessage());
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, ex.getMessage());
+            }
         }
     }
 
@@ -198,13 +205,30 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
             throw new ViolazioneEntityException(String.format("Non esiste la prenotazione %s nel database", prenotazione));
 
         try {
+            connection.setAutoCommit(false);
+            dropEvent(prenotazione, PULISCI);
+            if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.AULA)){
+                dropEvent(prenotazione, OCCUPA);
+            }
+
             PreparedStatement stm = connection.prepareStatement(QUERY);
             stm.setInt(1, prenotazione.getId());
-            stm.executeUpdate();
-            dropEvent(prenotazione);
+            stm.execute();
 
+            connection.commit();
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "{0}", e);
+            logger.log(Level.SEVERE, e.getMessage());
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, e.getMessage());
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, ex.getMessage());
+            }
         }
     }
 
@@ -217,6 +241,7 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
             throw new ViolazioneEntityException("Non esiste alcuna prenotazione con id " + prenotazione.getId());
 
         try {
+            connection.setAutoCommit(false);
             PreparedStatement stm = connection.prepareStatement(QUERY);
             stm.setDate(1, prenotazione.getData());
             stm.setTime(2, prenotazione.getOraInizio());
@@ -225,10 +250,28 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
 
             stm.executeUpdate();
 
-            dropEvent(prenotazione);
+            dropEvent(prenotazione, PULISCI);
             createEvent(prenotazione);
+            if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.AULA)){
+                dropEvent(prenotazione, OCCUPA);
+                createEventForStart(prenotazione);
+            }
+
+            connection.commit();
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "{0}", e);
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, e.getMessage());
+            }
+            throw new ViolazioneEntityException(e.getMessage());
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, ex.getMessage());
+            }
         }
     }
 
@@ -267,13 +310,34 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
         return ret;
     }
 
-    private void createEvent(Prenotazione prenotazione) throws SQLException {
+    private void createEventForStart(Prenotazione prenotazione) throws SQLException {
         final String QUERY1 = "" +
-                "CREATE EVENT " + getEventName(prenotazione) + " " +
+                "CREATE EVENT " + getEventName(prenotazione, OCCUPA) + " " +
                 "ON SCHEDULE AT ? " +
                 "DO UPDATE Aula SET n_posti_occupati = ? WHERE id = ?;";
 
-        String eventName = getEventName(prenotazione);
+        Timestamp eventOccurence = Timestamp.valueOf(String.format("%s %s", prenotazione.getData(), prenotazione.getOraInizio()));
+
+        int postiOccupati;
+        if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.AULA)) {
+            postiOccupati = prenotazione.getAula().getPosti();
+        } else {
+            postiOccupati = prenotazione.getAula().getPostiOccupati() + 1;
+        }
+
+        PreparedStatement stm = connection.prepareStatement(QUERY1);
+        stm.setTimestamp(1, eventOccurence);
+        stm.setInt(2, postiOccupati);
+        stm.setInt(3, prenotazione.getAula().getId());
+        stm.execute();
+    }
+
+    private void createEvent(Prenotazione prenotazione) throws SQLException {
+        final String QUERY1 = "" +
+                "CREATE EVENT " + getEventName(prenotazione, PULISCI) + " " +
+                "ON SCHEDULE AT ? " +
+                "DO UPDATE Aula SET n_posti_occupati = ? WHERE id = ?;";
+
         Timestamp eventOccurence = Timestamp.valueOf(String.format("%s %s", prenotazione.getData(), prenotazione.getOraFine()));
 
         int postiOccupati;
@@ -290,14 +354,35 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
         stm.execute();
     }
 
-    private void dropEvent(Prenotazione prenotazione) throws SQLException {
-        final String QUERY = "DROP EVENT IF EXISTS " + getEventName(prenotazione) + ";";
+    private void dropEvent(Prenotazione prenotazione, String prefix) throws SQLException {
+        final String QUERY = "DROP EVENT IF EXISTS " + getEventName(prenotazione, prefix) + ";";
 
-        PreparedStatement stm = connection.prepareStatement(QUERY);
-        stm.execute();
+        Statement stm = connection.createStatement();
+        stm.execute(QUERY);
     }
 
-    private String getEventName(Prenotazione prenotazione) {
-        return "pulisci" + prenotazione.hashCode();
+    private String getEventName(Prenotazione prenotazione, String prefix) throws SQLException {
+        if (prenotazione.getId() == 0) {
+            final String QUERY = "SELECT id FROM prenotazione WHERE utente = ? AND aula = ? AND data = ? AND ora_inizio = ? AND" +
+                    " ora_fine = ?;";
+
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setString(1, prenotazione.getUtente().getEmail());
+            stm.setInt(2, prenotazione.getAula().getId());
+            stm.setDate(3, prenotazione.getData());
+            stm.setTime(4, prenotazione.getOraInizio());
+            stm.setTime(5, prenotazione.getOraFine());
+            stm.execute();
+            ResultSet rs = stm.getResultSet();
+            if (rs.next())
+                return prefix + rs.getInt(1);
+            return prefix + 0;
+        } else {
+
+            return prefix + prenotazione.getId();
+        }
     }
+
+    private static final String PULISCI = "pulisci";
+    private static final String OCCUPA = "occupa";
 }
