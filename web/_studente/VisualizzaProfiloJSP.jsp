@@ -15,7 +15,7 @@
             SessionManager.cleanError(session);
         }
         if (!SessionManager.isAlradyAuthenticated(session)) {
-            response.sendRedirect(request.getContextPath() + "/jsp/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/_comuni/login.jsp");
         }
     }
 %>
@@ -80,15 +80,13 @@ Header
                                     </div>
                                     <% } %>
                                     <div class="form-label-group">
-                                        <input name="cognome" type="text" id="inputCognome" class="form-control" onClick="blankLabel('errC')" value="<%=u.getCognome()%>"
-                                               readonly>
+                                        <input name="cognome" type="text" id="inputCognome" class="form-control" onClick="blankLabel('errC')" value="<%=u.getCognome()%>" readonly>
                                         <label for="inputCognome">Cognome</label>
 
                                     </div>
                                     <h6 id="errC" style="color: #bd2130"></h6>
                                     <div class="form-label-group">
-                                        <input name="email" type="email" id="inputEmail" class="form-control" value="<%=u.getEmail()%>"
-                                               readonly>
+                                        <input name="email" type="email" id="inputEmail" class="form-control" value="<%=u.getEmail()%>" readonly>
                                         <label for="inputEmail">E-Mail</label>
                                     </div>
                                     <% if (errorMessage != null) { %>
