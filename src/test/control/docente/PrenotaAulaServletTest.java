@@ -22,6 +22,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Date;
@@ -66,6 +68,8 @@ class PrenotaAulaServletTest {
         when(req.getSession()).thenReturn(session);
         when(req.getContextPath()).thenReturn("");
         when(ctx.getContextPath()).thenReturn("");
+        when(res.getWriter()).thenReturn(new PrintWriter(new StringWriter()));
+        doNothing().when(res).setStatus(anyInt());
         when(session.isNew()).thenReturn(false);
         doNothing().when(res).sendRedirect(anyString());
         doNothing().when(emailManager).inviaEmailConferma(any());

@@ -93,7 +93,7 @@
                     <div>
                         <br>
                         <button name="toggle_prenotazione" type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#prenotazionePosto" value="<%=a.getId()%>">
+                                data-target="#prenotazione" value="<%=a.getId()%>">
                             <%= u == null || isAdmin ? "Info" : ("Prenota " + (isDocente ? "Aula" : "Posto"))%>
                         </button>
                     </div>
@@ -102,8 +102,8 @@
             <% } %>
         </div>
         <!-- info -->
-        <div class="modal fade" id="prenotazionePosto">
-            <form id="prenotazione_form" name="prenota_posto">
+        <div class="modal fade" id="prenotazione">
+            <form id="prenotazione_form" name="<%= u != null && !isAdmin ? (isDocente ? "prenota_aula" : "prenota_posto") : "" %>">
                 <input name="aula" id="id_aula" type="hidden"/>
                 <input name="edificio" id="id_edificio" type="hidden" value="<%=strEdificio%>"/>
                 <div class="modal-dialog modal-dialog-centered">

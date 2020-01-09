@@ -297,7 +297,20 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
         stm.execute();
     }
 
-    private String getEventName(Prenotazione prenotazione) {
-        return "pulisci" + prenotazione.hashCode();
+    private String getEventName(Prenotazione prenotazione) throws SQLException {
+        final String QUERY = "SELECT id FROM prenotazione WHERE utente = ? AND aula = ? AND data = ? AND ora_inizio = ? AND" +
+                " ora_fine = ?;";
+
+        PreparedStatement stm = connection.prepareStatement(QUERY);
+        stm.setString(1, prenotazione.getUtente().getEmail());
+        stm.setInt(2, prenotazione.getAula().getId());
+        stm.setDate(3, prenotazione.getData());
+        stm.setTime(4, prenotazione.getOraInizio());
+        stm.setTime(5, prenotazione.getOraFine());
+        stm.execute();
+        ResultSet rs = stm.getResultSet();
+        rs.next();
+        int id = rs.getInt(1);
+        return "pulisci" + id;
     }
 }
