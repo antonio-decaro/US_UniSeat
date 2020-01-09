@@ -36,14 +36,14 @@ public class EliminaUtenteServlet extends HttpServlet {
         Utente u = SessionManager.getUtente(session);
 
         if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
-            response.sendRedirect("Login.jsp");
             SessionManager.setError(session, "Utente non abilitato");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN,"Utente non abilitato");
             return;
         }
 
         String email = request.getParameter("email_utente");
         if (email == null) {
-            //response.getWriter().print(400);
+            response.getWriter().print("Utente non selezionato");
             SessionManager.setError(session, "Utente non selezionato");
             return;
         } else {
@@ -52,7 +52,7 @@ public class EliminaUtenteServlet extends HttpServlet {
             utenteDAO.delete(utente_el);
         }
 
-        //response.getWriter().print(200);
+        response.setStatus(HttpServletResponse.SC_OK);
 
     }
 

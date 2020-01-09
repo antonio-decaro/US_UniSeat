@@ -61,6 +61,7 @@ function mostraPassword() {
     $("#divConfPassHide").show();
     $("#inputPassword").prop("readonly", false);
     $("#inputConfPassword").prop("readonly", false);
+    $("#buttonModificaPassword").prop("disabled",true);
 
 }
 

@@ -30,7 +30,7 @@
                     </ul>
                 <li class="menu-has-children"><a href="#">Visualizza</a>
                     <ul>
-                        <li><a href="#">Visualizza utenti registrati</a></li>
+                        <li><a href="../_admin/VisualizzaUtenti.jsp">Visualizza utenti registrati</a></li>
                         <li><a href="../_comuni/prenotazione.jsp">Visualizza prenotazioni</a></li>
                         <li><a href="#">Visualizza edifici</a></li>
                     </ul>
