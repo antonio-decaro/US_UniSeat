@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Clock;
@@ -28,8 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -52,6 +53,7 @@ class PrenotaPostoServletTest {
     @BeforeEach
     void setUp() throws IOException {
         servlet = new PrenotaPostoServlet();
+        StringWriter stringWriter = new StringWriter();
         MockitoAnnotations.initMocks(this);
         when(req.getServletContext()).thenReturn(ctx);
         when(ctx.getAttribute(PrenotaPostoServlet.AULA_DAO)).thenReturn(aulaDAO);
@@ -62,6 +64,8 @@ class PrenotaPostoServletTest {
         when(req.getContextPath()).thenReturn("");
         when(ctx.getContextPath()).thenReturn("");
         when(session.isNew()).thenReturn(false);
+        when(res.getWriter()).thenReturn(new PrintWriter(stringWriter));
+        doNothing().when(res).setStatus(anyInt());
         doNothing().when(res).sendRedirect(anyString());
         Mockito.doAnswer((Answer<Object>) invocation -> {
             try {
