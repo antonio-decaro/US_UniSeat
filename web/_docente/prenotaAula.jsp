@@ -41,9 +41,35 @@
                                             </span>
                                 </div>
                             </div>
-                            <% if (isDocente) { %>
-
-                            <% } %>
+                            <div class="form-group row">
+                                <div class="form-check">
+                                    <input name="data" type="radio" id="radioLunedi" value="LUNEDI" checked>
+                                    <label for="radioLunedi">Luned&igrave;</label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="data" type="radio" id="radioMartedi" value="MARTEDI">
+                                    <label for="radioMartedi">Marted&igrave;</label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="data" type="radio" id="radioMercoledi" value="MERCOLEDI">
+                                    <label for="radioMercoledi">Mercoled&igrave;</label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="data" type="radio" id="radioGiovedi" value="GIOVEDI">
+                                    <label for="radioGiovedi">Gioved&igrave;</label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="data" type="radio" id="radioVenerdi" value="VENERDI">
+                                    <label for="radioVenerdi">Venerd&igrave;</label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-5 col-form-label" for="oraInizio_prenotazione">Ora Inizio</label>
+                                <div class="col-4">
+                                    <input name="oraInizio" id="oraInizio_prenotazione" class="form-control" type="time"/>
+                                </div>
+                                <label class="col-3 col-form-label">ore</label>
+                            </div>
                             <div class="form-group row">
                                 <label class="col-5 col-form-label" for="durata_prenotazione">Durata prenotazione</label>
                                 <div class="col-4">

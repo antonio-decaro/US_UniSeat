@@ -54,7 +54,7 @@ public class VerificaAccountServlet extends HttpServlet {
         }
 
         session.invalidate();
-        resp.sendRedirect(req.getContextPath() + "/jsp/login.jsp");
+        resp.sendRedirect(req.getContextPath() + "/_comuni/login.jsp");
     }
 
     @Override

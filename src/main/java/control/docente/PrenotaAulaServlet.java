@@ -24,6 +24,7 @@ import java.sql.Time;
 import java.time.Clock;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -132,6 +133,11 @@ public class PrenotaAulaServlet extends HttpServlet {
                 else {
                     prenotazioneDAO.delete(p);
                 }
+            }
+
+            if (Time.valueOf(LocalTime.now(clock)).after(prenotazione.getOraInizio())) {
+                aula.setPostiOccupati(aula.getPosti());
+                aulaDAO.update(aula);
             }
         }
 
