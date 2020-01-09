@@ -49,7 +49,6 @@ function prenotaAula(form) {
     var oraInizio = $(selector).val();
     $(selector).val(oraInizio + ":00");
     var data = form.serialize();
-    alert(data);
     $.post("/PrenotaAulaServlet", data, function (msg) {
         showMessage(msg);
     }).fail(function (msg) {

@@ -43,8 +43,10 @@
         <nav id="nav-menu-container">
             <ul class="nav-menu">
                 <li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
-                <li><a href="">La mia prenotazione</a></li>
+                <li><a href="${pageContext.request.contextPath}/_comuni/prenotazione.jsp">La mia prenotazione</a></li>
+                <% if (u.getTipoUtente().equals(TipoUtente.STUDENTE)) {%>
                 <li><a href="${pageContext.request.contextPath}/_studente/VisualizzaProfiloJSP.jsp">Impostazioni</a></li>
+                <% } %>
                 <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
             </ul>
         </nav>

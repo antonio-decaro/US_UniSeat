@@ -206,13 +206,14 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
 
         try {
             connection.setAutoCommit(false);
-            PreparedStatement stm = connection.prepareStatement(QUERY);
-            stm.setInt(1, prenotazione.getId());
-            stm.executeUpdate();
             dropEvent(prenotazione, PULISCI);
             if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.AULA)){
                 dropEvent(prenotazione, OCCUPA);
             }
+
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setInt(1, prenotazione.getId());
+            stm.execute();
 
             connection.commit();
         } catch (SQLException e) {
@@ -356,25 +357,30 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     private void dropEvent(Prenotazione prenotazione, String prefix) throws SQLException {
         final String QUERY = "DROP EVENT IF EXISTS " + getEventName(prenotazione, prefix) + ";";
 
-        PreparedStatement stm = connection.prepareStatement(QUERY);
-        stm.execute();
+        Statement stm = connection.createStatement();
+        stm.execute(QUERY);
     }
 
     private String getEventName(Prenotazione prenotazione, String prefix) throws SQLException {
-        final String QUERY = "SELECT id FROM prenotazione WHERE utente = ? AND aula = ? AND data = ? AND ora_inizio = ? AND" +
-                " ora_fine = ?;";
+        if (prenotazione.getId() == 0) {
+            final String QUERY = "SELECT id FROM prenotazione WHERE utente = ? AND aula = ? AND data = ? AND ora_inizio = ? AND" +
+                    " ora_fine = ?;";
 
-        PreparedStatement stm = connection.prepareStatement(QUERY);
-        stm.setString(1, prenotazione.getUtente().getEmail());
-        stm.setInt(2, prenotazione.getAula().getId());
-        stm.setDate(3, prenotazione.getData());
-        stm.setTime(4, prenotazione.getOraInizio());
-        stm.setTime(5, prenotazione.getOraFine());
-        stm.execute();
-        ResultSet rs = stm.getResultSet();
-        rs.next();
-        int id = rs.getInt(1);
-        return prefix + id;
+            PreparedStatement stm = connection.prepareStatement(QUERY);
+            stm.setString(1, prenotazione.getUtente().getEmail());
+            stm.setInt(2, prenotazione.getAula().getId());
+            stm.setDate(3, prenotazione.getData());
+            stm.setTime(4, prenotazione.getOraInizio());
+            stm.setTime(5, prenotazione.getOraFine());
+            stm.execute();
+            ResultSet rs = stm.getResultSet();
+            if (rs.next())
+                return prefix + rs.getInt(1);
+            return prefix + 0;
+        } else {
+
+            return prefix + prenotazione.getId();
+        }
     }
 
     private static final String PULISCI = "pulisci";

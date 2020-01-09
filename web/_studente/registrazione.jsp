@@ -120,6 +120,9 @@
         </div>
     </div>
 </section>
+<%@ include file="../_fragments/contattaci.jsp" %>
+
+<%@ include file="../_fragments/footer.jsp" %>
 <!-- JavaScript Libraries -->
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/lib/jquery/jquery-migrate.min.js"></script>

@@ -158,6 +158,5 @@
 <!-- Template Main Javascript File -->
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/edifici.js"></script>
-
 </body>
 </html>

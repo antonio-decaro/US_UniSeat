@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="modal fade" id="prenotazione">
-    <form id="prenotazione_form" name="<%= u != null && !isAdmin ? (isDocente ? "prenota_aula" : "prenota_posto") : "" %>">
+    <form id="prenotazione_form" name="prenota_aula">
         <input name="aula" id="id_aula" type="hidden"/>
         <input name="edificio" id="id_edificio" type="hidden" value="<%=strEdificio%>"/>
         <div class="modal-dialog modal-dialog-centered">
