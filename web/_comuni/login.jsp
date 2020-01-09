@@ -81,7 +81,7 @@
                                     <label for="inputPassword">Password</label>
                                 </div>
                                 <div class="custom-control mb-3">
-                                    <a href="${pageContext.request.contextPath}/jsp/registrazione.jsp">Non hai un account?</a>
+                                    <a href="${pageContext.request.contextPath}/_studente/registrazione.jsp">Non hai un account?</a>
                                 </div>
                                 <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
                                     Accedi

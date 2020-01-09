@@ -71,11 +71,13 @@
 </section>
 <section id="services">
     <div class="container wow fadeIn">
-        <% if (errorMessage != null) { %>
-        <div class="alert alert-danger" role="alert">
-            <%=errorMessage%>
-        </div>
-        <% } %>
+<%--        ERRORE SESSIONE         --%
+<%--        <% if (errorMessage != null) { %>--%>
+<%--        <div class="alert alert-danger" role="alert">--%>
+<%--            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>--%>
+<%--            <%=errorMessage%>--%>
+<%--        </div>--%>
+<%--        <% } %>--%>
         <div class="section-header">
             <h3 class="section-title">Scegli dove studiare</h3>
             <p class="section-description">Prenotare posti non è mai stato così semplice con UniSeat!</p>
@@ -101,7 +103,7 @@
         </div>
         <!-- info -->
         <div class="modal fade" id="prenotazionePosto">
-            <form id="prenotazione_form" name="prenota_posto" action="${pageContext.request.contextPath}/PrenotaPostoServlet" method="post">
+            <form id="prenotazione_form" name="prenota_posto">
                 <input name="aula" id="id_aula" type="hidden"/>
                 <input name="edificio" id="id_edificio" type="hidden" value="<%=strEdificio%>"/>
                 <div class="modal-dialog modal-dialog-centered">
@@ -162,9 +164,9 @@
                         <!-- info footer -->
                         <div class="modal-footer">
                             <% if (u != null && !u.getTipoUtente().equals(TipoUtente.ADMIN)) { %>
-                            <button id="submit_button" type="submit" class="btn btn-primary">Prenota</button>
+                            <button id="submit_button" type="button" class="btn btn-primary" data-dismiss="modal">Prenota</button>
                             <% } %>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Chiudi</button>
                         </div>
                     </div>
                 </div>
