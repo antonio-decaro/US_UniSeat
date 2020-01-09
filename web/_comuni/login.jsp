@@ -8,15 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="control.utili.SessionManager" %>
 <%
-    String errorMessage = null;
-    if (session != null) {
-        errorMessage = SessionManager.getError(session);
-        if (errorMessage != null) {
-            SessionManager.cleanError(session);
-        }
-        if (SessionManager.isAlradyAuthenticated(session)) {
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
-        }
+    String errorMessage = SessionManager.getError(session);
+    if (errorMessage != null) {
+        SessionManager.cleanError(session);
+    }
+    if (SessionManager.isAlradyAuthenticated(session)) {
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 %>
 <html>

@@ -19,10 +19,15 @@
         return;
     }
 
-    List<Prenotazione> prenotazioniAttive = DBPrenotazioneDAO.getInstance().retriveByUtente(u);
-    prenotazioniAttive.removeIf(p -> p.getData().before(Date.valueOf(LocalDate.now())));
-    prenotazioniAttive.removeIf(p -> p.getData().equals(Date.valueOf(LocalDate.now())) &&
-            p.getOraFine().before(Time.valueOf(LocalTime.now())));
+    List<Prenotazione> prenotazioni;
+    if (!u.getTipoUtente().equals(TipoUtente.ADMIN)) {
+        prenotazioni = DBPrenotazioneDAO.getInstance().retriveByUtente(u);
+        prenotazioni.removeIf(p -> p.getData().before(Date.valueOf(LocalDate.now())));
+        prenotazioni.removeIf(p -> p.getData().equals(Date.valueOf(LocalDate.now())) &&
+                p.getOraFine().before(Time.valueOf(LocalTime.now())));
+    } else {
+        prenotazioni = DBPrenotazioneDAO.getInstance().retriveAll();
+    }
 
     String errorMessage = SessionManager.getError(session);
     if (errorMessage != null) {
@@ -63,10 +68,14 @@
                 <div class="card cap  img-fluid card-signin my-5">
                     <div class="card-body">
                         <div class="section-header">
-                            <% if (!prenotazioniAttive.isEmpty()) { %>
-                            <h3 class="section-title">La mia prenotazione</h3>
+                            <% if (!prenotazioni.isEmpty()) { %>
+                            <h3 class="section-title">
+                                <%=prenotazioni.size() == 1 ? "La mia prenotazione" : "Le mie prenotazioni"%>
+                            </h3>
                             <% } else { %>
-                            <h3 class="section-title">Non ci sono prenotazioni attive</h3>
+                            <h3 class="section-title">
+                                Non ci sono prenotazioni <%=u.getTipoUtente().equals(TipoUtente.ADMIN) ? "" : "attive"%>
+                            </h3>
                             <% } %>
                             <% if (errorMessage != null) { %>--%>
                             <div class="alert alert-danger" role="alert">
@@ -75,10 +84,13 @@
                             </div>
                             <% } %>
                         </div>
-                        <% if (!prenotazioniAttive.isEmpty()) { %>
+                        <% if (!prenotazioni.isEmpty()) { %>
                         <table class="table table-light table-responsive-md">
                             <thead>
                             <tr>
+                                <%if (u.getTipoUtente().equals(TipoUtente.ADMIN)) { %>
+                                <th scope="col">Utente</th>
+                                <% } %>
                                 <th scope="col">Edificio</th>
                                 <th scope="col">Aula</th>
                                 <th scope="col">Data</th>
@@ -88,8 +100,11 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <% for (Prenotazione p : prenotazioniAttive) { %>
+                            <% for (Prenotazione p : prenotazioni) { %>
                             <tr>
+                                <%if (u.getTipoUtente().equals(TipoUtente.ADMIN)) { %>
+                                <th scope="col"><%=p.getUtente().getEmail()%></th>
+                                <% } %>
                                 <th scope="row"><%=p.getAula().getEdificio().getNome()%>
                                 </th>
                                 <td><%=p.getAula().getNome()%>

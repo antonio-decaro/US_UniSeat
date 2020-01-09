@@ -25,14 +25,14 @@
                 <li><a href="#hero">Home</a></li>
                 <li class="menu-has-children"><a href="#">Inserisci</a>
                     <ul>
-                        <li><a href="inserisciDocente.html">Inserisci docente</a></li>
+                        <li><a href="#">Inserisci docente</a></li>
                         <li><a href="#">Inserisci aula</a></li>
                     </ul>
                 <li class="menu-has-children"><a href="#">Visualizza</a>
                     <ul>
-                        <li><a href="utentiRegistratiAdmin.html">Visualizza utenti registrati</a></li>
-                        <li><a href="visualizzaPrenotazioniAdmin.html">Visualizza prenotazioni</a></li>
-                        <li><a href="#services">Visualizza edifici</a></li>
+                        <li><a href="#">Visualizza utenti registrati</a></li>
+                        <li><a href="../_comuni/prenotazione.jsp">Visualizza prenotazioni</a></li>
+                        <li><a href="#">Visualizza edifici</a></li>
                     </ul>
 
                 <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
