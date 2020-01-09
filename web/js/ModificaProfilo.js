@@ -5,12 +5,12 @@ function validation() {
     var pass = $("#inputPassword").val();
     var confPass = $("#inputConfPassword").val();
     var verifica = true;
-    const regexN = /^[a-z A-Z]+$/;
-    const regexC = /^[a-z A-Z]+$/;
-    const regexP = /^((?=.*[\d])(?=.*[a-z])(?=.*[A-Z])).+$/;
+    var regexN = /^[a-z A-Z]+$/;
+    var regexC = /^[a-z A-Z]+$/;
+    var regexP = /^((?=.*[\d])(?=.*[a-z])(?=.*[A-Z])).+$/;
 
 
-    if (nome == "" || nome.length < 1 || nome.length > 20 || nome ==" ") {
+    if (nome == "" || nome.length < 1 || nome.length > 20 || nome == " ") {
         $("#errN").text("Il campo Nome non rispetta la lunghezza");
         verifica = false;
     } else if (nome.match(regexN) == null) {
@@ -46,11 +46,7 @@ function validation() {
 
 function modificaDati(form) {
     $.post("/modificaProfilo", $(form).serialize(), function(msg) {
-
-        if(msg == 200){
-            $(window.location).attr('href','/web/jsp/VisualizzaProfiloJSP.jsp');
-        }
-
+        $(window.location).attr('href','/_studente/VisualizzaProfiloJSP.jsp');
     });
 }
 

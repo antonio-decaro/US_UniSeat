@@ -9,14 +9,12 @@
 <%
     Utente u = SessionManager.getUtente(session);
     String errorMessage = null;
-    if (session != null) {
-        errorMessage = SessionManager.getError(session);
-        if (errorMessage != null) {
-            SessionManager.cleanError(session);
-        }
-        if (!SessionManager.isAlradyAuthenticated(session)) {
-            response.sendRedirect(request.getContextPath() + "/_comuni/login.jsp");
-        }
+    errorMessage = SessionManager.getError(session);
+    if (errorMessage != null) {
+        SessionManager.cleanError(session);
+    }
+    if (u == null || !u.getTipoUtente().equals(TipoUtente.STUDENTE)) {
+        response.sendRedirect(request.getContextPath() + "/_comuni/login.jsp");
     }
 %>
 <html lang="en">
@@ -63,13 +61,19 @@ Header
                             <div class="form">
                                 <div id="exercitationrormessage"></div>
                                 <form name="formModifica" method="post" class="form-signin">
-                                    <% if (errorMessage != null) { %>
+                                    <% if
+                                    (
+                                            errorMessage
+                                                    !=
+                                                    null
+                                    ) { %>
                                     <div id="alertErrorNome" class="alert alert-danger" role="alert">
                                         <%=errorMessage%>
                                     </div>
                                     <% } %>
                                     <div class="form-label-group">
-                                        <input name="nome" type="text" id="inputNome" class="form-control" onClick="blankLabel('errN')" value="<%=u.getNome()%>" readonly>
+                                        <input name="nome" type="text" id="inputNome" class="form-control"
+                                               onClick="blankLabel('errN')" value="<%=u.getNome()%>" readonly>
                                         <label for="inputNome">Nome</label>
                                     </div>
                                     <h6 id="errN" style="color: #bd2130"></h6>
@@ -80,13 +84,15 @@ Header
                                     </div>
                                     <% } %>
                                     <div class="form-label-group">
-                                        <input name="cognome" type="text" id="inputCognome" class="form-control" onClick="blankLabel('errC')" value="<%=u.getCognome()%>" readonly>
+                                        <input name="cognome" type="text" id="inputCognome" class="form-control"
+                                               onClick="blankLabel('errC')" value="<%=u.getCognome()%>" readonly>
                                         <label for="inputCognome">Cognome</label>
 
                                     </div>
                                     <h6 id="errC" style="color: #bd2130"></h6>
                                     <div class="form-label-group">
-                                        <input name="email" type="email" id="inputEmail" class="form-control" value="<%=u.getEmail()%>" readonly>
+                                        <input name="email" type="email" id="inputEmail" class="form-control"
+                                               value="<%=u.getEmail()%>" readonly>
                                         <label for="inputEmail">E-Mail</label>
                                     </div>
                                     <% if (errorMessage != null) { %>
@@ -95,18 +101,31 @@ Header
                                     </div>
                                     <% } %>
                                     <div class="form-label-group" id="divPassHide" style="display:none">
-                                        <input name="password" type="password" id="inputPassword" placeholder="Inserisci nuova password" class="form-control" onClick="blankLabel('errP')" readonly>
+                                        <input name="password" type="password" id="inputPassword"
+                                               placeholder="Inserisci nuova password" class="form-control"
+                                               onClick="blankLabel('errP')" readonly>
                                         <label for="inputPassword">Password</label>
                                     </div>
                                     <div class="form-label-group" id="divConfPassHide" style="display:none">
-                                        <input name="confPassword" type="password" id="inputConfPassword" placeholder="Conferma password" class="form-control" onClick="blankLabel('errP')" readonly>
+                                        <input name="confPassword" type="password" id="inputConfPassword"
+                                               placeholder="Conferma password" class="form-control"
+                                               onClick="blankLabel('errP')" readonly>
                                         <label for="inputConfPassword">Conferma Password</label>
 
                                     </div>
                                     <h6 id="errP" style="color: #bd2130"></h6>
-                                    <button id="buttonModifica" style="position: center" type="button" class="btn btn-lg btn-primary btn-block text-uppercase" onclick="setEditabili()">Modifica</button>
-                                    <button id="buttonConfermaModifica" style="position: center;display:none" type="button" class="btn btn-lg btn-primary btn-block text-uppercase" onclick="controllaFormModifica(formModifica)">Conferma</button>
-                                    <button id="buttonModificaPassword" style="position: center;display:none" type="button" class="btn btn-lg btn-primary btn-block text-uppercase" onclick="mostraPassword()">Modifica Password</button>
+                                    <button id="buttonModifica" style="position: center" type="button"
+                                            class="btn btn-lg btn-primary btn-block text-uppercase"
+                                            onclick="setEditabili()">Modifica
+                                    </button>
+                                    <button id="buttonConfermaModifica" style="position: center;display:none"
+                                            type="button" class="btn btn-lg btn-primary btn-block text-uppercase"
+                                            onclick="controllaFormModifica(formModifica)">Conferma
+                                    </button>
+                                    <button id="buttonModificaPassword" style="position: center;display:none"
+                                            type="button" class="btn btn-lg btn-primary btn-block text-uppercase"
+                                            onclick="mostraPassword()">Modifica Password
+                                    </button>
 
                                 </form>
                             </div>
