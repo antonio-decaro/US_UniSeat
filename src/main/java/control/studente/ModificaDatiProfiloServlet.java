@@ -87,24 +87,27 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             return;
         }
 
-        if (password == null || password.length() > 32 || password.length() < 8) {
-            SessionManager.setError(ssn, "Il campo Password non rispetta la lunghezza");
-            response.getWriter().print(400);
-            return;
-        }
-        if (password.matches(Rgx2)) {
-            if (password.equals(cPassword)) {
-                PassowrdEncrypter.criptaPassword(password);
-                u.setPassword(password);
-            } else {
-                SessionManager.setError(ssn, "Le Password non corrispondono");
+        if (password != null) {
+
+            if (password.length() > 32 || password.length() < 8) {
+                SessionManager.setError(ssn, "Il campo Password non rispetta la lunghezza");
                 response.getWriter().print(400);
                 return;
             }
-        } else {
-            SessionManager.setError(ssn, "Il campo Password non rispetta il formato");
-            response.getWriter().print(400);
-            return;
+            if (password.matches(Rgx2)) {
+                if (password.equals(cPassword)) {
+                    PassowrdEncrypter.criptaPassword(password);
+                    u.setPassword(password);
+                } else {
+                    SessionManager.setError(ssn, "Le Password non corrispondono");
+                    response.getWriter().print(400);
+                    return;
+                }
+            } else {
+                SessionManager.setError(ssn, "Il campo Password non rispetta il formato");
+                response.getWriter().print(400);
+                return;
+            }
         }
 
         try {
@@ -118,6 +121,7 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             addres = "error.jsp";
         }
         response.getWriter().print(200);
+        System.out.println(SessionManager.getError(ssn));
     }
 
 

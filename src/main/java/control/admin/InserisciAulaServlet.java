@@ -8,7 +8,6 @@ import model.database.DBAulaDAO;
 import model.database.DBEdificioDAO;
 import model.pojo.*;
 
-import javax.mail.Session;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;

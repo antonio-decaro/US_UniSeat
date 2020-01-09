@@ -24,13 +24,19 @@ function validation() {
         $("#errC").text("Il campo Cognome non rispetta il formato");
         verifica = false;
     }
-    if (pass === "" || pass.length > 32 || pass.length < 8 || pass === " ") {
+
+    if (pass != "") {
+
+        if (pass.length > 32 || pass.length < 8 || pass === " ") {
         $("#errP").text("Il campo Password non rispetta la lunghezza");
         verifica = false;
     } else if (pass.match(regexP) == null) {
-        $("#errP").text("Il campo Password non rispetta il formato");
-        verifica = false;
-    } else if (pass != confPass) {
+
+            $("#errP").text("Il campo Password non rispetta il formato");
+            verifica = false;
+        }
+
+    } else if (pass != "" && pass != confPass) {
         $("#errP").text("Le Password non corrispondono");
         verifica = false;
     }
@@ -39,7 +45,7 @@ function validation() {
 }
 
 function modificaDati(form) {
-    $.post("/modificaProfilo",$(form).serialize(),function(msg){
+    $.post("/modificaProfilo", $(form).serialize(), function(msg) {
 
         if(msg == 200){
             $(window.location).attr('href','/web/jsp/VisualizzaProfiloJSP.jsp');
@@ -54,16 +60,20 @@ function controllaFormModifica(form) {
     }
 }
 
+function mostraPassword() {
+    $("#divPassHide").show();
+    $("#divConfPassHide").show();
+    $("#inputPassword").prop("readonly", false);
+    $("#inputConfPassword").prop("readonly", false);
+
+}
+
 function setEditabili() {
     $("#inputNome").prop("readonly", false);
     $("#inputCognome").prop("readonly", false);
-    $("#inputPassword").prop("readonly", false);
-    $("#inputConfPassword").prop("readonly", false);
     $("#buttonModifica").hide();
-    $("#divPassHide").show();
-    $("#divConfPassHide").show();
-    const form = $('form[name="formModifica"]');
     $("#buttonConfermaModifica").show();
+    $("#buttonModificaPassword").show();
 }
 
 function blankLabel(id1){
