@@ -161,13 +161,13 @@ public class DBPrenotazioneDAOTest {
     @Test
     void insert_OK() {
         int id = 33;
-        Utente utente = new Utente("l.capozzoli@studenti.unisa.it", "Lorenzo", "Capozzoli",
-                "Lorenzo1", TipoUtente.STUDENTE);
+        Utente utente = new Utente("a.parisi@studenti.unisa.it", "Antonio", "Parisi",
+                "Antonio1", TipoUtente.STUDENTE);
         Edificio edificio = new Edificio("F3");
         Aula aula = new Aula(id, "P3", 0, 100, "", edificio);
         Prenotazione prenotazione = new Prenotazione(id, Date.valueOf("2019-05-21"), Time.valueOf("09:00:00"),
                 Time.valueOf("11:00:00"), TipoPrenotazione.POSTO, aula, utente);
-
+        System.out.println(prenotazione);
         prenotazioneDAO.insert(prenotazione);
 //        assertNotNull(prenotazione);
 //        assertEquals(prenotazione.getUtente(), prenotazioneDAO.retriveByUtente(utente));
