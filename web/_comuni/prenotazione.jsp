@@ -115,14 +115,6 @@
                                 </td>
                                 <td><%=p.getOraFine()%>
                                 </td>
-                                <td>
-                                    <form action="${pageContext.request.contextPath}/eliminaPrenotazione" method="get">
-                                        <input name="id_prenotazione" type="hidden" value="<%=p.getId()%>"/>
-                                        <button type="submit" class="btn btn-secondary btn-sm">
-                                            Elimina prenotazione
-                                        </button>
-                                    </form>
-                                </td>
 
                             </tr>
                             <% } %>

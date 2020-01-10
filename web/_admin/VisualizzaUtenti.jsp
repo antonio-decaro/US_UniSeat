@@ -107,13 +107,13 @@ Header
                     <div class="modal-content">
                         <!-- Conferma Header -->
                         <div class="modal-header">
-                            <h4 id="confermaEmail">Eliminare l'utente?</h4>
+                            <h4 style="text-decoration-color: black" id="confermaEmail">Eliminare l'utente?</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <!-- Conferma footer -->
                         <div class="modal-footer">
                             <button id="submit_button" type="button" class="btn btn-primary" data-dismiss="modal">Conferma</button>
-                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Chiudi</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Chiudi</button>
                         </div>
                     </div>
                 </div>
