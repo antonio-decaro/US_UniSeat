@@ -1,7 +1,8 @@
 package control.comuni;
 
 import com.google.gson.Gson;
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.PrenotazioneDAO;
@@ -28,6 +29,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +41,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-
-import java.sql.*;
 
 public class PrelevaPrenotazioneServletTest {
     @Mock
@@ -84,11 +85,11 @@ public class PrelevaPrenotazioneServletTest {
         }).when(session).setAttribute(anyString(), any());
 
         Utente u = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
         Utente u1 = new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro",
-                PassowrdEncrypter.criptaPassword("Antonio2"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("Antonio2"), TipoUtente.STUDENTE);
         Utente u2 = new Utente("c.gravino@studenti.unisa.it", "Carmine", "Gravino",
-                PassowrdEncrypter.criptaPassword("Gravino1"), TipoUtente.DOCENTE);
+                PasswordEncrypter.criptaPassword("Gravino1"), TipoUtente.DOCENTE);
         utenteDAO.insert(u);
         utenteDAO.insert(u1);
         utenteDAO.insert(u2);

@@ -75,7 +75,7 @@
 <div class="sourceCode"><i>1</i>&nbsp;package control.admin;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;import control.utili.EmailManager;
-<i>4</i>&nbsp;import control.utili.PassowrdEncrypter;
+<i>4</i>&nbsp;import control.utili.PasswordEncrypter;
 <i>5</i>&nbsp;import control.utili.SessionManager;
 <i>6</i>&nbsp;import model.dao.UtenteDAO;
 <i>7</i>&nbsp;import model.dao.ViolazioneEntityException;
@@ -172,7 +172,7 @@
 <b class="fc"><i>98</i>&nbsp;        UtenteDAO utenteDAO = (UtenteDAO) req.getServletContext().getAttribute(UTENTE_DAO_PARAM);</b>
 <i>99</i>&nbsp;
 <b class="fc"><i>100</i>&nbsp;        Random rand = new Random();</b>
-<b class="fc"><i>101</i>&nbsp;        Utente utente = new Utente(email, nome, cognome, PassowrdEncrypter.criptaPassword(password), TipoUtente.DOCENTE);</b>
+<b class="fc"><i>101</i>&nbsp;        Utente utente = new Utente(email, nome, cognome, PasswordEncrypter.criptaPassword(password), TipoUtente.DOCENTE);</b>
 <b class="fc"><i>102</i>&nbsp;        utente.setCodiceVerifica(rand.nextInt());</b>
 <i>103</i>&nbsp;
 <i>104</i>&nbsp;        try {
@@ -193,7 +193,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-01-08 22:47</div>
+    <div style="float:right;">generated on 2020-01-10 11:58</div>
 </div>
 </body>
 </html>

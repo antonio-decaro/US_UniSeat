@@ -1,17 +1,17 @@
 package model.database;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import model.dao.AulaDAO;
 import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
-import model.pojo.*;
-import org.junit.jupiter.api.*;
+import model.pojo.TipoUtente;
+import model.pojo.Utente;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 

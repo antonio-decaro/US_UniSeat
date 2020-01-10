@@ -74,7 +74,7 @@
 
 <div class="sourceCode"><i>1</i>&nbsp;package control.autenticazione;
 <i>2</i>&nbsp;
-<i>3</i>&nbsp;import control.utili.PassowrdEncrypter;
+<i>3</i>&nbsp;import control.utili.PasswordEncrypter;
 <i>4</i>&nbsp;import control.utili.SessionManager;
 <i>5</i>&nbsp;import model.dao.UtenteDAO;
 <i>6</i>&nbsp;import model.database.DBUtenteDAO;
@@ -132,7 +132,7 @@
 <b class="fc"><i>58</i>&nbsp;        UtenteDAO utenteDAO = (UtenteDAO) req.getServletContext().getAttribute(UTENTE_DAO_PARAM);</b>
 <i>59</i>&nbsp;
 <b class="fc"><i>60</i>&nbsp;        Utente u = utenteDAO.retriveByEmail(email);</b>
-<b class="fc"><i>61</i>&nbsp;        if (u == null || !u.getPassword().equals(PassowrdEncrypter.criptaPassword(password))) {</b>
+<b class="fc"><i>61</i>&nbsp;        if (u == null || !u.getPassword().equals(PasswordEncrypter.criptaPassword(password))) {</b>
 <b class="fc"><i>62</i>&nbsp;            SessionManager.setError(session, &quot;Credenziali non corrette&quot;);</b>
 <b class="fc"><i>63</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_comuni/login.jsp&quot;);</b>
 <i>64</i>&nbsp;            return;
@@ -180,7 +180,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-01-08 22:47</div>
+    <div style="float:right;">generated on 2020-01-10 11:58</div>
 </div>
 </body>
 </html>

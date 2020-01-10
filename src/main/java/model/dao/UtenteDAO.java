@@ -3,9 +3,7 @@ package model.dao;
 import model.pojo.Edificio;
 import model.pojo.Utente;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Questa interfaccia fornisce le operazioni effettuabili da un Data Access Object (DAO) che accede agli oggeti di tipo Utente

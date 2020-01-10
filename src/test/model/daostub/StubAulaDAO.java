@@ -5,8 +5,6 @@ import model.dao.ViolazioneEntityException;
 import model.pojo.Aula;
 import model.pojo.Edificio;
 
-import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.Set;
 import java.util.TreeSet;
 

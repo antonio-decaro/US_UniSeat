@@ -1,6 +1,6 @@
 package control.autenticazione;
 
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.daostub.StubUtenteDAO;
@@ -148,7 +148,7 @@ class LoginServletTest {
     @Test
     void TC_2_9() throws Exception {
         Utente utente = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
         utenteDAO.insert(utente);
         when(req.getParameter("email")).thenReturn("m.rossi12@studenti.unisa.it");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -167,7 +167,7 @@ class LoginServletTest {
     @Test
     void testBadCredentials() throws Exception {
         Utente utente = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi13"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("MarioRossi13"), TipoUtente.STUDENTE);
         utenteDAO.insert(utente);
         when(req.getParameter("email")).thenReturn("m.rossi12@studenti.unisa.it");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -180,7 +180,7 @@ class LoginServletTest {
     @Test
     void testNonConfirmedUser() throws Exception {
         Utente utente = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
         utente.setCodiceVerifica(1);
         utenteDAO.insert(utente);
         when(req.getParameter("email")).thenReturn("m.rossi12@studenti.unisa.it");

@@ -58,10 +58,10 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    80%
+    82,4%
   </span>
   <span class="absValue">
-    (12/ 15)
+    (14/ 17)
   </span>
 </td>
 </tr>
@@ -110,14 +110,14 @@
 <b class="fc"><i>36</i>&nbsp;        Utente u = SessionManager.getUtente(session);</b>
 <i>37</i>&nbsp;
 <b class="fc"><i>38</i>&nbsp;        if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato</b>
-<b class="fc"><i>39</i>&nbsp;            response.sendRedirect(&quot;Login.jsp&quot;);</b>
-<b class="fc"><i>40</i>&nbsp;            SessionManager.setError(session, &quot;Utente non abilitato&quot;);</b>
+<b class="fc"><i>39</i>&nbsp;            SessionManager.setError(session, &quot;Utente non abilitato&quot;);</b>
+<b class="fc"><i>40</i>&nbsp;            response.sendError(HttpServletResponse.SC_FORBIDDEN,&quot;Utente non abilitato&quot;);</b>
 <i>41</i>&nbsp;            return;
 <i>42</i>&nbsp;        }
 <i>43</i>&nbsp;
 <b class="fc"><i>44</i>&nbsp;        String email = request.getParameter(&quot;email_utente&quot;);</b>
 <b class="fc"><i>45</i>&nbsp;        if (email == null) {</b>
-<i>46</i>&nbsp;            //response.getWriter().print(400);
+<b class="fc"><i>46</i>&nbsp;            response.getWriter().print(&quot;Utente non selezionato&quot;);</b>
 <b class="fc"><i>47</i>&nbsp;            SessionManager.setError(session, &quot;Utente non selezionato&quot;);</b>
 <i>48</i>&nbsp;            return;
 <i>49</i>&nbsp;        } else {
@@ -126,7 +126,7 @@
 <b class="fc"><i>52</i>&nbsp;            utenteDAO.delete(utente_el);</b>
 <i>53</i>&nbsp;        }
 <i>54</i>&nbsp;
-<i>55</i>&nbsp;        //response.getWriter().print(200);
+<b class="fc"><i>55</i>&nbsp;        response.setStatus(HttpServletResponse.SC_OK);</b>
 <i>56</i>&nbsp;
 <i>57</i>&nbsp;    }
 <i>58</i>&nbsp;
@@ -143,7 +143,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-01-08 22:47</div>
+    <div style="float:right;">generated on 2020-01-10 11:58</div>
 </div>
 </body>
 </html>

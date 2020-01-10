@@ -1,7 +1,7 @@
 package control.studente;
 
 import control.utili.EmailManager;
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.daostub.StubUtenteDAO;
@@ -170,7 +170,7 @@ class RegistrazioneServletBlackBoxTest {
     @Test
     void TC_1_10() throws Exception {
         utenteDAO.insert(new Utente("l.verdi21@studenti.unisa.it", "Luigi", "Verdi",
-                PassowrdEncrypter.criptaPassword("LuigiVerdi21"), TipoUtente.STUDENTE));
+                PasswordEncrypter.criptaPassword("LuigiVerdi21"), TipoUtente.STUDENTE));
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("email")).thenReturn("l.verdi21@studenti.unisa.it");

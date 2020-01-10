@@ -1,7 +1,7 @@
 package control.admin;
 
 import control.utili.EmailManager;
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.daostub.StubUtenteDAO;
@@ -66,7 +66,7 @@ class IscrizioneDocenteServletTest {
         }).when(session).setAttribute(anyString(), any());
 
 
-        Utente u = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi", PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+        Utente u = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi", PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
         Utente u2 = new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro", "Antonio2", TipoUtente.STUDENTE);
         Utente u3 = new Utente("c.gravino@unisa.it", "Carmine", "Gravino", "Carmine2", TipoUtente.DOCENTE);
         utenteDAO.insert(u);

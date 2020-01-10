@@ -1,7 +1,7 @@
 package control.docente;
 
 import control.utili.EmailManager;
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
@@ -30,7 +30,7 @@ import java.time.Clock;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -91,7 +91,7 @@ class PrenotaAulaServletBlackBoxTest {
         aulaP3.setId(1);
         ed.getAule().add(aulaP3);
         utente = new Utente("c.gravino@unisa.it", "Carmine", "Gravino",
-                PassowrdEncrypter.criptaPassword("CarmineGravino1"), TipoUtente.DOCENTE);
+                PasswordEncrypter.criptaPassword("CarmineGravino1"), TipoUtente.DOCENTE);
         aulaDAO.insert(aulaP3);
 
         SessionManager.setError(session, "");

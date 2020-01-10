@@ -6,9 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="model.database.DBEdificioDAO" %>
-<%@ page import="java.util.List" %>
+<%@ page import="model.pojo.Aula" %>
+<%@ page import="model.pojo.Edificio" %>
+<%@ page import="model.pojo.Servizio" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page import="model.pojo.*" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType= "text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%

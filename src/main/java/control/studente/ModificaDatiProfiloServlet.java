@@ -1,13 +1,12 @@
 package control.studente;
 
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
 import model.database.DBUtenteDAO;
 import model.pojo.Utente;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -96,8 +95,7 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             }
             if (password.matches(Rgx2)) {
                 if (password.equals(cPassword)) {
-                    PassowrdEncrypter.criptaPassword(password);
-                    u.setPassword(password);
+                    u.setPassword(PasswordEncrypter.criptaPassword(password));
                 } else {
                     SessionManager.setError(ssn, "Le Password non corrispondono");
                     response.getWriter().print(400);
@@ -118,10 +116,8 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
         } catch (ViolazioneEntityException e) {
             response.getWriter().print(400);
             SessionManager.setError(ssn, e.getMessage());
-            addres = "error.jsp";
         }
         response.getWriter().print(200);
-        System.out.println(SessionManager.getError(ssn));
     }
 
 

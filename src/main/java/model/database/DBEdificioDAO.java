@@ -1,14 +1,15 @@
 package model.database;
 
 import model.dao.EdificioDAO;
-import model.pojo.*;
+import model.pojo.Aula;
+import model.pojo.Edificio;
+import model.pojo.Servizio;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.jar.JarOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

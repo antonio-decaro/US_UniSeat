@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Questa classe definisce l'algoritmo tramite il quale la password viene criptata.
  * */
-public class PassowrdEncrypter {
+public class PasswordEncrypter {
 
     /**
      * Questo metodo cripta una password

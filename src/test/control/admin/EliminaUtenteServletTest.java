@@ -1,7 +1,7 @@
 package control.admin;
 
 import control.utili.EmailManager;
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.daostub.StubUtenteDAO;
@@ -20,10 +20,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -53,6 +56,7 @@ class EliminaUtenteServletTest {
         when(ctx.getAttribute(EliminaUtenteServlet.UTENTE_DAO_PARAM)).thenReturn(utenteDAO);
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
+        when(res.getWriter()).thenReturn(new PrintWriter(new StringWriter()));
         doNothing().when(res).sendRedirect(anyString());
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
@@ -72,11 +76,11 @@ class EliminaUtenteServletTest {
         SessionManager.autentica(session, u);
 
         Utente u1 = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
         Utente u2 = new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro",
-                PassowrdEncrypter.criptaPassword("Antonio2"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("Antonio2"), TipoUtente.STUDENTE);
         Utente u3 = new Utente("c.gravino@studenti.unisa.it", "Carmine", "Gravino",
-                PassowrdEncrypter.criptaPassword("Gravino1"), TipoUtente.DOCENTE);
+                PasswordEncrypter.criptaPassword("Gravino1"), TipoUtente.DOCENTE);
         utenteDAO.insert(u1);
         utenteDAO.insert(u2);
         utenteDAO.insert(u3);

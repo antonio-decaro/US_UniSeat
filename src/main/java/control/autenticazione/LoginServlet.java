@@ -1,6 +1,6 @@
 package control.autenticazione;
 
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.database.DBUtenteDAO;
@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
         UtenteDAO utenteDAO = (UtenteDAO) req.getServletContext().getAttribute(UTENTE_DAO_PARAM);
 
         Utente u = utenteDAO.retriveByEmail(email);
-        if (u == null || !u.getPassword().equals(PassowrdEncrypter.criptaPassword(password))) {
+        if (u == null || !u.getPassword().equals(PasswordEncrypter.criptaPassword(password))) {
             SessionManager.setError(session, "Credenziali non corrette");
             resp.sendRedirect(req.getServletContext().getContextPath() + "/_comuni/login.jsp");
             return;

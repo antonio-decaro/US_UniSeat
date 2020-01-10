@@ -1,6 +1,6 @@
 package control.comuni;
 
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.PrenotazioneDAO;
@@ -9,7 +9,6 @@ import model.daostub.StubAulaDAO;
 import model.daostub.StubEdificioDAO;
 import model.daostub.StubPrenotazioneDAO;
 import model.daostub.StubUtenteDAO;
-
 import model.pojo.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,15 +22,17 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.Clock;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -60,6 +61,7 @@ public class EliminaPrenotazioneServletTest {
         when(req.getServletContext()).thenReturn(ctx);
         when(ctx.getAttribute(EliminaPrenotazioneServlet.PRENOTAZIONE_DAO_PARAM)).thenReturn(prenotazioneDAO);
         when(ctx.getAttribute(EliminaPrenotazioneServlet.AULA_DAO_PARAM)).thenReturn(aulaDAO);
+        when(ctx.getAttribute(EliminaPrenotazioneServlet.CLOCK)).thenReturn(Clock.systemDefaultZone());
         when(req.getSession()).thenReturn(session);
         when(req.getContextPath()).thenReturn("");
         when(ctx.getContextPath()).thenReturn("");
@@ -79,11 +81,11 @@ public class EliminaPrenotazioneServletTest {
         }).when(session).setAttribute(anyString(), any());
 
         Utente u = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
         Utente u1 = new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro",
-                PassowrdEncrypter.criptaPassword("Antonio2"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("Antonio2"), TipoUtente.STUDENTE);
         Utente u2 = new Utente("c.gravino@studenti.unisa.it", "Carmine", "Gravino",
-                PassowrdEncrypter.criptaPassword("Gravino1"), TipoUtente.DOCENTE);
+                PasswordEncrypter.criptaPassword("Gravino1"), TipoUtente.DOCENTE);
         utenteDAO.insert(u);
         utenteDAO.insert(u1);
         utenteDAO.insert(u2);

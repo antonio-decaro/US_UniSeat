@@ -1,7 +1,7 @@
 package control.studente;
 
 import control.utili.EmailManager;
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
@@ -65,7 +65,7 @@ public class RegistrazioneServlet extends HttpServlet {
 
         UtenteDAO utenteDAO = (UtenteDAO) req.getServletContext().getAttribute(UTENTE_DAO_PARAM);
 
-        Utente utente = new Utente(email, nome, cognome, PassowrdEncrypter.criptaPassword(password), TipoUtente.STUDENTE);
+        Utente utente = new Utente(email, nome, cognome, PasswordEncrypter.criptaPassword(password), TipoUtente.STUDENTE);
         Random rand = new Random();
         utente.setCodiceVerifica(rand.nextInt());
 

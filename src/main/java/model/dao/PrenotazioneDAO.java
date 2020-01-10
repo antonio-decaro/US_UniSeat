@@ -1,6 +1,8 @@
 package model.dao;
 
-import model.pojo.*;
+import model.pojo.Aula;
+import model.pojo.Edificio;
+import model.pojo.Prenotazione;
 import model.pojo.Utente;
 
 import java.sql.Date;

@@ -1,7 +1,7 @@
 package control.docente;
 
 import control.utili.EmailManager;
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
@@ -35,7 +35,8 @@ import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -96,7 +97,7 @@ class PrenotaAulaServletTest {
         aulaP3.setId(1);
         ed.getAule().add(aulaP3);
         utente = new Utente("c.gravino@unisa.it", "Carmine", "Gravino",
-                PassowrdEncrypter.criptaPassword("CarmineGravino1"), TipoUtente.DOCENTE);
+                PasswordEncrypter.criptaPassword("CarmineGravino1"), TipoUtente.DOCENTE);
         aulaDAO.insert(aulaP3);
 
         SessionManager.setError(session, "");
@@ -385,7 +386,7 @@ class PrenotaAulaServletTest {
     @Test
     void testOverlaps1() throws Exception {
         Utente studente = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
         LocalDate date = LocalDate.now();
         while (!date.getDayOfWeek().equals(DayOfWeek.of(1))) {
             date = date.plusDays(1);
@@ -413,7 +414,7 @@ class PrenotaAulaServletTest {
     @Test
     void testOverlaps2() throws Exception {
         Utente studente = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
 
         LocalDate date = LocalDate.now();
         while (!date.getDayOfWeek().equals(DayOfWeek.of(1))) {
@@ -442,7 +443,7 @@ class PrenotaAulaServletTest {
     @Test
     void testOverlaps3() throws Exception {
         Utente studente = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
 
         LocalDate date = LocalDate.now();
         while (!date.getDayOfWeek().equals(DayOfWeek.of(1))) {
@@ -471,7 +472,7 @@ class PrenotaAulaServletTest {
     @Test
     void testOverlaps4() throws Exception {
         Utente studente = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
-                PassowrdEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
+                PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
 
         LocalDate date = LocalDate.now();
         while (!date.getDayOfWeek().equals(DayOfWeek.of(1))) {

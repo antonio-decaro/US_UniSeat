@@ -103,7 +103,8 @@
                             <% for (Prenotazione p : prenotazioni) { %>
                             <tr>
                                 <%if (u.getTipoUtente().equals(TipoUtente.ADMIN)) { %>
-                                <th scope="col"><%=p.getUtente().getEmail()%></th>
+                                <th scope="col"><%=p.getUtente().getEmail()%>
+                                </th>
                                 <% } %>
                                 <th scope="row"><%=p.getAula().getEdificio().getNome()%>
                                 </th>
@@ -114,6 +115,14 @@
                                 <td><%=p.getOraInizio()%>
                                 </td>
                                 <td><%=p.getOraFine()%>
+                                </td>
+                                <td>
+                                    <form action="${pageContext.request.contextPath}/eliminaPrenotazione" method="get">
+                                        <input name="id_prenotazione" type="hidden" value="<%=p.getId()%>"/>
+                                        <button type="submit" class="btn btn-secondary btn-sm">
+                                            Elimina prenotazione
+                                        </button>
+                                    </form>
                                 </td>
 
                             </tr>

@@ -1,6 +1,6 @@
 package control.docente;
 
-import control.utili.PassowrdEncrypter;
+import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.AulaDAO;
 import model.dao.EdificioDAO;
@@ -13,7 +13,6 @@ import model.pojo.Edificio;
 import model.pojo.TipoUtente;
 import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -95,7 +94,7 @@ class ControllaDisponibilitaServletTest {
         ed.getAule().add(aula);
         aulaDAO.insert(aula);
         utente = new Utente("c.gravino@unisa.it", "Carmine", "Gravino",
-                PassowrdEncrypter.criptaPassword("CarmineGravino1"), TipoUtente.DOCENTE);
+                PasswordEncrypter.criptaPassword("CarmineGravino1"), TipoUtente.DOCENTE);
         SessionManager.setError(session, "");
         SessionManager.autentica(session, utente);
     }

@@ -7,7 +7,10 @@ import model.dao.PrenotazioneDAO;
 import model.daostub.StubAulaDAO;
 import model.daostub.StubEdificioDAO;
 import model.daostub.StubPrenotazioneDAO;
-import model.pojo.*;
+import model.pojo.Aula;
+import model.pojo.Edificio;
+import model.pojo.TipoUtente;
+import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -167,7 +170,7 @@ class PrenotaPostoServletTest {
         when(req.getParameter("aula")).thenReturn("2");
         when(req.getParameter("durata")).thenReturn("60");
         servlet.doPost(req, res);
-        assertEquals("Non hai i permessi per accedere a questa funzionalità",
+        assertEquals("Non hai i permessi per accedere a questa funzionalit&agrave;",
                 SessionManager.getError(session));
     }
 

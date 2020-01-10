@@ -1,6 +1,9 @@
 package model.database;
 
-import model.dao.*;
+import model.dao.AulaDAO;
+import model.dao.PrenotazioneDAO;
+import model.dao.UtenteDAO;
+import model.dao.ViolazioneEntityException;
 import model.pojo.Aula;
 import model.pojo.Prenotazione;
 import model.pojo.TipoPrenotazione;

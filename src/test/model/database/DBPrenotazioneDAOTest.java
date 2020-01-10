@@ -1,18 +1,19 @@
 package model.database;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import model.dao.*;
-import model.pojo.*;
-import org.junit.jupiter.api.*;
+import model.dao.PrenotazioneDAO;
+import model.dao.ViolazioneEntityException;
+import model.pojo.Prenotazione;
+import model.pojo.TipoPrenotazione;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
-import java.lang.ref.PhantomReference;
 import java.sql.Date;
 import java.sql.Time;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.*;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
