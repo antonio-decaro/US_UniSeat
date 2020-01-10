@@ -14,7 +14,7 @@
             <ul class="nav-menu">
                 <li><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
                 <li><a href="${pageContext.request.contextPath}/_comuni/login.jsp">Login</a></li>
-                <li><a href="${pageContext.request.contextPath}/_studente/registrazione.jsp">Registrazione</a></li>
+                <li><a href="${pageContext.request.contextPath}web/_studente/registrazione.jsp">Registrazione</a></li>
             </ul>
         </nav>
 
