@@ -2,7 +2,7 @@
 <%@ page import="model.database.DBUtenteDAO" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
-  User: User
+  User: Gianluca Spinelli
   Date: 09/01/2020
   Time: 19:02
   To change this template use File | Settings | File Templates.
