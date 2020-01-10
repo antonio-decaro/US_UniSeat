@@ -7,13 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
-<%
-    String message = SessionManager.getError(session);
-    if (message != null) {
-        SessionManager.cleanError(session);
-    }
-%>
-
 <footer id="footer">
     <div class="container">
         <div class="copyright">

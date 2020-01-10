@@ -7,20 +7,17 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
-    String errorMessage = null;
-    String message = null;
-    if (session != null) {
-        errorMessage = SessionManager.getError(session);
-        message = SessionManager.getMessage(session);
-        if (errorMessage != null) {
-            SessionManager.cleanError(session);
-        }
-        if (message != null) {
-            SessionManager.cleanMessage(session);
-        }
-        if (SessionManager.isAlradyAuthenticated(session)) {
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
-        }
+    String errorMessage = errorMessage = SessionManager.getError(session);;
+    String message = SessionManager.getMessage(session);;
+
+    if (errorMessage != null) {
+        SessionManager.cleanError(session);
+    }
+    if (message != null) {
+        SessionManager.cleanMessage(session);
+    }
+    if (SessionManager.isAlradyAuthenticated(session)) {
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 %>
 <html>
