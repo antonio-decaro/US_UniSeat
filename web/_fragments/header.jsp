@@ -32,7 +32,6 @@
                     <ul>
                         <li><a href="../_admin/VisualizzaUtenti.jsp">Visualizza utenti registrati</a></li>
                         <li><a href="../_comuni/prenotazione.jsp">Visualizza prenotazioni</a></li>
-                        <li><a href="#">Visualizza edifici</a></li>
                     </ul>
 
                 <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
