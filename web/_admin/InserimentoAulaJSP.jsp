@@ -74,19 +74,19 @@ Header
                                 <form method="post" role="form" name="formInsA" class="contactForm">
                                     <div class="form-group">
                                         <input type="text" name="edificio" class="form-control" id="edAula" placeholder="Edificio">
-
+                                        <h6 id="errEdAula" style="color: #bd2130"></h6>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" name="nome_aula" class="form-control" id="nomeAula" placeholder="Nome">
-
+                                        <h6 id="errNomeAula" style="color: #bd2130"></h6>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" name="numero_posti" class="form-control" id="postiAula" placeholder="Posti">
-
+                                        <h6 id="errPostiAula" style="color: #bd2130"></h6>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" name="disp_aula" class="form-control" id="dispAula" placeholder="Orario disponibilità">
-
+                                        <h6 id="errDispAula" style="color: #bd2130"></h6>
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
