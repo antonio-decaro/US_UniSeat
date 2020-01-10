@@ -118,6 +118,7 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             SessionManager.setError(ssn, e.getMessage());
         }
         response.getWriter().print(200);
+        response.getWriter().print("Modifiche apportate con successo");
     }
 
 
