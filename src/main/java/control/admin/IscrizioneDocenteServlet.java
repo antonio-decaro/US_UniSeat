@@ -100,7 +100,7 @@ public class IscrizioneDocenteServlet extends HttpServlet {
         Random rand = new Random();
         Utente utente = new Utente(email, nome, cognome, PasswordEncrypter.criptaPassword(password), TipoUtente.DOCENTE);
         utente.setCodiceVerifica(rand.nextInt());
-
+        System.out.println(utente);
         try {
             utenteDAO.insert(utente);
             EmailManager emailManager = (EmailManager) req.getServletContext().getAttribute(EMAIL_PARAM);
