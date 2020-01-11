@@ -5,6 +5,7 @@ import model.dao.AulaDAO;
 import model.dao.ViolazioneEntityException;
 import model.pojo.Aula;
 import model.pojo.Edificio;
+import model.pojo.Servizio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,13 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DBAulaDAOTest {
 
-    private static DataSource dataSource;
-    private static DBConnection dbConnection;
     private AulaDAO aulaDAO;
 
     @BeforeAll
     static void init() throws Exception {
-        dbConnection = DBConnection.getInstance();
+        DBConnection dbConnection = DBConnection.getInstance();
         MysqlDataSource mysqlDS = new MysqlDataSource();
         mysqlDS.setURL("jdbc:mysql://localhost:3306/UniSeatDB");
         mysqlDS.setUser("root");
@@ -32,8 +31,7 @@ class DBAulaDAOTest {
         mysqlDS.setServerTimezone("CET");
         mysqlDS.setVerifyServerCertificate(false);
         mysqlDS.setUseSSL(false);
-        dataSource = mysqlDS;
-        dbConnection.setDataSource(dataSource);
+        dbConnection.setDataSource(mysqlDS);
     }
 
     @BeforeEach
@@ -122,27 +120,27 @@ class DBAulaDAOTest {
         assertThrows(ViolazioneEntityException.class, () -> aulaDAO.insert(p4), expectedMessage);
     }
 
-//    @Test
-//    void insert_OK() {
-//        int id = 31;
-//        Edificio edificio = aulaDAO.retriveById(21).getEdificio();
-//        Aula p3 = new Aula(id,"P3", 0, 100, "", edificio);
-//        p3.setServizi(new ArrayList<>());
-//        aulaDAO.insert(p3);
-//        assertEquals(p3, aulaDAO.retriveById(id));
-//    }
+    @Test
+    void insert_OK() {
+        int id = 31;
+        Edificio edificio = aulaDAO.retriveById(21).getEdificio();
+        Aula p3 = new Aula(id,"P3", 0, 100, "", edificio);
+        p3.setServizi(new ArrayList<>());
+        aulaDAO.insert(p3);
+        assertEquals(p3, aulaDAO.retriveById(id));
+    }
 
-//    @Test
-//    void insert_OK2() {
-//        int id = 31;
-//        ArrayList<Servizio> s = null;
-//        Edificio edificio = aulaDAO.retriveById(21).getEdificio();
-//        Aula p3 = new Aula(id,"P3", 0, 100, "", edificio);
-//        s.add(Servizio.PRESE);
-//        p3.setServizi(s);
-//        aulaDAO.insert(p3);
-//        assertEquals(p3, aulaDAO.retriveById(id));
-//    }
+    @Test
+    void insert_OK2() {
+        int id = 31;
+        ArrayList<Servizio> s = new ArrayList<>();
+        Edificio edificio = aulaDAO.retriveById(21).getEdificio();
+        Aula p3 = new Aula(id,"P3", 0, 100, "", edificio);
+        s.add(Servizio.PRESE);
+        p3.setServizi(s);
+        aulaDAO.insert(p3);
+        assertEquals(p3, aulaDAO.retriveById(id));
+    }
 
     @Test
     void retriveAll_OK() {
