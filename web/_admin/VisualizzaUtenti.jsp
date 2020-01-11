@@ -17,10 +17,15 @@
     }
     if (u == null) {
         response.sendRedirect(request.getContextPath() + "/_comuni/login.jsp");
+        return;
     }
     if (!u.getTipoUtente().equals(TipoUtente.ADMIN)) {
         response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
+
+    UtenteDAO utenteDAO = DBUtenteDAO.getInstance();
+    List<Utente> lista = utenteDAO.retriveAll();
+    lista.removeIf(utente -> utente.getTipoUtente().equals(TipoUtente.ADMIN));
 %>
 <html lang="en">
 <head>
@@ -63,42 +68,46 @@ Header
 <section id="hero">
     <div class="hero-container  ">
         <div class="container  wow fadeInUp">
-            <div class="section-header">
-                <h3 class="section-title">Utenti registrati</h3>
+            <div class="card cap img-fluid card-signin my-5">
+                <div class="card-body">
+                    <div class="section-header">
+                        <h3 class="section-title">Utenti registrati</h3>
+                    </div>
+                    <table class="table table-light">
+                        <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Cognome</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <% for (Utente ut : lista) {%>
+                        <tr>
+                            <th scope="row"><%=ut.getNome()%>
+                            </th>
+                            <td><%=ut.getCognome()%>
+                            </td>
+                            <td><%=ut.getTipoUtente()%>
+                            </td>
+                            <td><%=ut.getEmail()%>
+                            </td>
+                            <td>
+                                <button name="toggle_eliminazioneUtente" id="bottoneElimina" type="button"
+                                        class="btn btn-secondary" data-toggle="modal"
+                                        data-target="#eliminaut" value="<%=ut.getEmail()%>">Elimina Utente
+                                </button>
+                            </td>
+                        </tr>
+                        <% } %>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <table class="table table-dark" >
-                <thead>
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Cognome</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <%
-                    UtenteDAO utenteDAO = DBUtenteDAO.getInstance();
-                    List<Utente> lista = utenteDAO.retriveAll();
-                    for (Utente ut : lista) {%>
-
-                <tr>
-                    <th scope="row"><%=ut.getNome()%></th>
-                    <td><%=ut.getCognome()%></td>
-                    <td><%=ut.getTipoUtente()%></td>
-                    <td><%=ut.getEmail()%></td>
-                    <td>
-                        <button name="toggle_eliminazioneUtente" id="bottoneElimina" type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#eliminaut" value="<%=ut.getEmail()%>">Elimina
-                        </button>
-                    </td>
-                </tr>
-                <% } %>
-
-                </tbody>
-            </table>
-
         </div>
         <div class="modal fade" id="eliminaut">
             <form id="eliminazione_utente_form" name="eliminaUtente">
@@ -112,7 +121,9 @@ Header
                         </div>
                         <!-- Conferma footer -->
                         <div class="modal-footer">
-                            <button id="submit_button" type="button" class="btn btn-primary" data-dismiss="modal">Conferma</button>
+                            <button id="submit_button" type="button" class="btn btn-primary" data-dismiss="modal">
+                                Conferma
+                            </button>
                             <button type="button" class="btn btn-primary" data-dismiss="modal">Chiudi</button>
                         </div>
                     </div>

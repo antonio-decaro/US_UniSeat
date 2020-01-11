@@ -1,6 +1,5 @@
 package control.admin;
 
-import control.utili.EmailManager;
 import control.utili.PasswordEncrypter;
 import control.utili.SessionManager;
 import model.dao.UtenteDAO;
@@ -35,7 +34,6 @@ class IscrizioneDocenteServletTest {
     @Mock private HttpServletResponse res;
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
-    @Mock private EmailManager emailManager;
     private UtenteDAO utenteDAO = new StubUtenteDAO();
     private IscrizioneDocenteServlet servlet;
     private Map<String,Object> attributes = new HashMap<>();
@@ -46,12 +44,9 @@ class IscrizioneDocenteServletTest {
         servlet = new IscrizioneDocenteServlet();
         when(req.getServletContext()).thenReturn(ctx);
         when(ctx.getAttribute(IscrizioneDocenteServlet.UTENTE_DAO_PARAM)).thenReturn(utenteDAO);
-        when(ctx.getAttribute(IscrizioneDocenteServlet.EMAIL_PARAM)).thenReturn(emailManager);
         when(req.getSession()).thenReturn(session);
         when(ctx.getContextPath()).thenReturn("");
-        when(session.isNew()).thenReturn(true);
         doNothing().when(res).sendRedirect(anyString());
-        doNothing().when(emailManager).inviaEmailConferma(any());
 
         Mockito.doAnswer((Answer<Object>) invocation -> {
             String key = (String) invocation.getArguments()[0];
@@ -65,7 +60,9 @@ class IscrizioneDocenteServletTest {
             return null;
         }).when(session).setAttribute(anyString(), any());
 
-
+        Utente admin = new Utente();
+        admin.setTipoUtente(TipoUtente.ADMIN);
+        SessionManager.autentica(session, admin);
         Utente u = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi", PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
         Utente u2 = new Utente("a.decaro@studenti.unisa.it", "Antonio", "De Caro", "Antonio2", TipoUtente.STUDENTE);
         Utente u3 = new Utente("c.gravino@unisa.it", "Carmine", "Gravino", "Carmine2", TipoUtente.DOCENTE);
@@ -251,7 +248,9 @@ class IscrizioneDocenteServletTest {
     }
     @Test
     void testGetAndAlradyAuth() throws Exception {
-        SessionManager.autentica(session, new Utente());
+        Utente u = new Utente();
+        u.setTipoUtente(TipoUtente.STUDENTE);
+        SessionManager.autentica(session, u);
         servlet.doGet(req, res);
     }
     @Test

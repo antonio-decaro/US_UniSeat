@@ -46,7 +46,7 @@ function validation() {
 
 function modificaDati(form) {
     $.post("/modificaProfilo", $(form).serialize(), function(msg) {
-        $(window.location).attr('href','/_studente/VisualizzaProfiloJSP.jsp');
+        $(window.location).attr('href','/_studente/VisualizzaProfilo.jsp');
     });
 }
 

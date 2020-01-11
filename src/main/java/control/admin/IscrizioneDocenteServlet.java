@@ -36,8 +36,9 @@ public class IscrizioneDocenteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-        if (SessionManager.isAlradyAuthenticated(session)) {
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/comuni/index.jsp");
+        Utente u = SessionManager.getUtente(session);
+        if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) {
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/index.jsp");
             return;
         }
 
@@ -50,48 +51,48 @@ public class IscrizioneDocenteServlet extends HttpServlet {
         // controllo validità campi
         if (nome == null || nome.length() < 1 || nome.length() > 20) {
             SessionManager.setError(session, "Il campo Nome non rispetta la lunghezza");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
             return;
         }
         if (!nome.matches("^[a-z A-Z]+$")) {
             SessionManager.setError(session, "Il campo Nome non rispetta il formato");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
             return;
         }
         if (cognome == null || cognome.length() < 1 || cognome.length() > 20) {
             SessionManager.setError(session, "Il campo Cognome non rispetta la lunghezza");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
             return;
         }
         if (!cognome.matches("^[a-z A-Z]+$")) {
             SessionManager.setError(session, "Il campo Cognome non rispetta il formato");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
             return;
         }
         int length = email.substring(0, email.indexOf("@")).length();
         if (length > 30 || length < 6) {
             SessionManager.setError(session, "Il campo E-mail non rispetta la lunghezza");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
             return;
         }
         if (!email.endsWith("@unisa.it") && !email.endsWith("@studenti.unisa.it")) {
             SessionManager.setError(session, "Il campo E-mail non rispetta il formato");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
             return;
         }
         if (password.length() > 32 || password.length() < 8) {
             SessionManager.setError(session, "Il campo Password non rispetta la lunghezza");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
             return;
         }
         if (!password.matches("^((?=.*[\\d])(?=.*[a-z])(?=.*[A-Z])).+$")) {
             SessionManager.setError(session, "Il campo Password non rispetta il formato");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
             return;
         }
         if (!confPassword.equals(password)){
             SessionManager.setError(session, "Le password non corrispondono");
-            resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
+            resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
             return;
         }
         // fine controllo validità campi
@@ -102,12 +103,11 @@ public class IscrizioneDocenteServlet extends HttpServlet {
         utente.setCodiceVerifica(rand.nextInt());
         try {
             utenteDAO.insert(utente);
-            EmailManager emailManager = (EmailManager) req.getServletContext().getAttribute(EMAIL_PARAM);
-            emailManager.inviaEmailConferma(utente);
         } catch (ViolazioneEntityException e) {
             SessionManager.setError(session, e.getMessage());
-    }
-        resp.sendRedirect(req.getServletContext().getContextPath() + "/docente/registrazione.jsp");
+        }
+        SessionManager.setMessage(session, "Utente registrato con successo");
+        resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
     }
 
     static final String UTENTE_DAO_PARAM = "IscrizioneDocenteServlet.user";

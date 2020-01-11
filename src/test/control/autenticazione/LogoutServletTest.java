@@ -29,7 +29,7 @@ class LogoutServletTest  extends Mockito {
         when(request.getSession()).thenReturn(session);
         when(request.getServletContext()).thenReturn(context);
         when(context.getContextPath()).thenReturn("");
-        when(request.getRequestDispatcher("/comuni/index.jsp")).thenReturn(rd);
+        when(request.getRequestDispatcher("/index.jsp")).thenReturn(rd);
         doNothing().when(response).sendRedirect(anyString());
         doNothing().when(session).invalidate();
     }

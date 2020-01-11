@@ -15,6 +15,7 @@
     }
     if (u == null) {
         response.sendRedirect(request.getContextPath() + "/_comuni/login.jsp");
+        return;
     }
     if (!u.getTipoUtente().equals(TipoUtente.STUDENTE)) {
     response.sendRedirect(request.getContextPath() + "/index.jsp");
@@ -64,16 +65,7 @@ Header
                             <div class="form">
                                 <div id="exercitationrormessage"></div>
                                 <form name="formModifica" method="post" class="form-signin">
-                                    <% if
-                                    (
-                                            errorMessage
-                                                    !=
-                                                    null
-                                    ) { %>
-                                    <div id="alertErrorNome" class="alert alert-danger" role="alert">
-                                        <%=errorMessage%>
-                                    </div>
-                                    <% } %>
+
                                     <div class="form-label-group">
                                         <input name="nome" type="text" id="inputNome" class="form-control"
                                                onClick="blankLabel('errN')" value="<%=u.getNome()%>" readonly>
@@ -81,11 +73,6 @@ Header
                                     </div>
                                     <h6 id="errN" style="color: #bd2130"></h6>
 
-                                    <% if (errorMessage != null) { %>
-                                    <div id="alertErrorCognome" class="alert alert-danger" role="alert">
-                                        <%=errorMessage%>
-                                    </div>
-                                    <% } %>
                                     <div class="form-label-group">
                                         <input name="cognome" type="text" id="inputCognome" class="form-control"
                                                onClick="blankLabel('errC')" value="<%=u.getCognome()%>" readonly>
@@ -98,11 +85,6 @@ Header
                                                value="<%=u.getEmail()%>" readonly>
                                         <label for="inputEmail">E-Mail</label>
                                     </div>
-                                    <% if (errorMessage != null) { %>
-                                    <div id="alertErrorPass" class="alert alert-danger" role="alert">
-                                        <%=errorMessage%>
-                                    </div>
-                                    <% } %>
                                     <div class="form-label-group" id="divPassHide" style="display:none">
                                         <input name="password" type="password" id="inputPassword"
                                                placeholder="Inserisci nuova password" class="form-control"
