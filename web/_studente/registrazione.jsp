@@ -51,7 +51,7 @@
     <div class="container">
 
         <div id="logo" class="pull-left">
-            <h1><a href="${pageContext.request.contextPath}/index.jsp">Uni Seat</a></h1>
+            <h1><a href="${pageContext.request.contextPath}web/index.jsp">Uni Seat</a></h1>
         </div>
         <nav id="nav-menu-container">
         </nav>

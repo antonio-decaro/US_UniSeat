@@ -56,6 +56,7 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
             stm.setInt(1, id);
             stm.execute();
 
+
             ResultSet rs = stm.getResultSet();
             if (!rs.next())
                 return null;
