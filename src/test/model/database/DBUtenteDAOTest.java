@@ -100,6 +100,7 @@ public class DBUtenteDAOTest {
 
         assertThrows(ViolazioneEntityException.class, () -> utenteDAO.insert(u), "Utente già esistente " + u);
     }
+
     @Test
     void delete_OK(){
         Utente u = utenteDAO.retriveByEmail("l.capozzoli@studenti.unisa.it");

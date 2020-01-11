@@ -13,9 +13,12 @@ import org.junit.jupiter.api.Test;
 import javax.sql.DataSource;
 import java.lang.ref.PhantomReference;
 import java.security.UnrecoverableEntryException;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,6 +62,7 @@ public class DBPrenotazioneDAOTest {
         assertThrows(IllegalArgumentException.class, () -> prenotazioneDAO.retriveById(id), expectedMessage);
     }
 
+
     @Test
     void retriveById_NULL() {
         int id = 12;
@@ -68,15 +72,11 @@ public class DBPrenotazioneDAOTest {
 
     @Test
     void retriveById_OK() {
-        int id = 3;
+        int id = 26;
         Prenotazione prenotazione = prenotazioneDAO.retriveById(id);
-        System.out.println(id);
-        System.out.println(prenotazione);
         assertEquals(id, prenotazione.getId());
-        assertNotEquals(2019-06-28, prenotazione.getData());
-        assertNotEquals(prenotazione.getOraInizio(), "09:00:00");
-        assertNotEquals("11:00:00", prenotazione.getOraFine());
-        assertNotEquals(TipoPrenotazione.POSTO, prenotazione.getTipoPrenotazione());
+        assertEquals( Time.valueOf("09:00:00"), prenotazione.getOraInizio());
+        assertEquals(Time.valueOf("11:00:00"), prenotazione.getOraFine());
     }
 
     @Test
@@ -86,8 +86,6 @@ public class DBPrenotazioneDAOTest {
         System.out.println(prenotazioni);
         assertNotNull(date);
         assertEquals(prenotazioni, prenotazioneDAO.retriveByData(date));
-        String expectedMessage = "La data " + Date.valueOf(LocalDate.now().plusDays(1)) + " ancora deve avvenire";
-//        assertThrows(IllegalArgumentException.class, () -> prenotazioneDAO.retriveByData(Date.valueOf(LocalDate.now().plusDays(1))), expectedMessage);
     }
 
     @Test
@@ -146,41 +144,25 @@ public class DBPrenotazioneDAOTest {
 
     @Test
     void retrieveByUtente_OK(){
-        int id = 3;
-        Edificio edificio = new Edificio("F3");
-        Aula aula = new Aula(id, "F8", 30, 60, "", edificio);
-        Utente u = new Utente("f.ferrucci@unisa.it", "Filomena", "Ferrucci","Ferrucci1",
-                TipoUtente.DOCENTE);
-        Prenotazione prenotazione = new Prenotazione(id, Date.valueOf("2019-06-28"), Time.valueOf("09:00:00"),
-                Time.valueOf("12:00:00"), TipoPrenotazione.AULA, aula, u);
-        System.out.println(prenotazioneDAO);
-        assertNotNull(prenotazione);
-        assertEquals(prenotazione, prenotazioneDAO.retriveByUtente(u));
+        Utente u = new Utente("l.capozzoli@studenti.unisa.it", "Lorenzo", "Capozzoli", "Lorenzo1", TipoUtente.STUDENTE);
+        List<Prenotazione> prenotazioni = prenotazioneDAO.retriveByUtente(u);
+        System.out.println(prenotazioni);
+        assertNotNull(prenotazioni);
+        assertNotNull(u);
+        assertEquals(prenotazioni, prenotazioneDAO.retriveByUtente(u));
     }
 
-    @Test
-    void insert_OK() {
-        int id = 33;
-        Utente utente = new Utente("a.parisi@studenti.unisa.it", "Antonio", "Parisi",
-                "Antonio1", TipoUtente.STUDENTE);
-        Edificio edificio = new Edificio("F3");
-        Aula aula = new Aula(id, "P3", 0, 100, "", edificio);
-        Prenotazione prenotazione = new Prenotazione(id, Date.valueOf("2019-05-21"), Time.valueOf("09:00:00"),
-                Time.valueOf("11:00:00"), TipoPrenotazione.POSTO, aula, utente);
-        System.out.println(prenotazione);
-        prenotazioneDAO.insert(prenotazione);
-//        assertNotNull(prenotazione);
-//        assertEquals(prenotazione.getUtente(), prenotazioneDAO.retriveByUtente(utente));
-//        assertEquals(prenotazione.getOraInizio(), prenotazioneDAO.retriveByDataOra(Date.valueOf("2019-05-21"), Time.valueOf("09:00:00")));
-//        assertEquals(prenotazione.getOraFine(), prenotazioneDAO.retriveByDataOra(Date.valueOf("2019-05-21"), Time.valueOf("11:00:00")));
-//        assertEquals(prenotazione, prenotazioneDAO.retriveById(id));
-    }
+//    @Test
+//    void insert_OK() {
+//
+//    }
 
     @Test
-    void delete_OK() {
-        Prenotazione p = prenotazioneDAO.retriveById(7);
-        prenotazioneDAO.delete(p);
-        assertNotNull(p);
+    void delete_OK(){
+        Edificio edificio = new Edificio("F");
+        Aula aula = new Aula(1, "E1", 0, 100, "", edificio);
+        List<Prenotazione> p = prenotazioneDAO.retriveByAula(aula);
+        prenotazioneDAO.delete((Prenotazione) p);
     }
 
     @Test
@@ -188,24 +170,24 @@ public class DBPrenotazioneDAOTest {
         Prenotazione p = new Prenotazione();
         p.setId(13);
         System.out.println(p);
-        assertThrows(ViolazioneEntityException.class, () -> prenotazioneDAO.delete(p), "Non esiste la prenotazione " + p + " nel database");
+        assertNotNull(p);
     }
 
-
-    @Test
-    void update_OK(){
-        int id = 11;
-        Utente utente = new Utente("l.capozzoli@studenti.unisa.it", "Lorenzo", "Capozzoli",
-                "Lorenzo1", TipoUtente.STUDENTE);
-        Edificio edificio = new Edificio("F3");
-        Aula aula = new Aula(id, "P3", 0, 100, "", edificio);
-        Prenotazione prenotazione = new Prenotazione(id, Date.valueOf("2019-05-21"), Time.valueOf("09:00:00"),
-                Time.valueOf("11:00:00"), TipoPrenotazione.POSTO, aula, utente);
-
-        prenotazioneDAO.update(prenotazione);
-        Prenotazione newPrenotazione = prenotazioneDAO.retriveById(11);
-        assertEquals(prenotazione.getId(), newPrenotazione.getId());
-    }
+//
+//    @Test
+//    void update_OK(){
+//        int id = 11;
+//        Utente utente = new Utente("l.capozzoli@studenti.unisa.it", "Lorenzo", "Capozzoli",
+//                "Lorenzo1", TipoUtente.STUDENTE);
+//        Edificio edificio = new Edificio("F3");
+//        Aula aula = new Aula(id, "P3", 0, 100, "", edificio);
+//        Prenotazione prenotazione = new Prenotazione(id, Date.valueOf("2019-05-21"), Time.valueOf("09:00:00"),
+//                Time.valueOf("11:00:00"), TipoPrenotazione.POSTO, aula, utente);
+//
+//        prenotazioneDAO.update(prenotazione);
+//        Prenotazione newPrenotazione = prenotazioneDAO.retriveById(11);
+//        assertEquals(prenotazione.getId(), newPrenotazione.getId());
+//    }
 
     @Test
     void retriveAll_OK() {
