@@ -1,9 +1,9 @@
 <%@ page import="control.utili.SessionManager" %>
-<%@ page import="model.pojo.Utente" %>
-<%@ page import="model.pojo.TipoUtente" %>
 <%@ page import="model.dao.UtenteDAO" %>
 <%@ page import="model.database.DBUtenteDAO" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="model.pojo.*" %>
+<%@ page import="model.database.DBEdificioDAO" %><%--
   Created by IntelliJ IDEA.
   User: Gianluca Spinelli
   Date: 09/01/2020
@@ -62,30 +62,38 @@ Header
 
 <section id="hero">
     <div class="hero-container">
-        <div class="container  wow fadeInUp">
+        <div class="container  wow fadeInUp" style="visibility:visible;">
             <br>
-            <div id="contact">
-                <h3 class="section-title">Inserisci Aula</h3>
+            <div id="contact" style="border-radius:3%; margin-bottom:25%; margin-left: 20%; margin-right: 20%; margin-top: 20%; padding-top:0%;padding-bottom: 0%; position: relative; top: 3%; bottom: 3%">
                 <div class="container wow fadeInUp mt-5">
                     <div class="row justify-content-center">
-                        <div class="col-lg-4 col-md-4">
+                        <div class="col-lg-5" style="width: 80%">
                             <div class="form">
                                 <div id="exercitationrormessage"></div>
+                                <h3 class="section-title">Inserisci Aula</h3>
                                 <form method="post" role="form" name="formInsA" class="contactForm">
                                     <div class="form-group">
-                                        <input type="text" name="edificio" class="form-control" id="edAula" placeholder="Edificio">
+                                        <label for="selectEdificio">Edificio</label>
+                                        <select class="form-control" id="selectEdificio">
+                                            <% for (Edificio e : DBEdificioDAO.getInstance().retriveAll()) { %>
+                                                <option value="<%=e.getNome()%>"><%=e.getNome()%></option>
+                                            <% } %>
+                                        </select>
                                         <h6 id="errEdAula" style="color: #bd2130"></h6>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" name="nome_aula" class="form-control" id="nomeAula" placeholder="Nome">
+                                        <label for="nomeAula">Nome</label>
+                                        <input type="text" name="nome_aula" class="form-control" onclick="blankLabel('errNomeAula')" id="nomeAula" placeholder="Nome">
                                         <h6 id="errNomeAula" style="color: #bd2130"></h6>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" name="numero_posti" class="form-control" id="postiAula" placeholder="Posti">
+                                        <label for="postiAula">Posti Aula</label>
+                                        <input type="number" name="numero_posti" class="form-control" onclick="blankLabel('errPostiAula')" id="postiAula" placeholder="Posti">
                                         <h6 id="errPostiAula" style="color: #bd2130"></h6>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" name="disp_aula" class="form-control" id="dispAula" placeholder="Orario disponibilità">
+                                        <label for="disponibilita">Disponibilit&agrave;</label>
+                                        <textarea class="form-control" name="disp_aula" id="disponibilita" onclick="blankLabel('errDispAula')" rows="4"></textarea>
                                         <h6 id="errDispAula" style="color: #bd2130"></h6>
                                     </div>
                                     <div class="form-group">
@@ -107,8 +115,8 @@ Header
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="form form-group "><button onclick="controlloInserimentoAula(formInsA)" type="submit">Registra</button></div>
+                                    <button type="button" class="btn btn-lg btn-primary btn-block text-uppercase" onclick="controllaInsAula(formInsA)">Registra
+                                    </button>
 
                                 </form>
                             </div>
