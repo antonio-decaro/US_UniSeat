@@ -25,7 +25,7 @@
                 <li><a href="#hero">Home</a></li>
                 <li class="menu-has-children"><a href="#">Inserisci</a>
                     <ul>
-                        <li><a href="#">Inserisci docente</a></li>
+                        <li><a href="${pageContext.request.contextPath}/_admin/inserisciDocente.jsp">Inserisci docente</a></li>
                         <li><a href="#">Inserisci aula</a></li>
                     </ul>
                 <li class="menu-has-children"><a href="#">Visualizza</a>
