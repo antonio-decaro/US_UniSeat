@@ -18,7 +18,7 @@
         return;
     }
 
-    String template = "{\"intervalli\": [\n\t[],\n\t[],\n\t[],\n\t[],\n\t[]\n,\n\t[]\n,\n\t[]\n]}";
+    String template = "{\"intervalli\": [\n\t[],\n\t[],\n\t[],\n\t[],\n\t[],\n\t[],\n\t[]\n]}";
 %>
 <html lang="en">
 <head>

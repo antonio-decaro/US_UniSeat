@@ -24,10 +24,17 @@
         response.sendRedirect(request.getContextPath() + "/index.jsp");
         return;
     }
+
     Aula a = DBAulaDAO.getInstance().retriveById(Integer.parseInt(id));
     if (a == null) {
         response.sendRedirect(request.getContextPath() + "/index.jsp");
         return;
+    }
+    String template = "{\"intervalli\": [\n\t[],\n\t[],\n\t[],\n\t[],\n\t[],\n\t[],\n\t[]\n]}";
+    String regex = "\\{\\s*?[\"']intervalli[\"']\\s*?:\\s*?\\[\\s*?(\\[(\\[\\s*?(\"[0-2][0-9]:[0-6][0-6]\")\\s*?," +
+            "\\s*?(\"[0-2][0-9]:[0-6][0-6]\")\\s*?],?\\s*?)*],?\\s*){7}\\s*]\\s*?}";
+    if (!a.getDisponibilita().matches(regex)) {
+        a.setDisponibilita(template);
     }
 %>
 <html lang="en">
