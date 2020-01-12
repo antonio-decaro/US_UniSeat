@@ -32,6 +32,8 @@ function loadInfo(idAula) {
             $("#servizi_computer").css({opacity: 1.0});
         else
             $("#servizi_computer").css({opacity: 0.2});
+
+        $("#modificaAulaLink").prop("href", "/_admin/ModificaAula.jsp?id=" + aula.id);
     });
 }
 

@@ -7,8 +7,11 @@ $(function () {
         setComputers()
     });
 
-    $("#submitButton").click(function () {
+    $("form[name='formInsA'] #submitButton").click(function () {
         inserisciNuovaAula($("form[name='formInsA']"));
+    });
+    $("form[name='formModA'] #submitButton").click(function () {
+        modificaAula($("form[name='formModA']"));
     });
 });
 
@@ -59,6 +62,15 @@ function inserisciNuovaAula(form) {
     });
 }
 
+function modificaAula(form) {
+    var data = form.serialize();
+    $.post("/modificaAula", data, function(msg) {
+        showMessage(msg);
+    }).fail(function (msg) {
+        showError(msg.responseText);
+    });
+}
+
 function controllaInsAula(form) {
     if (formValido()) {
         inserisciNuovaAula(form);
@@ -71,10 +83,16 @@ function blankLabel(id1){
 }
 
 function initPage() {
-    $("#servizi_computer").css({opacity: 0.35});
-    $("#pcAula").prop("checked", false);
-    $("#servizi_prese").css({opacity: 0.35});
-    $("#preseAula").prop("checked", false);
+    if ($("#preseAula").is(":checked")) {
+        $("#servizi_prese").css({opacity: 1});
+    } else {
+        $("#servizi_prese").css({opacity: 0.35});
+    }
+    if ($("#pcAula").is(":checked")) {
+        $("#servizi_computer").css({opacity: 1});
+    } else {
+        $("#servizi_computer").css({opacity: 0.35});
+    }
 }
 
 function setPrese() {

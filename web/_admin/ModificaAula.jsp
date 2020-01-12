@@ -6,7 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="model.database.DBAulaDAO" %>
 <%@ page import="model.database.DBEdificioDAO" %>
+<%@ page import="model.pojo.*" %>
 <%
     Utente u = SessionManager.getUtente(session);
     if (u == null) {
@@ -17,8 +19,16 @@
         response.sendRedirect(request.getContextPath() + "/index.jsp");
         return;
     }
-
-    String template = "{\"intervalli\": [\n\t[],\n\t[],\n\t[],\n\t[],\n\t[]\n,\n\t[]\n,\n\t[]\n]}";
+    String id = request.getParameter("id");
+    if (id == null || !id.strip().matches("[0-9]+")) {
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        return;
+    }
+    Aula a = DBAulaDAO.getInstance().retriveById(Integer.parseInt(id));
+    if (a == null) {
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        return;
+    }
 %>
 <html lang="en">
 <head>
@@ -65,12 +75,13 @@ Header
                             <div class="card-body">
                                 <div class="form">
                                     <div id="exercitationrormessage"></div>
-                                    <form method="post" role="form" name="formInsA" class="contactForm">
+                                    <form method="post" role="form" name="formModA" class="contactForm">
                                         <div class="form-group">
                                             <label for="selectEdificio">Edificio</label>
                                             <select name="edificio" class="form-control" id="selectEdificio">
-                                                <% for (model.pojo.Edificio e : DBEdificioDAO.getInstance().retriveAll()) { %>
-                                                <option value="<%=e.getNome()%>"><%=e.getNome()%>
+                                                <% for (Edificio e : DBEdificioDAO.getInstance().retriveAll()) { %>
+                                                <option value="<%=e.getNome()%>" <%=e.getNome().equals(a.getEdificio().getNome()) ? "selected" : ""%>>
+                                                    <%=e.getNome()%>
                                                 </option>
                                                 <% } %>
                                             </select>
@@ -79,20 +90,21 @@ Header
                                         <div class="form-group">
                                             <label for="nomeAula">Nome</label>
                                             <input type="text" name="nome_aula" class="form-control" id="nomeAula"
-                                                   placeholder="Nome">
+                                                   placeholder="Nome" value="<%=a.getNome()%>"/>
                                             <h6 id="errNomeAula" style="color: #bd2130"></h6>
                                         </div>
                                         <div class="form-group">
                                             <label for="postiAula">Posti Aula</label>
                                             <input type="number" name="numero_posti" class="form-control"
                                                    onclick="blankLabel('errPostiAula')" id="postiAula"
-                                                   placeholder="Posti">
+                                                   placeholder="Posti" value="<%=a.getPosti()%>">
                                             <h6 id="errPostiAula" style="color: #bd2130"></h6>
                                         </div>
                                         <div class="form-group">
                                             <label for="disponibilita">Disponibilit&agrave;</label>
                                             <textarea class="form-control" name="disp_aula" id="disponibilita"
-                                                      onclick="blankLabel('errDispAula')" rows="7" style="resize: none"><%=template%></textarea>
+                                                      onclick="blankLabel('errDispAula')" rows="7"
+                                                      style="resize: none"><%=a.getDisponibilita()%></textarea>
                                             <h6 id="errDispAula" style="color: #bd2130"></h6>
                                         </div>
                                         <div class="form-group container-fluid">
@@ -104,7 +116,7 @@ Header
                                                     <label for="preseAula"></label>
                                                     <input style="display: none" type="checkbox"
                                                            name="servizi_extra_prese" class="form-control"
-                                                           id="preseAula" value="PRESE">
+                                                           id="preseAula" value="PRESE" <%=a.getServizi().contains(Servizio.PRESE) ? "checked" : ""%>/>
                                                     <button class="btn" type="button" id="setPrese"
                                                             title="L'aula è dotata di prese sul banco">
                                                         <span style="color: black; font-size: large">
@@ -117,7 +129,7 @@ Header
                                                     <label for="pcAula"></label>
                                                     <input style="display: none" type="checkbox"
                                                            name="servizi_extra_computer" class="form-control"
-                                                           id="pcAula" value="COMPUTER">
+                                                           id="pcAula" value="COMPUTER" <%=a.getServizi().contains(Servizio.COMPUTER) ? "checked" : ""%>/>
                                                     <button class="btn" type="button" id="setComputer"
                                                             title="L'aula è dotata di postazioni pc">
                                                         <span style="color: black; font-size: large">
@@ -129,7 +141,7 @@ Header
                                             </div>
                                         </div>
                                         <button type="button" class="btn btn-lg btn-primary btn-block text-uppercase"
-                                                id="submitButton">Inserisci
+                                                id="submitButton">Modifica
                                         </button>
 
                                     </form>
