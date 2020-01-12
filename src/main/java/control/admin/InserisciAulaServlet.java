@@ -10,6 +10,7 @@ import model.pojo.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  */
 
 @WebServlet("/inserisciAula")
-public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
+public class InserisciAulaServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
@@ -37,6 +38,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         HttpSession session = request.getSession();
         Utente u = SessionManager.getUtente(session);
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
         if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
             response.sendRedirect("Login.jsp");
@@ -71,17 +73,13 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 SessionManager.setError(session, "Numero posti non corretto");
                 return;
             }
-
         }
-
 
         EdificioDAO edificioDAO = (EdificioDAO) request.getServletContext().getAttribute(EDIFICIO_DAO_PARAM);
         Edificio ed = edificioDAO.retriveByName(edificio);
         if (ed == null) {
-
             response.getWriter().print("Edificio non trovato");
             SessionManager.setError(session, "Edificio non trovato");
-            return;
 
         } else {
 
@@ -135,7 +133,7 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
                 SessionManager.setError(session, "Nome aula non valido");
                 return;
 
-            } else if (!nome.matches("^[A-Z a-z 0-9]+$")) {
+            } else if (!nome.matches("^[A-Z a-z0-9]+$")) {
 
                 response.getWriter().print("Nome aula non rispetta il formato");
                 SessionManager.setError(session, "Nome aula non rispetta il formato");
@@ -145,25 +143,23 @@ public class InserisciAulaServlet extends javax.servlet.http.HttpServlet {
             AulaDAO aulaDAO = (AulaDAO) request.getServletContext().getAttribute(AULA_DAO_PARAM);
             Aula b = aulaDAO.retriveByName(nome);
             if (b != null) {
-                response.getWriter().print("Aula già esistente!");
+                response.getWriter().print("Aula gi&agrave; esistente!");
                 SessionManager.setError(session, "Aula già esistente!");
                 return;
             }
 
-            Aula nuova_aula = new Aula(nome,n_posti,disponibilita,ed);
+            Aula nuova_aula = new Aula(nome,n_posti,disponibilita.replaceAll("\\s",""),ed);
             nuova_aula.setServizi(servizi);
-            System.out.println(nuova_aula);
+
             try {
                 aulaDAO.insert(nuova_aula);
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().print("Aula inserita con successo");
             } catch (ViolazioneEntityException e) {
                 SessionManager.setError(session, e.getMessage());
-                e.printStackTrace();
-                response.getWriter().print(400);
+                response.getWriter().print(e.getMessage());
             }
-
-            response.setStatus(HttpServletResponse.SC_OK);
         }
-
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {

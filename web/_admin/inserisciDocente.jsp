@@ -60,7 +60,7 @@ Header
 <section id="hero">
     <div class="hero-container">
         <div class="container wow fadeInUp">
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-7 col-lg-5 mx-auto">
                     <div class="card card-signin my-5">
                         <div class="card-body">
@@ -115,68 +115,6 @@ Header
         </div>
     </div>
 </section>
-<%--<main>--%>
-<%--    <section id="hero">--%>
-<%--        <div class="hero-container">--%>
-<%--            <div class="container  wow fadeInUp">--%>
-<%--                <br>--%>
-<%--                <div id="contact">--%>
-<%--                    <h3 class="section-title">Registra docente</h3>--%>
-<%--                    <div class="container wow fadeInUp mt-5">--%>
-<%--                        <div class="row justify-content-center">--%>
-<%--                            <div class="col-lg-4 col-md-4">--%>
-<%--                                <div class="form">--%>
-<%--                                    <div id="exercitationrormessage"></div>--%>
-<%--                                    <form action="/iscrizioneDocente" method="post"--%>
-<%--                                          class="contactForm" onsubmit="if(validate()==false){return false;}">--%>
-<%--                                        <% if (errorMessage != null) { %>--%>
-<%--                                        <div class="alert alert-danger" role="alert">--%>
-<%--                                            <%=errorMessage%>--%>
-<%--                                        </div>--%>
-<%--                                        <% }--%>
-<%--                                            if (SessionManager.getMessage(session) != null) { %>--%>
-<%--                                        <div class="alert alert-success" role="alert">--%>
-<%--                                            <%=SessionManager.getMessage(session)%>--%>
-<%--                                        </div>--%>
-<%--                                        <%}%>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <input type="text" name="name" class="form-control" id="nome"--%>
-<%--                                                   placeholder="Nome">--%>
-<%--                                            <div class="validation" id="errnome"></div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <input type="text" class="form-control" name="name" id="cognome"--%>
-<%--                                                   placeholder="Cognome">--%>
-<%--                                            <div class="validation" id="errcognome"></div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <input type="text" class="form-control" name="email" id="email"--%>
-<%--                                                   placeholder="Email">--%>
-<%--                                            <div class="validation" id="erremail"></div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <input type="password" class="form-control" name="password" id="psw"--%>
-<%--                                                   rows="5" placeholder="Password">--%>
-<%--                                            <div class="validation" id="errpass"></div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form-group">--%>
-<%--                                            <input type="password" class=" form-control" name="password" id="Cpsw"--%>
-<%--                                                   rows="5" placeholder="Verifica Password">--%>
-<%--                                            <div class="validation" id="errCpass"></div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="form form-group ">--%>
-<%--                                            <button type="submit">Registra</button>--%>
-<%--                                        </div>--%>
-<%--                                    </form>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </section>--%>
 
 <%--</main>--%>
 <%@ include file="../_fragments/contattaci.jsp" %>

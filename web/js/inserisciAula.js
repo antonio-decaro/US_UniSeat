@@ -1,5 +1,19 @@
+$(function () {
+    initPage();
+    $("#setPrese").click(function() {
+        setPrese()
+    });
+    $("#setComputer").click(function(){
+        setComputers()
+    });
+
+    $("#submitButton").click(function () {
+        inserisciNuovaAula($("form[name='formInsA']"));
+    });
+});
 
 function formValido() {
+    var edificio = $("#edAula").val();
     var nome = $("#nomeAula").val();
     var posti = $("#postiAula").val();
     var disp = $("#dispAula").val();
@@ -8,6 +22,11 @@ function formValido() {
     var regxPosti = /^[0-9]+$/;
     var regxNome = /^[A-Z a-z 0-9]+$/;
     var verifica = true;
+
+    if (edificio === " " || edificio.length < 1) {
+        $("#errEdAula").text("Edificio non selezionato");
+        verifica = false;
+    }
 
     if (posti === "" || posti.length < 20 || posti.length > 300) {
         $("#errPostiAula").text("Numero posti non corretto");
@@ -32,7 +51,8 @@ function formValido() {
 }
 
 function inserisciNuovaAula(form) {
-    $.post("/inserisciAula", $(form).serialize(), function(msg) {
+    var data = form.serialize();
+    $.post("/inserisciAula", data, function(msg) {
         showMessage(msg);
     }).fail(function (msg) {
         showError(msg.responseText);
@@ -48,4 +68,35 @@ function controllaInsAula(form) {
 function blankLabel(id1){
     $('#'+id1).text(' ');
 
+}
+
+function initPage() {
+    $("#servizi_computer").css({opacity: 0.35});
+    $("#pcAula").prop("checked", false);
+    $("#servizi_prese").css({opacity: 0.35});
+    $("#preseAula").prop("checked", false);
+}
+
+function setPrese() {
+    var inp = $("#preseAula");
+    var box = $("#servizi_prese");
+    if ($(inp).is(":checked")) {
+        $(inp).prop("checked", false);
+        $(box).css({opacity: 0.35});
+    } else {
+        $(inp).prop("checked", true);
+        $(box).css({opacity: 1});
+    }
+}
+
+function setComputers() {
+    var inp = $("#pcAula");
+    var box = $("#servizi_computer");
+    if ($(inp).is(":checked")) {
+        $(inp).prop("checked", false);
+        $(box).css({opacity: 0.35});
+    } else {
+        $(inp).prop("checked", true);
+        $(box).css({opacity: 1});
+    }
 }
