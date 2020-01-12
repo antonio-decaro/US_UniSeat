@@ -70,7 +70,11 @@
                         <div class="section-header">
                             <% if (!prenotazioni.isEmpty()) { %>
                             <h3 class="section-title">
+                                <% if (u.getTipoUtente().equals(TipoUtente.ADMIN)) { %>
+                                Prenotazioni
+                                <% } else { %>
                                 <%=prenotazioni.size() == 1 ? "La mia prenotazione" : "Le mie prenotazioni"%>
+                                <% } %>
                             </h3>
                             <% } else { %>
                             <h3 class="section-title">

@@ -1,6 +1,5 @@
 
 function formValido() {
-    var edificio = $("#edAula").val();
     var nome = $("#nomeAula").val();
     var posti = $("#postiAula").val();
     var disp = $("#dispAula").val();
@@ -10,26 +9,24 @@ function formValido() {
     var regxNome = /^[A-Z a-z 0-9]+$/;
     var verifica = true;
 
-    if (edificio == " " || edificio.length < 1) {
-        $("#errEdAula").text("Edificio non selezionato");
-        verifica = false;
-    }
-    if (posti == "" || posti.length < 20 || posti.length > 300) {
+    if (posti === "" || posti.length < 20 || posti.length > 300) {
         $("#errPostiAula").text("Numero posti non corretto");
         verifica = false;
     } else if (posti.match(regxPosti) == null) {
         $("#errPostiAula").text("Formato numero posti non valido");
         verifica = false;
     }
-    if (nome == " " || nome.length < 1 || nome.length > 16) {
+    if (nome === " " || nome.length < 1 || nome.length > 16) {
         $("#errNomeAula").text("Nome aula non valido");
         verifica = false;
     } else if (nome.match(regxNome) == null) {
         $("#errNomeAula").text("Nome aula non rispetta il formato");
         verifica = false;
     }
-
-    if (disp );
+    if (disp === "" || disp ===" ") {
+        $("#errDispAula").text("Orari di disponibilità errati");
+        verifica = false;
+    }
 
     return verifica;
 }
@@ -42,9 +39,13 @@ function inserisciNuovaAula(form) {
     });
 }
 
-function formInsA(form) {
+function controllaInsAula(form) {
     if (formValido()) {
         inserisciNuovaAula(form);
     }
+}
+
+function blankLabel(id1){
+    $('#'+id1).text(' ');
 
 }

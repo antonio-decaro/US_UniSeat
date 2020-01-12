@@ -10,7 +10,7 @@ function validation() {
     var regexP = /^((?=.*[\d])(?=.*[a-z])(?=.*[A-Z])).+$/;
 
 
-    if (nome == "" || nome.length < 1 || nome.length > 20 || nome == " ") {
+    if (nome === "" || nome.length < 1 || nome.length > 20 || nome === " ") {
         $("#errN").text("Il campo Nome non rispetta la lunghezza");
         verifica = false;
     } else if (nome.match(regexN) == null) {
@@ -25,7 +25,7 @@ function validation() {
         verifica = false;
     }
 
-    if (pass != "") {
+    if (pass !== "") {
 
         if (pass.length > 32 || pass.length < 8 || pass === " ") {
         $("#errP").text("Il campo Password non rispetta la lunghezza");
@@ -36,7 +36,7 @@ function validation() {
             verifica = false;
         }
 
-    } else if (pass != "" && pass != confPass) {
+    } else if (pass !== "" && pass !== confPass) {
         $("#errP").text("Le Password non corrispondono");
         verifica = false;
     }
@@ -46,7 +46,7 @@ function validation() {
 
 function modificaDati(form) {
     $.post("/modificaProfilo", $(form).serialize(), function(msg) {
-        $(window.location).attr('href','/_studente/VisualizzaProfiloJSP.jsp');
+        $(window.location).attr('href','/_studente/VisualizzaProfilo.jsp');
     });
 }
 

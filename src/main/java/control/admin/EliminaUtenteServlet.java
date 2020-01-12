@@ -34,6 +34,7 @@ public class EliminaUtenteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Utente u = SessionManager.getUtente(session);
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
         if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) { // se non è admin o non è loggato
             SessionManager.setError(session, "Utente non abilitato");
@@ -46,14 +47,14 @@ public class EliminaUtenteServlet extends HttpServlet {
             response.getWriter().print("Utente non selezionato");
             SessionManager.setError(session, "Utente non selezionato");
             return;
-        } else {
-            UtenteDAO utenteDAO = (UtenteDAO) request.getServletContext().getAttribute(UTENTE_DAO_PARAM);
-            Utente utente_el = utenteDAO.retriveByEmail(email);
-            utenteDAO.delete(utente_el);
         }
 
-        response.setStatus(HttpServletResponse.SC_OK);
+        UtenteDAO utenteDAO = (UtenteDAO) request.getServletContext().getAttribute(UTENTE_DAO_PARAM);
+        Utente utente_el = utenteDAO.retriveByEmail(email);
+        utenteDAO.delete(utente_el);
 
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().print("Utente eliminato con successo");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
