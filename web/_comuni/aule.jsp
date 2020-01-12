@@ -63,8 +63,7 @@
 
         <% } else { %>
 
-        <h1>Ciao, <%=u.getNome()%>
-        </h1>
+        <h1>Scegli l'aula</h1>
 
         <% } %>
     </div>

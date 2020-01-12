@@ -9,17 +9,17 @@ INSERT INTO Edificio(nome) VALUES('F');
 INSERT INTO Edificio(nome) VALUES('F2');
 INSERT INTO Edificio(nome) VALUES ('F3');
 
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(01,'E1','F',50,5,'PRESE;COMPUTER','');
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(02,'E2','F',50,5,'PRESE','');
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(20,'F8','F2',60,30,'PRESE','');
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(21,'F7','F2',30,5,'','');
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(30,'P4','F3',100,35,'PRESE','');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(01,'P1','F3',200,5,'PRESE;COMPUTER','');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(02,'P4','F3',120,15,'PRESE','');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(20,'F8','F2',110,30,'PRESE','');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(21,'F7','F2',70,5,'','');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(30,'P14','F3',35,17,'PRESE','');
 INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(32,'P6','F3',50,35,'COMPUTER','');
 
 INSERT INTO Utente(nome, cognome,email,password,tipo) VALUES ('Lorenzo','Capozzoli','l.capozzoli@studenti.unisa.it',SHA2('Lorenzo1', 256),'STUDENTE');
 INSERT INTO Utente(nome, cognome,email,password,tipo) VALUES ('Antonio','De Caro','a.decaro@studenti.unisa.it',SHA2('Antonio2', 256),'STUDENTE');
 INSERT INTO Utente(nome, cognome,email,password,tipo) VALUES ('Gianluca','Spinelli','g.spinelli@studenti.unisa.it',SHA2('Gianluca3', 256),'STUDENTE');
-INSERT INTO Utente(nome, cognome,email,password,tipo) VALUES ('Simone Pasquale','Rocco','sp.rocco@studenti.unisa.it',SHA2('Simone4', 256),'STUDENTE');
+INSERT INTO Utente(nome, cognome,email,password,tipo) VALUES ('Simone Pasquale','Rocco','sp.rocco@studenti.unisa.it',SHA2('Simonerocco4', 256),'STUDENTE');
 INSERT INTO Utente(nome, cognome,email,password,tipo) VALUES ('Marco','De Santis','m.desantis@studenti.unisa.it',SHA2('desan321', 256),'STUDENTE');
 
 INSERT INTO Utente(nome, cognome,email,password,tipo) VALUES ('Alferdo','De Pasquale','a.depasquale@unisa.it',SHA2('Depasquale1', 256),'ADMIN');
