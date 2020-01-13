@@ -249,6 +249,8 @@
       <include name="main"/>
       <include name="main/java"/>
       <include name="main/resources"/>
+      <include name="test"/>
+      <include name="test/resources"/>
     </dirset>
   </path>
   
