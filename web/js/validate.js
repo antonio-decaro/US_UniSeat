@@ -11,7 +11,8 @@ function validate() {
 function validationEmail() {
     var letters = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?)*$/;
 
-    if (document.getElementById("email").value.match(letters)) {
+    var email = document.getElementById("email");
+    if (email.value.match(letters) && (email.indexOf('@studenti.unisa.it') || email.indexOf('@unisa.it') )) {
         document.getElementById("erremail").innerHTML = " ";
         document.getElementById("erremail").style.display = "none";
         return true;
