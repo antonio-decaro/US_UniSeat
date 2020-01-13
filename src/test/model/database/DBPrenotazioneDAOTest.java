@@ -13,11 +13,9 @@ import org.junit.jupiter.api.Test;
 import javax.sql.DataSource;
 import java.lang.ref.PhantomReference;
 import java.security.UnrecoverableEntryException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DBPrenotazioneDAOTest {
 
-    private static DataSource dataSource;
     private static DBConnection dbConnection;
     private PrenotazioneDAO prenotazioneDAO;
 
@@ -39,20 +36,23 @@ public class DBPrenotazioneDAOTest {
         mysqlDS.setServerTimezone("CET");
         mysqlDS.setVerifyServerCertificate(false);
         mysqlDS.setUseSSL(false);
-        dataSource = mysqlDS;
-        dbConnection.setDataSource(dataSource);
-        DBConnection.getInstance().getConnection().setAutoCommit(false);
+        dbConnection.setDataSource(mysqlDS);
     }
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() throws SQLException {
+        dbConnection.getConnection().setAutoCommit(false);
         prenotazioneDAO = DBPrenotazioneDAO.getInstance();
-        DBConnection.getInstance().getConnection().setAutoCommit(false);
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        DBConnection.getInstance().getConnection().rollback();
+        try {
+            dbConnection.getConnection().rollback();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        dbConnection.getConnection().setAutoCommit(true);
     }
 
     @Test
@@ -71,12 +71,33 @@ public class DBPrenotazioneDAOTest {
     }
 
     @Test
-    void retriveById_OK() {
-        int id = 26;
-        Prenotazione prenotazione = prenotazioneDAO.retriveById(id);
-        assertEquals(id, prenotazione.getId());
-        assertEquals( Time.valueOf("09:00:00"), prenotazione.getOraInizio());
-        assertEquals(Time.valueOf("11:00:00"), prenotazione.getOraFine());
+    void retriveById_OK() throws SQLException {
+        Edificio edificio = new Edificio("F");
+        Aula aula = new Aula(1, "E1", 0, 100, "", edificio);
+        Utente utente = new Utente("a.decaro@studenti.unisa.it", "", "", "", TipoUtente.STUDENTE);
+        Date date = Date.valueOf("2018-01-13");
+        Time time = Time.valueOf("12:00:00");
+        Prenotazione p = new Prenotazione(date, time, time, TipoPrenotazione.POSTO, aula, utente);
+        prenotazioneDAO.insert(p);
+
+        final String QUERY = "SELECT id FROM prenotazione WHERE data = ?";
+        PreparedStatement stm = dbConnection.getConnection().prepareStatement(QUERY);
+        stm.setDate(1, date);
+        stm.execute();
+        ResultSet rs = stm.getResultSet();
+        Prenotazione prenotazione = null;
+        if (rs.next()) {
+            int idx = rs.getInt(1);
+            prenotazione = prenotazioneDAO.retriveById(idx);
+        }
+
+        assertNotNull(prenotazione);
+        assertEquals(p.getTipoPrenotazione(), prenotazione.getTipoPrenotazione());
+        assertEquals(p.getAula().getId(), prenotazione.getAula().getId());
+        assertEquals(p.getUtente().getEmail(), prenotazione.getUtente().getEmail());
+        assertEquals(p.getOraInizio(), prenotazione.getOraInizio());
+        assertEquals(p.getOraFine(), prenotazione.getOraFine());
+        assertEquals(p.getData(), prenotazione.getData());
     }
 
     @Test
@@ -144,32 +165,36 @@ public class DBPrenotazioneDAOTest {
 
     @Test
     void retrieveByUtente_OK(){
-        Utente u = new Utente("l.capozzoli@studenti.unisa.it", "Lorenzo", "Capozzoli", "Lorenzo1", TipoUtente.STUDENTE);
+        Utente u = new Utente();
+        u.setEmail("a.decaro@studenti.unisa.it");
         List<Prenotazione> prenotazioni = prenotazioneDAO.retriveByUtente(u);
-        System.out.println(prenotazioni);
         assertNotNull(prenotazioni);
         assertNotNull(u);
         assertEquals(prenotazioni, prenotazioneDAO.retriveByUtente(u));
     }
 
-//    @Test
-//    void insert_OK() {
-//
-//    }
-
     @Test
-    void delete_OK(){
+    void delete_OK() throws SQLException {
         Edificio edificio = new Edificio("F");
         Aula aula = new Aula(1, "E1", 0, 100, "", edificio);
-        List<Prenotazione> p = prenotazioneDAO.retriveByAula(aula);
-        prenotazioneDAO.delete((Prenotazione) p);
+        Utente utente = new Utente("a.decaro@studenti.unisa.it", "", "", "", TipoUtente.STUDENTE);
+        Date date = Date.valueOf("2020-01-13");
+        Time time = Time.valueOf("12:00:00");
+        Prenotazione p = new Prenotazione(date, time, time, TipoPrenotazione.POSTO, aula, utente);
+        prenotazioneDAO.insert(p);
+
+        List<Prenotazione> prenotazioni = prenotazioneDAO.retriveByAula(aula);
+        assertFalse(prenotazioni.isEmpty());
+        int before = prenotazioni.size();
+        prenotazioneDAO.delete(prenotazioni.get(0));
+        prenotazioni = prenotazioneDAO.retriveByAula(aula);
+        assertEquals(before, prenotazioni.size() + 1);
     }
 
     @Test
     void delete_NOK() {
         Prenotazione p = new Prenotazione();
-        p.setId(13);
-        System.out.println(p);
+        p.setId(13);;
         assertNotNull(p);
     }
 

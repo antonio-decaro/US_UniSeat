@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: IscrizioneDocenteServlet</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">control.admin</a> ]
+</div>
+
+<h1>Coverage Summary for Class: IscrizioneDocenteServlet (control.admin)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">IscrizioneDocenteServlet</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,5%
+  </span>
+  <span class="absValue">
+    (49/ 53)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package control.admin;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import control.utili.EmailManager;
+<i>4</i>&nbsp;import control.utili.PasswordEncrypter;
+<i>5</i>&nbsp;import control.utili.SessionManager;
+<i>6</i>&nbsp;import model.dao.UtenteDAO;
+<i>7</i>&nbsp;import model.dao.ViolazioneEntityException;
+<i>8</i>&nbsp;import model.database.DBUtenteDAO;
+<i>9</i>&nbsp;import model.pojo.TipoUtente;
+<i>10</i>&nbsp;import model.pojo.Utente;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import javax.servlet.ServletException;
+<i>13</i>&nbsp;import javax.servlet.annotation.WebServlet;
+<i>14</i>&nbsp;import javax.servlet.http.HttpServlet;
+<i>15</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i>16</i>&nbsp;import javax.servlet.http.HttpServletResponse;
+<i>17</i>&nbsp;import javax.servlet.http.HttpSession;
+<i>18</i>&nbsp;import java.io.IOException;
+<i>19</i>&nbsp;import java.util.Random;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;@WebServlet(&quot;/iscrizioneDocente&quot;)
+<b class="fc"><i>22</i>&nbsp;public class IscrizioneDocenteServlet extends HttpServlet {</b>
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public void init() throws ServletException {
+<b class="nc"><i>25</i>&nbsp;        super.init();</b>
+<b class="nc"><i>26</i>&nbsp;        this.getServletContext().setAttribute(UTENTE_DAO_PARAM, DBUtenteDAO.getInstance());</b>
+<b class="nc"><i>27</i>&nbsp;        String hostname = this.getServletContext().getInitParameter(&quot;hostname&quot;);</b>
+<b class="nc"><i>28</i>&nbsp;        this.getServletContext().setAttribute(EMAIL_PARAM, new EmailManager(hostname));</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    @Override
+<i>32</i>&nbsp;    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+<b class="fc"><i>33</i>&nbsp;        doPost(req, resp);</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @Override
+<i>37</i>&nbsp;    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+<b class="fc"><i>38</i>&nbsp;        HttpSession session = req.getSession();</b>
+<b class="fc"><i>39</i>&nbsp;        Utente u = SessionManager.getUtente(session);</b>
+<b class="pc"><i>40</i>&nbsp;        if (u == null || !u.getTipoUtente().equals(TipoUtente.ADMIN)) {</b>
+<b class="fc"><i>41</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/index.jsp&quot;);</b>
+<i>42</i>&nbsp;            return;
+<i>43</i>&nbsp;        }
+<i>44</i>&nbsp;
+<b class="fc"><i>45</i>&nbsp;        String email = req.getParameter(&quot;email&quot;);</b>
+<b class="fc"><i>46</i>&nbsp;        String nome = req.getParameter(&quot;nome&quot;);</b>
+<b class="fc"><i>47</i>&nbsp;        String cognome = req.getParameter(&quot;cognome&quot;);</b>
+<b class="fc"><i>48</i>&nbsp;        String password = req.getParameter(&quot;password&quot;);</b>
+<b class="fc"><i>49</i>&nbsp;        String confPassword = req.getParameter(&quot;confPassword&quot;);</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;        // controllo validità campi
+<b class="fc"><i>52</i>&nbsp;        if (nome == null || nome.length() &lt; 1 || nome.length() &gt; 20) {</b>
+<b class="fc"><i>53</i>&nbsp;            SessionManager.setError(session, &quot;Il campo Nome non rispetta la lunghezza&quot;);</b>
+<b class="fc"><i>54</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_admin/inserisciDocente.jsp&quot;);</b>
+<i>55</i>&nbsp;            return;
+<i>56</i>&nbsp;        }
+<b class="fc"><i>57</i>&nbsp;        if (!nome.matches(&quot;^[a-z A-Z]+$&quot;)) {</b>
+<b class="fc"><i>58</i>&nbsp;            SessionManager.setError(session, &quot;Il campo Nome non rispetta il formato&quot;);</b>
+<b class="fc"><i>59</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_admin/inserisciDocente.jsp&quot;);</b>
+<i>60</i>&nbsp;            return;
+<i>61</i>&nbsp;        }
+<b class="fc"><i>62</i>&nbsp;        if (cognome == null || cognome.length() &lt; 1 || cognome.length() &gt; 20) {</b>
+<b class="fc"><i>63</i>&nbsp;            SessionManager.setError(session, &quot;Il campo Cognome non rispetta la lunghezza&quot;);</b>
+<b class="fc"><i>64</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_admin/inserisciDocente.jsp&quot;);</b>
+<i>65</i>&nbsp;            return;
+<i>66</i>&nbsp;        }
+<b class="fc"><i>67</i>&nbsp;        if (!cognome.matches(&quot;^[a-z A-Z]+$&quot;)) {</b>
+<b class="fc"><i>68</i>&nbsp;            SessionManager.setError(session, &quot;Il campo Cognome non rispetta il formato&quot;);</b>
+<b class="fc"><i>69</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_admin/inserisciDocente.jsp&quot;);</b>
+<i>70</i>&nbsp;            return;
+<i>71</i>&nbsp;        }
+<b class="fc"><i>72</i>&nbsp;        int length = email.substring(0, email.indexOf(&quot;@&quot;)).length();</b>
+<b class="pc"><i>73</i>&nbsp;        if (length &gt; 30 || length &lt; 6) {</b>
+<b class="fc"><i>74</i>&nbsp;            SessionManager.setError(session, &quot;Il campo E-mail non rispetta la lunghezza&quot;);</b>
+<b class="fc"><i>75</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_admin/inserisciDocente.jsp&quot;);</b>
+<i>76</i>&nbsp;            return;
+<i>77</i>&nbsp;        }
+<b class="pc"><i>78</i>&nbsp;        if (!email.endsWith(&quot;@unisa.it&quot;) &amp;&amp; !email.endsWith(&quot;@studenti.unisa.it&quot;)) {</b>
+<b class="fc"><i>79</i>&nbsp;            SessionManager.setError(session, &quot;Il campo E-mail non rispetta il formato&quot;);</b>
+<b class="fc"><i>80</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_admin/inserisciDocente.jsp&quot;);</b>
+<i>81</i>&nbsp;            return;
+<i>82</i>&nbsp;        }
+<b class="pc"><i>83</i>&nbsp;        if (password.length() &gt; 32 || password.length() &lt; 8) {</b>
+<b class="fc"><i>84</i>&nbsp;            SessionManager.setError(session, &quot;Il campo Password non rispetta la lunghezza&quot;);</b>
+<b class="fc"><i>85</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_admin/inserisciDocente.jsp&quot;);</b>
+<i>86</i>&nbsp;            return;
+<i>87</i>&nbsp;        }
+<b class="fc"><i>88</i>&nbsp;        if (!password.matches(&quot;^((?=.*[\\d])(?=.*[a-z])(?=.*[A-Z])).+$&quot;)) {</b>
+<b class="fc"><i>89</i>&nbsp;            SessionManager.setError(session, &quot;Il campo Password non rispetta il formato&quot;);</b>
+<b class="fc"><i>90</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_admin/inserisciDocente.jsp&quot;);</b>
+<i>91</i>&nbsp;            return;
+<i>92</i>&nbsp;        }
+<b class="fc"><i>93</i>&nbsp;        if (!confPassword.equals(password)){</b>
+<b class="fc"><i>94</i>&nbsp;            SessionManager.setError(session, &quot;Le password non corrispondono&quot;);</b>
+<b class="fc"><i>95</i>&nbsp;            resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_admin/inserisciDocente.jsp&quot;);</b>
+<i>96</i>&nbsp;            return;
+<i>97</i>&nbsp;        }
+<i>98</i>&nbsp;        // fine controllo validità campi
+<b class="fc"><i>99</i>&nbsp;        UtenteDAO utenteDAO = (UtenteDAO) req.getServletContext().getAttribute(UTENTE_DAO_PARAM);</b>
+<i>100</i>&nbsp;
+<b class="fc"><i>101</i>&nbsp;        Random rand = new Random();</b>
+<b class="fc"><i>102</i>&nbsp;        Utente utente = new Utente(email, nome, cognome, PasswordEncrypter.criptaPassword(password), TipoUtente.DOCENTE);</b>
+<b class="fc"><i>103</i>&nbsp;        utente.setCodiceVerifica(rand.nextInt());</b>
+<i>104</i>&nbsp;        try {
+<b class="fc"><i>105</i>&nbsp;            utenteDAO.insert(utente);</b>
+<b class="fc"><i>106</i>&nbsp;        } catch (ViolazioneEntityException e) {</b>
+<b class="fc"><i>107</i>&nbsp;            SessionManager.setError(session, e.getMessage());</b>
+<b class="fc"><i>108</i>&nbsp;        }</b>
+<b class="fc"><i>109</i>&nbsp;        SessionManager.setMessage(session, &quot;Utente registrato con successo&quot;);</b>
+<b class="fc"><i>110</i>&nbsp;        resp.sendRedirect(req.getServletContext().getContextPath() + &quot;/_admin/inserisciDocente.jsp&quot;);</b>
+<i>111</i>&nbsp;    }
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    static final String UTENTE_DAO_PARAM = &quot;IscrizioneDocenteServlet.user&quot;;
+<i>114</i>&nbsp;    static final String EMAIL_PARAM = &quot;IscrizioneDocenteServlet.emailManager&quot;;
+<i>115</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-13 14:45</div>
+</div>
+</body>
+</html>

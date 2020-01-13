@@ -73,11 +73,16 @@ public class DisponibilitaManager {
         if (this.disponibilita.intervalli[dayIndex].isEmpty())
             return false;
 
+        boolean disp = false;
         for (String[] intervallo : this.disponibilita.intervalli[dayIndex]) {
             Time[] tmp = parseIntervallo(intervallo);
-            if (!comparaIntervallo(oraInizio, oraFine, tmp[0], tmp[1])) {
-                return false;
-            }
+            disp = comparaIntervallo(oraInizio, oraFine, tmp[0], tmp[1]);
+            if (disp)
+                break;
+        }
+
+        if (!disp) {
+            return false;
         }
 
         List<Prenotazione> prenotazioni = getPrenotazioniAule(data, oraInizio, oraFine);

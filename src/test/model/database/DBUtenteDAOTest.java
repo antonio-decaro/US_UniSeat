@@ -5,18 +5,15 @@ import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
 import model.pojo.TipoUtente;
 import model.pojo.Utente;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DBUtenteDAOTest {
-    private static DataSource dataSource;
     private static DBConnection dbConnection;
     private UtenteDAO utenteDAO;
 
@@ -30,43 +27,38 @@ public class DBUtenteDAOTest {
         mysqlDS.setServerTimezone("CET");
         mysqlDS.setVerifyServerCertificate(false);
         mysqlDS.setUseSSL(false);
-        dataSource = mysqlDS;
-        dbConnection.setDataSource(dataSource);
+        dbConnection.setDataSource(mysqlDS);
     }
 
     @BeforeEach
-    void setUp() throws Exception {
-
+    void setUp() throws SQLException {
         utenteDAO = DBUtenteDAO.getInstance();
-        DBConnection.getInstance().getConnection().setAutoCommit(false);
+        dbConnection.getConnection().setAutoCommit(false);
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        DBConnection.getInstance().getConnection().rollback();
+        dbConnection.getConnection().rollback();
+        dbConnection.getConnection().setAutoCommit(true);
     }
 
     @Test
     void retriveByEmail_NOK() throws Exception {
-        String email = null;
-        assertNull(utenteDAO.retriveByEmail(email));
-
+        assertNull(utenteDAO.retriveByEmail(null));
     }
 
     @Test
     void retriveByEmail_OK() {
-        String email = "l.capozzoli@studenti.unisa.it";
+        String email = "m.desantis@studenti.unisa.it";
         Utente utente = utenteDAO.retriveByEmail(email);
-        System.out.println(utente);
         assertEquals(email, utente.getEmail());
     }
 
-
     @Test
     void update(){
-        Utente u = new Utente("l.capozzoli@studenti.unisa.it","Lorenzo","Capozzoli","Lorenzo123", TipoUtente.STUDENTE);
+        Utente u = new Utente("a.decaro@studenti.unisa.it","Antonio","De Caro","Antonio123", TipoUtente.STUDENTE);
         utenteDAO.update(u);
-        Utente newUtente = utenteDAO.retriveByEmail("l.capozzoli@studenti.unisa.it");
+        Utente newUtente = utenteDAO.retriveByEmail("a.decaro@studenti.unisa.it");
         assertEquals(u.getEmail(), newUtente.getEmail());
         assertEquals(u.getNome(), newUtente.getNome());
         assertEquals(u.getCognome(),newUtente.getCognome());
@@ -83,7 +75,7 @@ public class DBUtenteDAOTest {
 
     @Test
     void insert_OK(){
-        Utente u = new Utente("a.capone@studenti.unisa.it", "Alfredo", "Capone","Alfredo1",TipoUtente.STUDENTE);
+        Utente u = new Utente("testEmail", "", "","",TipoUtente.STUDENTE);
         utenteDAO.insert(u);
         Utente newUtente = utenteDAO.retriveByEmail(u.getEmail());
         assertNotNull(newUtente);
@@ -92,29 +84,29 @@ public class DBUtenteDAOTest {
         assertEquals(u.getCognome(),newUtente.getCognome());
         assertEquals(u.getPassword(),newUtente.getPassword());
         assertEquals(u.getTipoUtente(), newUtente.getTipoUtente());
+        utenteDAO.delete(u);
     }
 
     @Test
     void insert_NOTOK() {
-        Utente u = new Utente("l.capozzoli@studenti.unisa.it", "Lorenzo", "Capozzoli", "Lorenzo1", TipoUtente.STUDENTE);
-
-        assertThrows(ViolazioneEntityException.class, () -> utenteDAO.insert(u), "Utente già esistente " + u);
+        Utente u = new Utente("a.decaro@studenti.unisa.it", "", "", "", TipoUtente.STUDENTE);
+        assertThrows(ViolazioneEntityException.class, () -> utenteDAO.insert(u), "Utente già esistente");
     }
 
     @Test
     void delete_OK(){
-        Utente u = utenteDAO.retriveByEmail("l.capozzoli@studenti.unisa.it");
-        utenteDAO.delete(u);
+        Utente u = new Utente("delete_OK", "", "", "", TipoUtente.STUDENTE);
+        utenteDAO.insert(u);
         assertNotNull(u);
-
+        utenteDAO.delete(u);
+        assertNull(utenteDAO.retriveByEmail("delete_OK"));
     }
+
     @Test
     void delete_NOTOK(){
         Utente u1 = new Utente();
         u1.setEmail("m.sadsad@stu.it");
-        System.out.println(u1);
         assertThrows(ViolazioneEntityException.class, () -> utenteDAO.delete(u1), "Non esiste l'utente " + u1 + " nel database");
-
     }
 
     @Test

@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Utente</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">model.pojo</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Utente (model.pojo)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Utente</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,9%
+  </span>
+  <span class="absValue">
+    (16/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,3%
+  </span>
+  <span class="absValue">
+    (24/ 26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package model.pojo;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Objects;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Questa classe modella il concetto di &quot;Utente&quot; all&#39;interno del sistema.
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; * @author De Caro Antonio, De Santis Marco
+<i>9</i>&nbsp; * @version 0.1
+<i>10</i>&nbsp; * @inv il campo password deve sempre essere codificato in SHA_256
+<i>11</i>&nbsp; * @see java.security.MessageDigest
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class Utente {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    private String email;
+<i>16</i>&nbsp;    private String nome;
+<i>17</i>&nbsp;    private String cognome;
+<i>18</i>&nbsp;    private String password;
+<i>19</i>&nbsp;    private TipoUtente utente;
+<i>20</i>&nbsp;    private int codiceVerifica;
+<i>21</i>&nbsp;
+<b class="fc"><i>22</i>&nbsp;    public Utente() {</b>
+<i>23</i>&nbsp;    }
+<i>24</i>&nbsp;
+<b class="fc"><i>25</i>&nbsp;    public Utente(String email,String nome,String cognome, String password,TipoUtente utente) {</b>
+<b class="fc"><i>26</i>&nbsp;        this.email = email;</b>
+<b class="fc"><i>27</i>&nbsp;        this.nome = nome;</b>
+<b class="fc"><i>28</i>&nbsp;        this.cognome = cognome;</b>
+<b class="fc"><i>29</i>&nbsp;        this.password = password;</b>
+<b class="fc"><i>30</i>&nbsp;        this.utente = utente;</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    public String getEmail() {
+<b class="fc"><i>34</i>&nbsp;        return email;</b>
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    public void setEmail(String email) {
+<b class="fc"><i>38</i>&nbsp;        this.email = email;</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    public String getNome() {
+<b class="fc"><i>42</i>&nbsp;        return nome;</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    public void setNome(String nome) {
+<b class="fc"><i>46</i>&nbsp;        this.nome = nome;</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    public String getCognome() {
+<b class="fc"><i>50</i>&nbsp;        return cognome;</b>
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    public void setCognome(String cognome) {
+<b class="fc"><i>54</i>&nbsp;        this.cognome = cognome;</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    public String getPassword() {
+<b class="fc"><i>58</i>&nbsp;        return password;</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    public void setPassword(String password) {
+<b class="fc"><i>62</i>&nbsp;        this.password = password;</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    public TipoUtente getTipoUtente() {
+<b class="fc"><i>66</i>&nbsp;        return utente;</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    public void setTipoUtente(TipoUtente utente) {
+<b class="fc"><i>70</i>&nbsp;        this.utente = utente;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    public int getCodiceVerifica() {
+<b class="fc"><i>74</i>&nbsp;        return codiceVerifica;</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    public void setCodiceVerifica(int codiceVerifica) {
+<b class="fc"><i>78</i>&nbsp;        this.codiceVerifica = codiceVerifica;</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * Controlla se l&#39;utente ha verificato la sua email.
+<i>83</i>&nbsp;     *
+<i>84</i>&nbsp;     * @return true se la email è verificata, false altrimenti
+<i>85</i>&nbsp;     * @since 0.1
+<i>86</i>&nbsp;     * */
+<i>87</i>&nbsp;    public boolean isVerificato() {
+<b class="nc"><i>88</i>&nbsp;        return this.codiceVerifica == 0;</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    @Override
+<i>92</i>&nbsp;    public boolean equals(Object o) {
+<b class="fc"><i>93</i>&nbsp;        if (this == o) return true;</b>
+<b class="pc"><i>94</i>&nbsp;        if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="fc"><i>95</i>&nbsp;        Utente utente = (Utente) o;</b>
+<b class="fc"><i>96</i>&nbsp;        return email.equals(utente.email);</b>
+<i>97</i>&nbsp;    }
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    @Override
+<i>100</i>&nbsp;    public int hashCode() {
+<b class="nc"><i>101</i>&nbsp;        return Objects.hash(email);</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    @Override
+<i>105</i>&nbsp;    public String toString() {
+<b class="fc"><i>106</i>&nbsp;        return &quot;Utente{&quot; +</b>
+<i>107</i>&nbsp;                &quot;email=&#39;&quot; + email + &#39;\&#39;&#39; +
+<i>108</i>&nbsp;                &quot;, nome=&#39;&quot; + nome + &#39;\&#39;&#39; +
+<i>109</i>&nbsp;                &quot;, cognome=&#39;&quot; + cognome + &#39;\&#39;&#39; +
+<i>110</i>&nbsp;                &quot;, password=&#39;&quot; + password + &#39;\&#39;&#39; +
+<i>111</i>&nbsp;                &quot;, utente=&quot; + utente +
+<i>112</i>&nbsp;                &#39;}&#39;;
+<i>113</i>&nbsp;    }
+<i>114</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-13 14:45</div>
+</div>
+</body>
+</html>

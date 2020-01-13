@@ -106,13 +106,13 @@ public class DBUtenteDAO implements UtenteDAO {
             stm.executeUpdate();
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "{0}", e);
+            logger.log(Level.SEVERE, e.getMessage());
             throw new ViolazioneEntityException("Utente già esistente");
         }
     }
 
     @Override
-    public void delete(Utente utente) {
+    public void delete(Utente utente) throws ViolazioneEntityException {
         final String QUERY = "DELETE FROM utente WHERE email=?";
 
         if (DBUtenteDAO.getInstance().retriveByEmail(utente.getEmail()) == null)

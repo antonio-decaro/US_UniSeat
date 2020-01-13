@@ -1,0 +1,115 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AulaDAO</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">model.dao</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AulaDAO (model.dao)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">AulaDAO</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package model.dao;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import model.pojo.Aula;
+<i>4</i>&nbsp;import model.pojo.Edificio;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.Set;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Questa interfaccia fornisce le operazioni effettuabili da un Data Access Object (DAO) che accede agli oggeti di tipo Aula
+<i>10</i>&nbsp; *
+<i>11</i>&nbsp; * @author De Caro Antonio
+<i>12</i>&nbsp; * @version 0.1
+<i>13</i>&nbsp; * @see Aula
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public interface AulaDAO {
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Ricerca un&#39;aula dato il suo identificativo
+<i>18</i>&nbsp;     *
+<i>19</i>&nbsp;     * @param id identificativo dell&#39;aula da cercare
+<i>20</i>&nbsp;     * @return l&#39;aula con l&#39;identificativo specificato, null se non esiste alcuna aula con quell&#39;id
+<i>21</i>&nbsp;     * @throws IllegalArgumentException se id &lt; 0
+<i>22</i>&nbsp;     * @since ver 0.1
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    Aula retriveById(int id);
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Ricerca un&#39;aula dato il suo nome
+<i>28</i>&nbsp;     * @param name nome dell&#39;aula da cercare
+<i>29</i>&nbsp;     * @return l&#39;aula che il nome specificato, null se non esiste alcuna aula con quell&#39;id
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    Aula retriveByName(String name);
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Aggiorna una determinata aula passata come parametro
+<i>35</i>&nbsp;     *
+<i>36</i>&nbsp;     * @param aula aula aggiornata
+<i>37</i>&nbsp;     * @throws ViolazioneEntityException se retriveById(aula.getId ()) == null
+<i>38</i>&nbsp;     * @since ver 0.1
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    void update(Aula aula) throws ViolazioneEntityException;
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Inserisce una nuova aula passata come parametro
+<i>44</i>&nbsp;     *
+<i>45</i>&nbsp;     * @param aula aula da inserire
+<i>46</i>&nbsp;     * @throws ViolazioneEntityException se retriveById(aula.getId ()) != null
+<i>47</i>&nbsp;     * @since ver 0.1
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;    void insert(Aula aula) throws ViolazioneEntityException;
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * Cerca tutte le aule presenti all&#39;interno del gestore della persistenza.
+<i>53</i>&nbsp;     *
+<i>54</i>&nbsp;     * @return L&#39;insieme delle aule presenti nel supporto di memorizzazione.
+<i>55</i>&nbsp;     * @since ver 0.1
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    Set&lt;Aula&gt; retriveAll();
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * Cerca tutte le aule di un determinato edificio passato come parametro
+<i>61</i>&nbsp;     *
+<i>62</i>&nbsp;     * @param edificio edificio da cui ricavare le aule
+<i>63</i>&nbsp;     * @return L&#39;insieme delle aule dell&#39;edificio passato come parametro presenti nel supporto di memorizzazione.
+<i>64</i>&nbsp;     * @since ver 0.1
+<i>65</i>&nbsp;     */
+<i>66</i>&nbsp;    Set&lt;Aula&gt; retriveByEdificio(Edificio edificio) throws ViolazioneEntityException;
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-13 14:45</div>
+</div>
+</body>
+</html>

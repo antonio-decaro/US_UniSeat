@@ -1,0 +1,78 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: EdificioDAO</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">model.dao</a> ]
+</div>
+
+<h1>Coverage Summary for Class: EdificioDAO (model.dao)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">EdificioDAO</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package model.dao;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import model.pojo.Edificio;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.List;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Questa interfaccia fornisce le operazioni effettuabili da un Data Access Object (DAO) che accede agli oggeti di tipo Edificio
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * @author De Caro Antonio
+<i>11</i>&nbsp; * @version 0.1
+<i>12</i>&nbsp; * @see Edificio
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public interface EdificioDAO {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Recupera l&#39;edificio con il nome passato come parametro
+<i>18</i>&nbsp;     *
+<i>19</i>&nbsp;     * @param nome nome dell&#39;edificio da cercare
+<i>20</i>&nbsp;     * @return l&#39;edificio con il nome passato come parametro, oppure, null se non esiste alcun edificio con quel nome
+<i>21</i>&nbsp;     * @since ver 0.1
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    Edificio retriveByName(String nome);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Recupera tutti gli edifici
+<i>27</i>&nbsp;     *
+<i>28</i>&nbsp;     * @return l&#39;insieme degli edifici presenti nel gestore della persistenza
+<i>29</i>&nbsp;     * */
+<i>30</i>&nbsp;    List&lt;Edificio&gt; retriveAll();
+<i>31</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-13 14:45</div>
+</div>
+</body>
+</html>

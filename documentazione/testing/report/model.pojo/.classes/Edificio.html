@@ -1,0 +1,157 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Edificio</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">model.pojo</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Edificio (model.pojo)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Edificio</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72,7%
+  </span>
+  <span class="absValue">
+    (8/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81,2%
+  </span>
+  <span class="absValue">
+    (13/ 16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package model.pojo;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Objects;
+<i>4</i>&nbsp;import java.util.Set;
+<i>5</i>&nbsp;import java.util.TreeSet;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Questa classe modella il concetto di &quot;Edificio&quot; all&#39;interno del sistema.
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * @author De Caro Antonio
+<i>11</i>&nbsp; * @version 0.1
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class Edificio {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    private String nome;
+<i>16</i>&nbsp;    private Set&lt;Aula&gt; aule;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    {
+<b class="fc"><i>19</i>&nbsp;        this.aule = new TreeSet&lt;&gt;();</b>
+<i>20</i>&nbsp;    }
+<i>21</i>&nbsp;
+<b class="fc"><i>22</i>&nbsp;    public Edificio() {</b>
+<i>23</i>&nbsp;    }
+<i>24</i>&nbsp;
+<b class="fc"><i>25</i>&nbsp;    public Edificio(String nome) {</b>
+<b class="fc"><i>26</i>&nbsp;        this.nome = nome;</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public String getNome() {
+<b class="fc"><i>30</i>&nbsp;        return nome;</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    public void setNome(String nome) {
+<b class="fc"><i>34</i>&nbsp;        this.nome = nome;</b>
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    public Set&lt;Aula&gt; getAule() {
+<b class="fc"><i>38</i>&nbsp;        return aule;</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    public void setAule(Set&lt;Aula&gt; aule) {
+<b class="fc"><i>42</i>&nbsp;        this.aule = aule;</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    public void addAula(Aula aula){
+<b class="nc"><i>46</i>&nbsp;        this.aule.add(aula);</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    public void removeAula(Aula aula){
+<b class="nc"><i>50</i>&nbsp;        this.aule.remove(aula);</b>
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    @Override
+<i>54</i>&nbsp;    public boolean equals(Object o) {
+<b class="fc"><i>55</i>&nbsp;        if (this == o) return true;</b>
+<b class="pc"><i>56</i>&nbsp;        if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="fc"><i>57</i>&nbsp;        Edificio edificio = (Edificio) o;</b>
+<b class="fc"><i>58</i>&nbsp;        return nome.equals(edificio.nome);</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    @Override
+<i>62</i>&nbsp;    public int hashCode() {
+<b class="nc"><i>63</i>&nbsp;        return Objects.hash(nome);</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    @Override
+<i>67</i>&nbsp;    public String toString() {
+<b class="fc"><i>68</i>&nbsp;        return &quot;Edificio{&quot; +</b>
+<i>69</i>&nbsp;                &quot;nome=&#39;&quot; + nome + &#39;\&#39;&#39; +
+<i>70</i>&nbsp;                &quot;, aule=&quot; + aule +
+<i>71</i>&nbsp;                &#39;}&#39;;
+<i>72</i>&nbsp;    }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-13 14:45</div>
+</div>
+</body>
+</html>

@@ -12,10 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DBEdificioDAOTest {
     private EdificioDAO edificioDAO;
+    private static DBConnection dbConnection;
 
     @BeforeAll
     static void init() throws Exception {
-        DBConnection dbConnection = DBConnection.getInstance();
+        dbConnection = DBConnection.getInstance();
         MysqlDataSource mysqlDS = new MysqlDataSource();
         mysqlDS.setURL("jdbc:mysql://localhost:3306/UniSeatDB");
         mysqlDS.setUser("root");
@@ -24,7 +25,7 @@ class DBEdificioDAOTest {
         mysqlDS.setVerifyServerCertificate(false);
         mysqlDS.setUseSSL(false);
         dbConnection.setDataSource(mysqlDS);
-        DBConnection.getInstance().getConnection().setAutoCommit(false);
+        dbConnection.getConnection().setAutoCommit(false);
     }
 
     @BeforeEach
@@ -34,12 +35,12 @@ class DBEdificioDAOTest {
 
     @AfterEach
     void tearDown() throws Exception {
-        DBConnection.getInstance().getConnection().rollback();
+        dbConnection.getConnection().rollback();
     }
 
     @AfterAll
     static void reset() throws Exception {
-        DBConnection.getInstance().getConnection().close();
+        dbConnection.getConnection().setAutoCommit(true);
     }
 
     @Test

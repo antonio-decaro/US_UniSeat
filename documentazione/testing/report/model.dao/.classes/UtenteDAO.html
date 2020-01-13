@@ -1,0 +1,108 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UtenteDAO</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">model.dao</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UtenteDAO (model.dao)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">UtenteDAO</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package model.dao;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import model.pojo.Edificio;
+<i>4</i>&nbsp;import model.pojo.Utente;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Questa interfaccia fornisce le operazioni effettuabili da un Data Access Object (DAO) che accede agli oggeti di tipo Utente
+<i>10</i>&nbsp; *
+<i>11</i>&nbsp; * @author De Caro Antonio
+<i>12</i>&nbsp; * @version 0.1
+<i>13</i>&nbsp; * @see Edificio
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public interface UtenteDAO {
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Ricerca all&#39;interno del supporto di memorizzazione, l&#39;utente con email specificata come parametro
+<i>18</i>&nbsp;     *
+<i>19</i>&nbsp;     * @param email l&#39;email dell&#39;utente da ricercare.
+<i>20</i>&nbsp;     * @return lo studente cercato se questo esiste nel supporto di memorizzazione persistente, altrimenti null se non
+<i>21</i>&nbsp;     * esiste alcuno studente con quel nome
+<i>22</i>&nbsp;     * @since ver 0.1
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    Utente retriveByEmail(String email);
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Aggiorna un determinato utente passato come parametro
+<i>28</i>&nbsp;     *
+<i>29</i>&nbsp;     * @param utente utente aggiornato
+<i>30</i>&nbsp;     * @throws ViolazioneEntityException se retriveByEmail(utente.getEmail()) == null
+<i>31</i>&nbsp;     * @since ver 0.1
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    void update(Utente utente) throws ViolazioneEntityException;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * Inserisce un nuovo utente passato come parametro
+<i>37</i>&nbsp;     *
+<i>38</i>&nbsp;     * @param utente utente da inserire
+<i>39</i>&nbsp;     * @throws ViolazioneEntityException se retriveByEmail(utente.getEmail()) != null
+<i>40</i>&nbsp;     * @since ver 0.1
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    void insert(Utente utente) throws ViolazioneEntityException;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * Elimina un utente dal gestore della memorizzazione persistente
+<i>46</i>&nbsp;     *
+<i>47</i>&nbsp;     * @param utente utente da eliminare
+<i>48</i>&nbsp;     * @since ver 0.1
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    void delete(Utente utente);
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Restituisce tutti gli utente presenti nel gestore della persistenza
+<i>54</i>&nbsp;     *
+<i>55</i>&nbsp;     * @return l&#39;insieme degli utenti presenti nel gestore della persistenza
+<i>56</i>&nbsp;     * @since ver 0.1
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    List&lt;Utente&gt; retriveAll();
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    //Object login(Utente u) throws SQLException;
+<i>61</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-13 14:45</div>
+</div>
+</body>
+</html>

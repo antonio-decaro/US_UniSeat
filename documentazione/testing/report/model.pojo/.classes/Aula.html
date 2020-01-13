@@ -1,0 +1,225 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Aula</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">model.pojo</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Aula (model.pojo)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Aula</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (22/ 22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (42/ 42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package model.pojo;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import java.util.ArrayList;
+<i>5</i>&nbsp;import java.util.Objects;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Questa classe modella il concetto di &quot;Aula&quot; all&#39;interno del sistema.
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * @inv nPostiOccupati &lt;= nPosti
+<i>11</i>&nbsp; * @author De Caro Antonio
+<i>12</i>&nbsp; * @version 0.1
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class Aula implements Comparable&lt;Aula&gt;{
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    private int id;
+<i>17</i>&nbsp;    private String nome;
+<i>18</i>&nbsp;    private int nPostiOccupati;
+<i>19</i>&nbsp;    private int nPosti;
+<i>20</i>&nbsp;    private String disponibilita;
+<i>21</i>&nbsp;    private transient Edificio edificio;
+<i>22</i>&nbsp;    private ArrayList&lt;Servizio&gt; servizi;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    {
+<b class="fc"><i>25</i>&nbsp;        this.servizi = new ArrayList&lt;&gt;();</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<b class="fc"><i>28</i>&nbsp;    public Aula() {</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;    public Aula(String nome, int nPostiOccupati, int nPosti, String disponibilita, Edificio edificio) {</b>
+<b class="fc"><i>32</i>&nbsp;        this.nome = nome;</b>
+<b class="fc"><i>33</i>&nbsp;        this.nPostiOccupati = nPostiOccupati;</b>
+<b class="fc"><i>34</i>&nbsp;        this.nPosti = nPosti;</b>
+<b class="fc"><i>35</i>&nbsp;        this.disponibilita = disponibilita;</b>
+<b class="fc"><i>36</i>&nbsp;        this.edificio = edificio;</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<b class="fc"><i>39</i>&nbsp;    public Aula(String nome, int nPosti, String disponibilita, Edificio edificio) {</b>
+<b class="fc"><i>40</i>&nbsp;        this.nome = nome;</b>
+<b class="fc"><i>41</i>&nbsp;        this.nPosti = nPosti;</b>
+<b class="fc"><i>42</i>&nbsp;        this.disponibilita = disponibilita;</b>
+<b class="fc"><i>43</i>&nbsp;        this.edificio = edificio;</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;    public Aula(int id, String nome, int nPostiOccupati, int nPosti, String disponibilita, Edificio edificio) {</b>
+<b class="fc"><i>47</i>&nbsp;        this.id = id;</b>
+<b class="fc"><i>48</i>&nbsp;        this.nome = nome;</b>
+<b class="fc"><i>49</i>&nbsp;        this.nPostiOccupati = nPostiOccupati;</b>
+<b class="fc"><i>50</i>&nbsp;        this.nPosti = nPosti;</b>
+<b class="fc"><i>51</i>&nbsp;        this.disponibilita = disponibilita;</b>
+<b class="fc"><i>52</i>&nbsp;        this.edificio = edificio;</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public int getId() {
+<b class="fc"><i>56</i>&nbsp;        return id;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public void setId(int id) {
+<b class="fc"><i>60</i>&nbsp;        this.id = id;</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    public String getNome() {
+<b class="fc"><i>64</i>&nbsp;        return nome;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    public void setNome(String nome) {
+<b class="fc"><i>68</i>&nbsp;        this.nome = nome;</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    public int getPostiOccupati() {
+<b class="fc"><i>72</i>&nbsp;        return nPostiOccupati;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    public void setPostiOccupati(int nPostiLiberi) {
+<b class="fc"><i>76</i>&nbsp;        this.nPostiOccupati = nPostiLiberi;</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    public int getPosti() {
+<b class="fc"><i>80</i>&nbsp;        return nPosti;</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    public void setPosti(int nPosti) {
+<b class="fc"><i>84</i>&nbsp;        this.nPosti = nPosti;</b>
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    public String getDisponibilita() {
+<b class="fc"><i>88</i>&nbsp;        return disponibilita;</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public void setDisponibilita(String disponibilita) {
+<b class="fc"><i>92</i>&nbsp;        this.disponibilita = disponibilita;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    public Edificio getEdificio() {
+<b class="fc"><i>96</i>&nbsp;        return edificio;</b>
+<i>97</i>&nbsp;    }
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    public void setEdificio(Edificio edificio) {
+<b class="fc"><i>100</i>&nbsp;        this.edificio = edificio;</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    public ArrayList&lt;Servizio&gt; getServizi() {
+<b class="fc"><i>104</i>&nbsp;        return servizi;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    public void setServizi(ArrayList&lt;Servizio&gt; servizi) {
+<b class="fc"><i>108</i>&nbsp;        this.servizi = servizi;</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    @Override
+<i>112</i>&nbsp;    public boolean equals(Object o) {
+<b class="fc"><i>113</i>&nbsp;        if (this == o) return true;</b>
+<b class="pc"><i>114</i>&nbsp;        if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="fc"><i>115</i>&nbsp;        Aula aula = (Aula) o;</b>
+<b class="pc"><i>116</i>&nbsp;        return id == aula.id;</b>
+<i>117</i>&nbsp;    }
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    @Override
+<i>120</i>&nbsp;    public int hashCode() {
+<b class="fc"><i>121</i>&nbsp;        return Objects.hash(id);</b>
+<i>122</i>&nbsp;    }
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;    @Override
+<i>125</i>&nbsp;    public String toString() {
+<b class="fc"><i>126</i>&nbsp;        return &quot;Aula{&quot; +</b>
+<i>127</i>&nbsp;                &quot;id=&quot; + id +
+<i>128</i>&nbsp;                &quot;, nome=&#39;&quot; + nome + &#39;\&#39;&#39; +
+<i>129</i>&nbsp;                &quot;, nPostiOccupati=&quot; + nPostiOccupati +
+<i>130</i>&nbsp;                &quot;, nPosti=&quot; + nPosti +
+<i>131</i>&nbsp;                &quot;, disponibilita=&#39;&quot; + disponibilita + &#39;\&#39;&#39; +
+<b class="fc"><i>132</i>&nbsp;                &quot;, edificio=&quot; + edificio.getNome() +</b>
+<i>133</i>&nbsp;                &quot;, servizi=&quot; + servizi +
+<i>134</i>&nbsp;                &#39;}&#39;;
+<i>135</i>&nbsp;    }
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;    @Override
+<i>139</i>&nbsp;    public int compareTo(Aula o) {
+<b class="fc"><i>140</i>&nbsp;        return Integer.compare(this.id, o.id);</b>
+<i>141</i>&nbsp;    }
+<i>142</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-13 14:45</div>
+</div>
+</body>
+</html>

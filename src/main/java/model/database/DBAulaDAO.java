@@ -125,7 +125,6 @@ public class DBAulaDAO implements AulaDAO {
         final String QUERY = "INSERT INTO aula(nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita)  " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
-        boolean result = false;
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);
             stm.setString(1, aula.getNome());
@@ -139,18 +138,17 @@ public class DBAulaDAO implements AulaDAO {
                     servizi_db.append(";");
                 }
                 stm.setString(5, servizi_db.toString());
-            } else stm.setString(5,null);
+            } else {
+                stm.setString(5,"");
+            }
 
             stm.setString(6, aula.getDisponibilita());
             stm.executeUpdate();
 
-
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "{0}", e);
+            logger.log(Level.SEVERE, e.getMessage());
             throw new ViolazioneEntityException("Aula già esistente!");
         }
-
-
     }
 
     @Override

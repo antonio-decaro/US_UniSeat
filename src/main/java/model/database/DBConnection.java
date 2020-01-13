@@ -23,7 +23,7 @@ public class DBConnection {
             Context ctx = new InitialContext();
             dbConnection.setDataSource((DataSource) ctx.lookup("java:comp/env/jdbc/UniSeatDB"));
         } catch (NamingException e) {
-            logger.log(Level.SEVERE, "{0}", e.toString());
+            logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -36,7 +36,6 @@ public class DBConnection {
         return dbConnection;
     }
 
-    private Context context;
     private DataSource dataSource;
     private Connection connection;
 
@@ -77,18 +76,16 @@ public class DBConnection {
                 connection = this.dataSource.getConnection();
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "{0}", e);
+            logger.log(Level.SEVERE, e.getMessage());
         }
         return connection;
     }
 
-    private void resetConnection(){
+    private void resetConnection() {
         try {
-            if (connection != null)
-                this.connection.close();
+            this.connection = this.dataSource.getConnection();
         } catch (SQLException e) {
-            logger.log(Level.WARNING, "{0}", e);
+            logger.log(Level.WARNING, e.getMessage());
         }
-        this.connection = null;
     }
 }
