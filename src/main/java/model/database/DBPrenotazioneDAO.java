@@ -315,46 +315,52 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     }
 
     private void createEventForStart(Prenotazione prenotazione) throws SQLException {
-        final String QUERY1 = "" +
-                "CREATE EVENT " + getEventName(prenotazione, OCCUPA) + " " +
+        final String QUERY_POSTO = "" +
+                "CREATE EVENT " + getEventName(prenotazione, PULISCI) + " " +
                 "ON SCHEDULE AT ? " +
-                "DO UPDATE Aula SET n_posti_occupati = ? WHERE id = ?;";
+                "DO UPDATE Aula SET n_posti_occupati = n_posti_occupati + 1 WHERE id = ?;";
+
+        final String QUERY_AULA = "" +
+                "CREATE EVENT " + getEventName(prenotazione, PULISCI) + " " +
+                "ON SCHEDULE AT ? " +
+                "DO UPDATE Aula SET n_posti_occupati = n_posti WHERE id = ?;";
 
         Timestamp eventOccurence = Timestamp.valueOf(String.format("%s %s", prenotazione.getData(), prenotazione.getOraInizio()));
 
-        int postiOccupati;
-        if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.AULA)) {
-            postiOccupati = prenotazione.getAula().getPosti();
+        PreparedStatement stm;
+        if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.POSTO)) {
+            stm  = connection.prepareStatement(QUERY_POSTO);
         } else {
-            postiOccupati = prenotazione.getAula().getPostiOccupati() + 1;
+            stm  = connection.prepareStatement(QUERY_AULA);
         }
 
-        PreparedStatement stm = connection.prepareStatement(QUERY1);
         stm.setTimestamp(1, eventOccurence);
-        stm.setInt(2, postiOccupati);
-        stm.setInt(3, prenotazione.getAula().getId());
+        stm.setInt(2, prenotazione.getAula().getId());
         stm.execute();
     }
 
     private void createEvent(Prenotazione prenotazione) throws SQLException {
-        final String QUERY1 = "" +
+        final String QUERY_POSTO = "" +
                 "CREATE EVENT " + getEventName(prenotazione, PULISCI) + " " +
                 "ON SCHEDULE AT ? " +
-                "DO UPDATE Aula SET n_posti_occupati = ? WHERE id = ?;";
+                "DO UPDATE Aula SET n_posti_occupati = n_posti_occupati - 1 WHERE id = ?;";
+
+        final String QUERY_AULA = "" +
+                "CREATE EVENT " + getEventName(prenotazione, PULISCI) + " " +
+                "ON SCHEDULE AT ? " +
+                "DO UPDATE Aula SET n_posti_occupati = 0 WHERE id = ?;";
 
         Timestamp eventOccurence = Timestamp.valueOf(String.format("%s %s", prenotazione.getData(), prenotazione.getOraFine()));
 
-        int postiOccupati;
-        if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.AULA)) {
-            postiOccupati = 0;
+        PreparedStatement stm;
+        if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.POSTO)) {
+            stm = connection.prepareStatement(QUERY_POSTO);
         } else {
-            postiOccupati = prenotazione.getAula().getPostiOccupati() - 1;
+            stm = connection.prepareStatement(QUERY_AULA);
         }
 
-        PreparedStatement stm = connection.prepareStatement(QUERY1);
         stm.setTimestamp(1, eventOccurence);
-        stm.setInt(2, postiOccupati);
-        stm.setInt(3, prenotazione.getAula().getId());
+        stm.setInt(2, prenotazione.getAula().getId());
         stm.execute();
     }
 

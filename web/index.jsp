@@ -133,7 +133,7 @@
                     <div>
                         <br>
                         <button type="button" class="btn btn-primary">
-                            <a href="${pageContext.request.contextPath}/_comuni/aule.jsp?edificio=<%=e.getNome()%>">Seleziona</a>
+                            <a href="${pageContext.request.contextPath}/_comuni/aule.jsp?edificio=<%=e.getNome()%>#services">Seleziona</a>
                         </button>
                     </div>
                 </div>
