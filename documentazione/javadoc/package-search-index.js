@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"control.admin"},{"l":"control.autenticazione"},{"l":"control.comuni"},{"l":"control.docente"},{"l":"control.studente"},{"l":"control.utili"},{"l":"model.dao"},{"l":"model.database"},{"l":"model.pojo"}]

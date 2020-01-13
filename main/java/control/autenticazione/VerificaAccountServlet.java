@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Questa servlet viene utilizzata dagli studenti per confermare il loro account nel momento in cui si registrano
+ * */
 @WebServlet("/verifica")
 public class VerificaAccountServlet extends HttpServlet {
 
