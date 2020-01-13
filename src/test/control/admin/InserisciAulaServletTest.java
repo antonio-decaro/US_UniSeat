@@ -40,8 +40,15 @@ import static org.mockito.Mockito.when;
 
 class InserisciAulaServletTest {
 
-    @Mock
-    private HttpServletRequest req;
+    private static String dispAula = "{\"intervalli\": [" +
+            "[[\"10:30\", \"11:30\"]]," +
+            "[]," +
+            "[]," +
+            "[]," +
+            "[]" +
+            "]}";
+
+    @Mock private HttpServletRequest req;
     @Mock private HttpServletResponse res;
     @Mock private ServletContext ctx;
     @Mock private HttpSession session;
@@ -103,7 +110,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("");
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Edificio non selezionato",
@@ -116,7 +123,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn(null);
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Edificio non selezionato",
@@ -129,7 +136,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("70 posti circa");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Formato numero posti non valido",
@@ -142,7 +149,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("15");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Numero posti non corretto",
@@ -155,7 +162,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("900");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         servlet.doPost(req, res);
         assertEquals("Numero posti non corretto",
@@ -168,7 +175,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("Ciambelle gratis!");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
@@ -182,7 +189,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P22");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn("CiaoCiao");
         servlet.doPost(req, res);
@@ -196,7 +203,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P23");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn(null);
         servlet.doPost(req, res);
@@ -208,7 +215,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P23");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn(null);
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
@@ -234,7 +241,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
@@ -248,7 +255,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("ppppppppppppppppppp11155555");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
@@ -262,7 +269,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P22@12");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
@@ -276,7 +283,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("nome_aula")).thenReturn("P4");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);
@@ -289,7 +296,7 @@ class InserisciAulaServletTest {
         when(req.getParameter("edificio")).thenReturn("F2");
         when(req.getParameter("nome_aula")).thenReturn("P28");
         when(req.getParameter("numero_posti")).thenReturn("150");
-        when(req.getParameter("disp_aula")).thenReturn("Lunedì:11:00-16:00");
+        when(req.getParameter("disp_aula")).thenReturn(dispAula);
         when(req.getParameter("servizi_extra_prese")).thenReturn("PRESE");
         when(req.getParameter("servizi_extra_computer")).thenReturn("COMPUTER");
         servlet.doPost(req, res);

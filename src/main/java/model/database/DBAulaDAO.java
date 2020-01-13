@@ -122,35 +122,32 @@ public class DBAulaDAO implements AulaDAO {
 
     @Override
     public void insert(Aula aula) throws ViolazioneEntityException {
-        final String QUERY = "INSERT INTO aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita)  " +
-                "VALUES (?, ?, ?, ?, ?, ?,?)";
+        final String QUERY = "INSERT INTO aula(nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita)  " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         boolean result = false;
         try {
             PreparedStatement stm = connection.prepareStatement(QUERY);
-            stm.setInt(1, aula.getId());
-            stm.setString(2, aula.getNome());
-            stm.setString(3, aula.getEdificio().getNome());
-            stm.setInt(4, aula.getPosti());
-            stm.setInt(5, aula.getPostiOccupati());
+            stm.setString(1, aula.getNome());
+            stm.setString(2, aula.getEdificio().getNome());
+            stm.setInt(3, aula.getPosti());
+            stm.setInt(4, aula.getPostiOccupati());
             StringBuilder servizi_db = new StringBuilder();
             if (!aula.getServizi().isEmpty()) {
                 for (Servizio s : aula.getServizi()) {
                     servizi_db.append(s.name());
                     servizi_db.append(";");
                 }
-                stm.setString(6, servizi_db.toString());
-            } else stm.setString(6,null);
+                stm.setString(5, servizi_db.toString());
+            } else stm.setString(5,null);
 
-            stm.setString(7, aula.getDisponibilita());
+            stm.setString(6, aula.getDisponibilita());
             stm.executeUpdate();
 
 
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "{0}", e);
             throw new ViolazioneEntityException("Aula già esistente!");
-
-
         }
 
 
@@ -212,7 +209,8 @@ public class DBAulaDAO implements AulaDAO {
         a.setDisponibilita(rs.getString("disponibilita"));
         a.setPostiOccupati(rs.getInt("n_posti_occupati"));
         ArrayList<Servizio> servizi = new ArrayList<>();
-        if (!rs.getString("servizi").equals("")) {
+        String strServizi = rs.getString("servizi");
+        if (strServizi != null && !strServizi.equals("")) {
             for (String s : rs.getString("servizi").split(";"))
                 servizi.add(Servizio.valueOf(s));
         }

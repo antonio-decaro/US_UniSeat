@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                             <% if (isAdmin) { %>
-                            <div class="form form-group toggle"><a href="#">Modifica</a></div>
+                            <div class="form form-group"><a id="modificaAulaLink" href="#">Modifica</a></div>
                             <% } %>
                         </form>
                     </div>

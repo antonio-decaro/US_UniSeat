@@ -58,12 +58,12 @@
 
         <% if (u == null) { %>
 
-        <h1>Benvenuto</h1>
+        <h1>Scegli un'aula</h1>
         <a href="${pageContext.request.contextPath}/_comuni/login.jsp" class="btn-get-started">Accedi</a>
 
         <% } else { %>
 
-        <h1>Scegli l'aula</h1>
+        <h1><%=u.getNome()%>, Scegli un'aula</h1>
 
         <% } %>
     </div>

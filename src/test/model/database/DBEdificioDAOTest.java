@@ -3,24 +3,19 @@ package model.database;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import model.dao.EdificioDAO;
 import model.pojo.Edificio;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import javax.sql.DataSource;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DBEdificioDAOTest {
-    private static DataSource dataSource;
-    private static DBConnection dbConnection;
+class DBEdificioDAOTest {
     private EdificioDAO edificioDAO;
 
     @BeforeAll
     static void init() throws Exception {
-        dbConnection = DBConnection.getInstance();
+        DBConnection dbConnection = DBConnection.getInstance();
         MysqlDataSource mysqlDS = new MysqlDataSource();
         mysqlDS.setURL("jdbc:mysql://localhost:3306/UniSeatDB");
         mysqlDS.setUser("root");
@@ -28,8 +23,7 @@ public class DBEdificioDAOTest {
         mysqlDS.setServerTimezone("CET");
         mysqlDS.setVerifyServerCertificate(false);
         mysqlDS.setUseSSL(false);
-        dataSource = mysqlDS;
-        dbConnection.setDataSource(dataSource);
+        dbConnection.setDataSource(mysqlDS);
         DBConnection.getInstance().getConnection().setAutoCommit(false);
     }
 
@@ -41,6 +35,11 @@ public class DBEdificioDAOTest {
     @AfterEach
     void tearDown() throws Exception {
         DBConnection.getInstance().getConnection().rollback();
+    }
+
+    @AfterAll
+    static void reset() throws Exception {
+        DBConnection.getInstance().getConnection().close();
     }
 
     @Test
