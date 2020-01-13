@@ -1,5 +1,6 @@
 package model.database;
 
+import control.utili.PasswordEncrypter;
 import model.dao.UtenteDAO;
 import model.dao.ViolazioneEntityException;
 import model.pojo.TipoUtente;
@@ -75,7 +76,11 @@ public class DBUtenteDAO implements UtenteDAO {
             stm.setString(2, utente.getNome());
             stm.setString(3, utente.getCognome());
             stm.setString(4, utente.getTipoUtente().toString());
-            stm.setString(5, utente.getPassword());
+            if (utente.getPassword() != null) {
+                stm.setString(5, utente.getPassword());
+            } else {
+                stm.setString(5, dao.retriveByEmail(utente.getEmail()).getPassword());
+            }
             stm.setLong(6, utente.getCodiceVerifica());
             stm.setString(7, utente.getEmail());
 

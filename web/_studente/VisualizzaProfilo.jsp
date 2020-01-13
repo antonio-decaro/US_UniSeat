@@ -63,7 +63,7 @@ Header
                         <div class="col-lg-4 col-md-4">
                             <div class="form">
                                 <div id="exercitationrormessage"></div>
-                                <form name="formModifica" method="post" class="form-signin">
+                                <form name="formModifica" method="post" class="form-signin" id="formModificaDati">
                                     <% if
                                     (
                                             errorMessage

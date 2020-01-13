@@ -51,14 +51,16 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             return;
         }
 
-        Utente u = new Utente();
         String Rgx1 = "^[a-z A-Z]+$";
         String Rgx2 = "^((?=.*[\\d])(?=.*[a-z])(?=.*[A-Z])).+$";
 
         String nome = request.getParameter("nome");
         String cognome = request.getParameter("cognome");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
         String cPassword = request.getParameter("confPassword");
+
+        UtenteDAO utenteDAO = (UtenteDAO) request.getServletContext().getAttribute(UTENTE_DAO_PARAM);
 
         if (nome == null || nome.length() < 1 || nome.length() > 20) {
             SessionManager.setError(ssn, "Il campo Nome non rispetta la lunghezza");
@@ -66,7 +68,7 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             return;
         }
         if (nome.matches(Rgx1)) {
-            u.setNome(nome);
+            user.setNome(nome);
         } else {
             SessionManager.setError(ssn, "Il campo Nome non rispetta il formato");
             response.getWriter().print(400);
@@ -79,7 +81,7 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             return;
         }
         if (cognome.matches(Rgx1)) {
-            u.setCognome(cognome);
+            user.setCognome(cognome);
         } else {
             SessionManager.setError(ssn, "Il campo Cognome non rispetta il formato");
             response.getWriter().print(400);
@@ -91,11 +93,12 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             if (password.length() > 32 || password.length() < 8) {
                 SessionManager.setError(ssn, "Il campo Password non rispetta la lunghezza");
                 response.getWriter().print(400);
+                System.out.println(password);
                 return;
             }
             if (password.matches(Rgx2)) {
                 if (password.equals(cPassword)) {
-                    u.setPassword(PasswordEncrypter.criptaPassword(password));
+                    user.setPassword(PasswordEncrypter.criptaPassword(password));
                 } else {
                     SessionManager.setError(ssn, "Le Password non corrispondono");
                     response.getWriter().print(400);
@@ -108,15 +111,15 @@ public class ModificaDatiProfiloServlet extends HttpServlet {
             }
         }
 
+
         try {
-            UtenteDAO utenteDAO = (UtenteDAO) request.getServletContext().getAttribute(UTENTE_DAO_PARAM);
-            u.setEmail(user.getEmail());
-            u.setTipoUtente(user.getTipoUtente());
-            utenteDAO.update(u);
+
+            utenteDAO.update(user);
         } catch (ViolazioneEntityException e) {
             response.getWriter().print(400);
             SessionManager.setError(ssn, e.getMessage());
         }
+        SessionManager.autentica(request.getSession(), user);
         response.getWriter().print(200);
         response.getWriter().print("Modifiche apportate con successo");
     }
