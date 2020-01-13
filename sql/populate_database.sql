@@ -9,12 +9,12 @@ INSERT INTO Edificio(nome) VALUES('F');
 INSERT INTO Edificio(nome) VALUES('F2');
 INSERT INTO Edificio(nome) VALUES ('F3');
 
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(01,'P1','F3',200,5,'PRESE;COMPUTER','');
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(02,'P4','F3',120,15,'PRESE','');
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(20,'F8','F2',110,30,'PRESE','');
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(21,'F7','F2',70,5,'','');
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(30,'P14','F3',35,17,'PRESE','');
-INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(32,'P6','F3',50,35,'COMPUTER','');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(01,'P1','F3',200,0,'PRESE;COMPUTER','{"intervalli":[[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[],[]]}');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(02,'P4','F3',120,0,'PRESE','{"intervalli":[[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[],[]]}');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(20,'F8','F2',110,0,'PRESE','{"intervalli":[[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[],[]]}');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(21,'F7','F2',70,0,'','{"intervalli":[[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[],[]]}');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(30,'P14','F3',35,0,'PRESE','{"intervalli":[[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[],[]]}');
+INSERT INTO Aula(id,nome,edificio,n_posti,n_posti_occupati,servizi,disponibilita) VALUES(32,'P6','F3',50,0,'COMPUTER','{"intervalli":[[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[["08:00", "20:00"]],[],[]]}');
 
 INSERT INTO Utente(nome, cognome,email,password,tipo) VALUES ('Lorenzo','Capozzoli','l.capozzoli@studenti.unisa.it',SHA2('Lorenzo1', 256),'STUDENTE');
 INSERT INTO Utente(nome, cognome,email,password,tipo) VALUES ('Antonio','De Caro','a.decaro@studenti.unisa.it',SHA2('Antonio2', 256),'STUDENTE');

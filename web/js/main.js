@@ -161,11 +161,19 @@ $('.toggle').click(function (e) {
 });
 
 function showError(msg) {
+    $("#my_success-dialog").hide();
     $("#my_error-dialog .message").html(msg);
     $("#my_error-dialog").show(1000);
+    setTimeout(function () {
+        $("#my_error-dialog").hide(400);
+    }, 3000)
 }
 
 function showMessage(msg) {
+    $("#my_error-dialog").hide();
     $("#my_success-dialog .message").html(msg);
     $("#my_success-dialog").show(1000);
+    setTimeout(function () {
+        $("#my_success-dialog").hide(400);
+    }, 3000)
 }
