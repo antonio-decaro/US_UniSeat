@@ -18,6 +18,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * Questa servlet viene invocata dall'admin per registrare un nuovo docente nel sistema.
+ *
+ * @author De Santis Marco
+ * @version 0.1
+ * */
 @WebServlet("/iscrizioneDocente")
 public class IscrizioneDocenteServlet extends HttpServlet {
     @Override
