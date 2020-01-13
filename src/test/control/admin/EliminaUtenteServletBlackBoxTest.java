@@ -80,7 +80,7 @@ class EliminaUtenteServletBlackBoxTest {
     }
 
     @Test
-    void TC_5_1() throws Exception {
+    void TC_10_1() throws Exception {
         when(req.getParameter("email_utente")).thenReturn(null);
         servlet.doPost(req, res);
         assertEquals("Utente non selezionato",
@@ -88,7 +88,7 @@ class EliminaUtenteServletBlackBoxTest {
     }
 
     @Test
-    void TC_5_2() throws Exception {
+    void TC_10_2() throws Exception {
         when(req.getParameter("email_utente")).thenReturn("m.rossi12@studenti.unisa.it");
         servlet.doPost(req, res);
         assertNull(utenteDAO.retriveByEmail("m.rossi12@studenti.unisa.it"));
