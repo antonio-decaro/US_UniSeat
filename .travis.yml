@@ -2,7 +2,7 @@ language: java
 services:
   - mysql
 before_install:
-  - mysql -u root --default-character-set=utf8 < ddl/ddl.sql
+  - mysql -u root --default-character-set=utf8 < sql/create_schema.sql
   - mysql -e "USE mysql; UPDATE user SET authentication_string=PASSWORD('toor') WHERE user='root'; FLUSH PRIVILEGES;"
 script:
   - ant test
