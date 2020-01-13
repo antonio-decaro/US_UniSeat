@@ -75,6 +75,7 @@ public class ModificaDatiProfiloServletBlackBoxTest {
         Utente u = new Utente("m.rossi12@studenti.unisa.it", "Mario", "Rossi",
                 PasswordEncrypter.criptaPassword("MarioRossi12"), TipoUtente.STUDENTE);
         utenteDAO.insert(u);
+        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
     }
 
     @AfterEach
@@ -83,19 +84,7 @@ public class ModificaDatiProfiloServletBlackBoxTest {
     }
 
     @Test
-    void TC_1_1() throws Exception {
-        when(req.getParameter("nome")).thenReturn("Mario");
-        when(req.getParameter("cognome")).thenReturn("Rossi");
-        when(req.getParameter("password")).thenReturn("MarioRossi12");
-        when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
-        servlet.doPost(req, res);
-        assertEquals("LogIn non effettuato",
-                SessionManager.getError(session));
-    }
-    @Test
-    void TC_1_2() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-
+    void TC_12_1() throws Exception {
         when(req.getParameter("nome")).thenReturn("");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -105,9 +94,7 @@ public class ModificaDatiProfiloServletBlackBoxTest {
                 SessionManager.getError(session));
     }
     @Test
-    void TC_1_3() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-
+    void TC_12_2() throws Exception {
         when(req.getParameter("nome")).thenReturn("abcdefghilmnopqrstuvz");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -117,9 +104,7 @@ public class ModificaDatiProfiloServletBlackBoxTest {
                 SessionManager.getError(session));
     }
     @Test
-    void TC_1_4() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-
+    void TC_12_3() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mar10");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -129,9 +114,7 @@ public class ModificaDatiProfiloServletBlackBoxTest {
                 SessionManager.getError(session));
     }
     @Test
-    void TC_1_5() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-
+    void TC_12_4() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -141,9 +124,7 @@ public class ModificaDatiProfiloServletBlackBoxTest {
                 SessionManager.getError(session));
     }
     @Test
-    void TC_1_6() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-
+    void TC_12_5() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("abcdefhghilmnopqrstuvz");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -153,9 +134,7 @@ public class ModificaDatiProfiloServletBlackBoxTest {
                 SessionManager.getError(session));
     }
     @Test
-    void TC_1_7() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-
+    void TC_12_6() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("R00ss1");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -165,21 +144,27 @@ public class ModificaDatiProfiloServletBlackBoxTest {
                 SessionManager.getError(session));
     }
     @Test
-    void TC_1_8() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-
+    void TC_12_7() throws Exception {
+        when(req.getParameter("nome")).thenReturn("Mario");
+        when(req.getParameter("cognome")).thenReturn("R00ss1");
+        when(req.getParameter("password")).thenReturn("Abc1");
+        when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
+        servlet.doPost(req, res);
+        assertEquals("Il campo Cognome non rispetta il formato",
+                SessionManager.getError(session));
+    }
+    @Test
+    void TC_12_8() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
-        when(req.getParameter("password")).thenReturn("Abc1");
+        when(req.getParameter("password")).thenReturn("Abcdefghilmnopqrstuvz141592653589793238");
         when(req.getParameter("confPassword")).thenReturn("MarioRossi12");
         servlet.doPost(req, res);
         assertEquals("Il campo Password non rispetta la lunghezza",
                 SessionManager.getError(session));
     }
     @Test
-    void TC_1_9() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-
+    void TC_12_9() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("mariorossi");
@@ -189,9 +174,7 @@ public class ModificaDatiProfiloServletBlackBoxTest {
                 SessionManager.getError(session));
     }
     @Test
-    void TC_1_10() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-
+    void TC_12_10() throws Exception {
         when(req.getParameter("nome")).thenReturn("Mario");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("MarioRossi12");
@@ -202,9 +185,7 @@ public class ModificaDatiProfiloServletBlackBoxTest {
     }
 
     @Test
-    void TC_1_11() throws Exception {
-        SessionManager.autentica(session, utenteDAO.retriveAll().get(0));
-
+    void TC_12_11() throws Exception {
         when(req.getParameter("nome")).thenReturn("Maria");
         when(req.getParameter("cognome")).thenReturn("Rossi");
         when(req.getParameter("password")).thenReturn("MariaRossi12");
