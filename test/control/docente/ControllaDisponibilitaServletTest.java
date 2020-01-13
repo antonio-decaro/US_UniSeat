@@ -88,7 +88,7 @@ class ControllaDisponibilitaServletTest {
         }).when(res).setStatus(anyInt());
 
         Edificio ed = edificioDAO.retriveByName("F3");
-        String dispAula = Files.readString(Paths.get("./src/test/resources/DisponibiltaManagerRes/aula3.json"));
+        String dispAula = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula3.json"));
         Aula aula = new Aula(1, "P3", 70, 100, dispAula, ed);
         aula.setId(1);
         ed.getAule().add(aula);

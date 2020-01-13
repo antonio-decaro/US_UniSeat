@@ -12,7 +12,6 @@ import model.pojo.Edificio;
 import model.pojo.TipoUtente;
 import model.pojo.Utente;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -38,30 +37,27 @@ import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-class PrenotaPostoServletBlackBoxTest {
+class PrenotaPostoServletTest {
 
-    @Mock private HttpServletRequest req;
-    @Mock private HttpServletResponse res;
-    @Mock private ServletContext ctx;
-    @Mock private HttpSession session;
-    private static Utente utente;
+    @Mock
+    private HttpServletRequest req;
+    @Mock
+    private HttpServletResponse res;
+    @Mock
+    private ServletContext ctx;
+    @Mock
+    private HttpSession session;
     private AulaDAO aulaDAO = new StubAulaDAO();
     private PrenotazioneDAO prenotazioneDAO = new StubPrenotazioneDAO();
     private EdificioDAO edificioDAO = new StubEdificioDAO();
     private PrenotaPostoServlet servlet;
-    private Map<String,Object> attributes = new HashMap<>();
-
-    @BeforeAll
-    static void init(){
-        utente = new Utente();
-        utente.setTipoUtente(TipoUtente.STUDENTE);
-    }
+    private Map<String, Object> attributes = new HashMap<>();
 
     @BeforeEach
     void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
         servlet = new PrenotaPostoServlet();
         StringWriter stringWriter = new StringWriter();
+        MockitoAnnotations.initMocks(this);
         when(req.getServletContext()).thenReturn(ctx);
         when(ctx.getAttribute(PrenotaPostoServlet.AULA_DAO)).thenReturn(aulaDAO);
         when(ctx.getAttribute(PrenotaPostoServlet.EDIFICIO_DAO)).thenReturn(edificioDAO);
@@ -74,7 +70,6 @@ class PrenotaPostoServletBlackBoxTest {
         when(res.getWriter()).thenReturn(new PrintWriter(stringWriter));
         doNothing().when(res).setStatus(anyInt());
         doNothing().when(res).sendRedirect(anyString());
-
         Mockito.doAnswer((Answer<Object>) invocation -> {
             try {
                 String key = (String) invocation.getArguments()[0];
@@ -92,17 +87,17 @@ class PrenotaPostoServletBlackBoxTest {
         }).when(session).setAttribute(anyString(), any());
 
         SessionManager.setError(session, "");
+        Utente utente = new Utente();
+        utente.setTipoUtente(TipoUtente.STUDENTE);
         SessionManager.autentica(session, utente);
 
-        Edificio ed = edificioDAO.retriveByName("F3");
-        String dispP3 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP3.json"));
-        String dispP4 = Files.readString(Paths.get("./src/test/resources/TC_3/disp_aulaP4.json"));
+        Edificio ed = new StubEdificioDAO().retriveByName("F3");
+        String dispP3 = Files.readString(Paths.get("./test/resources/TC_3/disp_aulaP3.json"));
+        String dispP4 = Files.readString(Paths.get("./test/resources/TC_3/disp_aulaP4.json"));
         Aula aulaP3 = new Aula("P3", 70, 100, dispP3, ed);
         Aula aulaP4 = new Aula("P4", 0, 100, dispP4, ed);
         aulaP3.setId(1);
         aulaP4.setId(2);
-        ed.getAule().add(aulaP3);
-        ed.getAule().add(aulaP4);
         aulaDAO.insert(aulaP3);
         aulaDAO.insert(aulaP4);
     }
@@ -131,7 +126,6 @@ class PrenotaPostoServletBlackBoxTest {
 
     @Test
     void TC_3_3() throws Exception {
-
         when(req.getParameter("edificio")).thenReturn("F3");
         when(req.getParameter("aula")).thenReturn("2");
         when(req.getParameter("durata")).thenReturn("60");
@@ -156,5 +150,78 @@ class PrenotaPostoServletBlackBoxTest {
         servlet.doPost(req, res);
         assertEquals("", SessionManager.getError(session));
         assertEquals(1, prenotazioneDAO.retriveAll().size());
+    }
+
+    @Test
+    void testAulaNull() throws Exception {
+        when(req.getParameter("edificio")).thenReturn("F3");
+        when(req.getParameter("aula")).thenReturn("10");
+        when(req.getParameter("durata")).thenReturn("60");
+        servlet.doPost(req, res);
+        assertEquals("Aula non valida", SessionManager.getError(session));
+    }
+
+    @Test
+    void testUtenteAsDocente() throws Exception {
+        Utente utente = SessionManager.getUtente(session);
+        assert utente != null;
+        utente.setTipoUtente(TipoUtente.DOCENTE);
+        when(req.getParameter("edificio")).thenReturn("F3");
+        when(req.getParameter("aula")).thenReturn("2");
+        when(req.getParameter("durata")).thenReturn("60");
+        servlet.doPost(req, res);
+        assertEquals("Non hai i permessi per accedere a questa funzionalit&agrave;",
+                SessionManager.getError(session));
+    }
+
+    @Test
+    void testNoUtente() throws Exception {
+        SessionManager.autentica(session, null);
+        when(req.getParameter("edificio")).thenReturn("F3");
+        when(req.getParameter("aula")).thenReturn("2");
+        when(req.getParameter("durata")).thenReturn("60");
+        servlet.doPost(req, res);
+        assertEquals("Utente non loggato",
+                SessionManager.getError(session));
+    }
+
+    @Test
+    void testNoIdAula() throws Exception {
+        when(req.getParameter("edificio")).thenReturn("F3");
+        when(req.getParameter("aula")).thenReturn(null);
+        when(req.getParameter("durata")).thenReturn("60");
+        servlet.doPost(req, res);
+        assertEquals("Aula non valida",
+                SessionManager.getError(session));
+    }
+
+    @Test
+    void testNoDurata() throws Exception {
+        when(req.getParameter("edificio")).thenReturn("F3");
+        when(req.getParameter("aula")).thenReturn("1");
+        when(req.getParameter("durata")).thenReturn(null);
+        servlet.doPost(req, res);
+        assertEquals("Durata non valida",
+                SessionManager.getError(session));
+    }
+
+    @Test
+    void testBadDurata() throws Exception {
+        when(req.getParameter("edificio")).thenReturn("F3");
+        when(req.getParameter("aula")).thenReturn("1");
+        when(req.getParameter("durata")).thenReturn("15");
+        servlet.doPost(req, res);
+        assertEquals("Durata non valida",
+                SessionManager.getError(session));
+    }
+
+    @Test
+    void testNonMatchingAulaAndEdificio() throws Exception {
+        when(req.getParameter("edificio")).thenReturn("F2");
+        when(req.getParameter("aula")).thenReturn("1");
+        when(req.getParameter("durata")).thenReturn("15");
+        servlet.doPost(req, res);
+        assertEquals("Aula non valida",
+                SessionManager.getError(session));
     }
 }

@@ -246,16 +246,16 @@
   
   <path id="us_uniseat.module.sourcepath">
     <dirset dir="${module.us_uniseat.basedir}">
-      <include name="src/main"/>
-      <include name="src/main/java"/>
-      <include name="src/main/resources"/>
+      <include name="main"/>
+      <include name="main/java"/>
+      <include name="main/resources"/>
     </dirset>
   </path>
   
   <path id="us_uniseat.module.test.sourcepath">
     <dirset dir="${module.us_uniseat.basedir}">
-      <include name="src/test"/>
-      <include name="src/test/resources"/>
+      <include name="test"/>
+      <include name="test/resources"/>
     </dirset>
   </path>
   
@@ -273,15 +273,15 @@
     </javac2>
     
     <copy todir="${us_uniseat.output.dir}">
-      <fileset dir="${module.us_uniseat.basedir}/src/main">
+      <fileset dir="${module.us_uniseat.basedir}/main">
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
-      <fileset dir="${module.us_uniseat.basedir}/src/main/java">
+      <fileset dir="${module.us_uniseat.basedir}/main/java">
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
-      <fileset dir="${module.us_uniseat.basedir}/src/main/resources">
+      <fileset dir="${module.us_uniseat.basedir}/main/resources">
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
@@ -299,11 +299,11 @@
     </javac2>
     
     <copy todir="${us_uniseat.testoutput.dir}">
-      <fileset dir="${module.us_uniseat.basedir}/src/test">
+      <fileset dir="${module.us_uniseat.basedir}/test">
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
-      <fileset dir="${module.us_uniseat.basedir}/src/test/resources">
+      <fileset dir="${module.us_uniseat.basedir}/test/resources">
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
