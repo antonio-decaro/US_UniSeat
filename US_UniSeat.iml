@@ -24,6 +24,7 @@
       <sourceFolder url="file://$MODULE_DIR$/unit_test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/unit_test/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/system_test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/system_test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

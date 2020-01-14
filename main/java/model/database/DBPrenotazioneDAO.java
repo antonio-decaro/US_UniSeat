@@ -254,10 +254,8 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
 
             stm.executeUpdate();
 
-            dropEvent(prenotazione, PULISCI);
             createEvent(prenotazione);
             if (prenotazione.getTipoPrenotazione().equals(TipoPrenotazione.AULA)){
-                dropEvent(prenotazione, OCCUPA);
                 createEventForStart(prenotazione);
             }
 
@@ -315,13 +313,15 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     }
 
     private void createEventForStart(Prenotazione prenotazione) throws SQLException {
+        dropEvent(prenotazione, OCCUPA);
+
         final String QUERY_POSTO = "" +
-                "CREATE EVENT " + getEventName(prenotazione, PULISCI) + " " +
+                "CREATE EVENT " + getEventName(prenotazione, OCCUPA) + " " +
                 "ON SCHEDULE AT ? " +
                 "DO UPDATE Aula SET n_posti_occupati = n_posti_occupati + 1 WHERE id = ?;";
 
         final String QUERY_AULA = "" +
-                "CREATE EVENT " + getEventName(prenotazione, PULISCI) + " " +
+                "CREATE EVENT " + getEventName(prenotazione, OCCUPA) + " " +
                 "ON SCHEDULE AT ? " +
                 "DO UPDATE Aula SET n_posti_occupati = n_posti WHERE id = ?;";
 
@@ -340,6 +340,8 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     }
 
     private void createEvent(Prenotazione prenotazione) throws SQLException {
+        dropEvent(prenotazione, PULISCI);
+
         final String QUERY_POSTO = "" +
                 "CREATE EVENT " + getEventName(prenotazione, PULISCI) + " " +
                 "ON SCHEDULE AT ? " +

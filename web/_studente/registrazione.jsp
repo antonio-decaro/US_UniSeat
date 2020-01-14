@@ -67,11 +67,11 @@
                             <h5 class="card-title text-center">Registrati</h5>
                             <form class="form-signin" action="${pageContext.request.contextPath}/signin" method="post">
                                 <% if (errorMessage != null) { %>
-                                <div class="alert alert-danger" role="alert">
+                                <div id="errorAlert" class="alert alert-danger" role="alert">
                                     <%=errorMessage%>
                                 </div>
                                 <% } if (message != null) { %>
-                                <div class="alert alert-success" role="alert">
+                                <div id="messageAlert" class="alert alert-success" role="alert">
                                     <%=message%>
                                 </div>
                                 <%}%>
@@ -106,7 +106,7 @@
                                 <div class="custom-control mb-3">
                                     <a href="${pageContext.request.contextPath}/_comuni/login.jsp">Sei già registrato?</a>
                                 </div>
-                                <button class="btn btn-lg btn-primary btn-block text-uppercase center-block" type="submit">
+                                <button id="submitButton" class="btn btn-lg btn-primary btn-block text-uppercase center-block" type="submit">
                                     Registrati
                                 </button>
                             </form>

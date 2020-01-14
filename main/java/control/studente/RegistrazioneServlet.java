@@ -108,7 +108,7 @@ public class RegistrazioneServlet extends HttpServlet {
     }
 
     private String parseNomeAndCognome(String param, String paramName) {
-        if (param == null || param.length() < 1 || param.length() > 20) {
+        if (param == null || param.strip().length() < 1 || param.strip().length() > 20) {
             throw new IllegalArgumentException("Il campo " + paramName + " non rispetta la lunghezza");
         }
         if (!param.matches("^[a-z A-Z]+$")) {

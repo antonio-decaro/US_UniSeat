@@ -32,7 +32,7 @@ public class DBConnection {
      *
      * @return la connessione al database.
      */
-    static DBConnection getInstance() {
+    public static DBConnection getInstance() {
         return dbConnection;
     }
 
@@ -47,7 +47,7 @@ public class DBConnection {
      *
      * @return il DataSource
      * */
-    public DataSource getDataSource(){
+    DataSource getDataSource(){
         return dataSource;
 }
 
@@ -56,7 +56,7 @@ public class DBConnection {
      *
      * @param dataSource il DataSource a cui accedere.
      * */
-    void setDataSource(DataSource dataSource){
+    public void setDataSource(DataSource dataSource){
         this.dataSource = dataSource;
         resetConnection();
     }
@@ -66,7 +66,7 @@ public class DBConnection {
      *
      * @return la connessiona al database
      */
-    Connection getConnection() {
+    public Connection getConnection() {
         try {
             if (this.dataSource == null){
                 logger.log(Level.SEVERE, "Devi settare il DataSource prima di accedere ad una connessione.");
