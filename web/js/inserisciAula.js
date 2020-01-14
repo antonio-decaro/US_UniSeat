@@ -83,10 +83,7 @@ function blankLabel(id1) {
 }
 
 function initPage() {
-    $("#servizi_computer").css({opacity: 0.35});
-    $("#pcAula").prop("checked", false);
-    $("#servizi_prese").css({opacity: 0.35});
-    $("#preseAula").prop("checked", false);
+
     if ($("#preseAula").is(":checked")) {
         $("#servizi_prese").css({opacity: 1});
     } else {
