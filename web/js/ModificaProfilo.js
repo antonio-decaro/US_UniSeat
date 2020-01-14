@@ -27,17 +27,23 @@ function validation() {
 
 
     if ($("#inputPassword").is(":visible")) {
-        if (pass.length > 32 || pass.length < 8 || pass === " ") {
-            $("#errP").text("Il campo Password non rispetta la lunghezza");
-            verifica = false;
-        } else if (pass.match(regexP) == null) {
+        if (pass != "") {
+            if (pass.length > 32 || pass.length < 8 || pass === " ") {
+                $("#errP").text("Il campo Password non rispetta la lunghezza");
+                verifica = false;
+            } else if (pass.match(regexP) == null) {
 
-            $("#errP").text("Il campo Password non rispetta il formato");
-            verifica = false;
-        } else if (pass !== confPass) {
-            $("#errP").text("Le Password non corrispondono");
-            verifica = false;
+                $("#errP").text("Il campo Password non rispetta il formato");
+                verifica = false;
+            } else if (pass !== confPass) {
+                $("#errP").text("Le Password non corrispondono");
+                verifica = false;
+            }
+        } else {
+            $('input[name="password"]').prop('disabled', true);
+            $('input[name="confPassword"]').prop('disabled', true);
         }
+
     } else {
         $('input[name="password"]').prop('disabled', true);
         $('input[name="confPassword"]').prop('disabled', true);

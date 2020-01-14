@@ -51,7 +51,7 @@
     <div class="container">
 
         <div id="logo" class="pull-left">
-            <h1><a href="${pageContext.request.contextPath}/index.jsp">Uni Seat</a></h1>
+            <h1><a href="${pageContext.request.contextPath}web/index.jsp">Uni Seat</a></h1>
         </div>
         <nav id="nav-menu-container">
         </nav>
@@ -67,11 +67,11 @@
                             <h5 class="card-title text-center">Registrati</h5>
                             <form class="form-signin" action="${pageContext.request.contextPath}/signin" method="post">
                                 <% if (errorMessage != null) { %>
-                                <div id="errorAlert" class="alert alert-danger" role="alert">
+                                <div class="alert alert-danger" role="alert">
                                     <%=errorMessage%>
                                 </div>
                                 <% } if (message != null) { %>
-                                <div id="messageAlert" class="alert alert-success" role="alert">
+                                <div class="alert alert-success" role="alert">
                                     <%=message%>
                                 </div>
                                 <%}%>
@@ -106,7 +106,7 @@
                                 <div class="custom-control mb-3">
                                     <a href="${pageContext.request.contextPath}/_comuni/login.jsp">Sei già registrato?</a>
                                 </div>
-                                <button id="submitButton" class="btn btn-lg btn-primary btn-block text-uppercase center-block" type="submit">
+                                <button class="btn btn-lg btn-primary btn-block text-uppercase center-block" type="submit">
                                     Registrati
                                 </button>
                             </form>
