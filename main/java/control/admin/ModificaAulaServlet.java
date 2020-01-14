@@ -122,7 +122,7 @@ public class ModificaAulaServlet extends HttpServlet {
                 }
             }
 
-            String regex = "\\{\\s*?[\"']intervalli[\"']\\s*?:\\s*?\\[\\s*?(\\[(\\[\\s*?(\"[0-2][0-9]:[0-6][0-6]\")\\s*?," +
+            String regex = "\\{\\s*?[\"']intervalli[\"']\\s*?:\\s*?\\[\\s*?(\\[(\\[\\s*?(\"[0-2][0-9]:[0-6][0-9]\")\\s*?," +
                     "\\s*?(\"[0-2][0-9]:[0-6][0-6]\")\\s*?],?\\s*?)*],?\\s*){5,7}\\s*]\\s*?}";
             if (disponibilita == null || !disponibilita.matches(regex)) {
                 response.getWriter().print("Orari di disponibilit&agrave; errati");

@@ -7,13 +7,11 @@ $(function () {
         setComputers()
     });
 
-    $("#submitButton").click(function () {
-        $("form[name='formInsA'] #submitButton").click(function () {
-            inserisciNuovaAula($("form[name='formInsA']"));
-        });
-        $("form[name='formModA'] #submitButton").click(function () {
-            modificaAula($("form[name='formModA']"));
-        });
+    $("form[name='formInsA'] #submitButton").click(function () {
+        inserisciNuovaAula($("form[name='formInsA']"));
+    });
+    $("form[name='formModA'] #submitButton").click(function () {
+        modificaAula($("form[name='formModA']"));
     });
 });
 
