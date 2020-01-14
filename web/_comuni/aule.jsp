@@ -9,13 +9,13 @@
     EdificioDAO edificioDAO = DBEdificioDAO.getInstance();
     String strEdificio = request.getParameter("edificio");
     if (strEdificio == null || strEdificio.strip().equals("") || edificioDAO.retriveByName(strEdificio) == null) {
+        SessionManager.setError(session, "Edificio non valido");
         response.sendRedirect(request.getContextPath() + "/index.jsp");
         return;
     }
     Edificio edificio = edificioDAO.retriveByName(strEdificio);
 
     boolean isDocente = u != null && u.getTipoUtente().equals(TipoUtente.DOCENTE);
-    boolean isStudente = u != null && u.getTipoUtente().equals(TipoUtente.STUDENTE);
     boolean isAdmin = u != null && u.getTipoUtente().equals(TipoUtente.ADMIN);
 
     String errorMessage = SessionManager.getError(session);

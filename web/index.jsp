@@ -35,6 +35,7 @@
 
     String errorMessage = SessionManager.getError(session);
     if (errorMessage != null) {
+        errorMessage = errorMessage.equals("Edificio non valido") ? errorMessage : null;
         SessionManager.cleanError(session);
     }
 %>
@@ -82,13 +83,12 @@
 </section>
 <section id="facts">
     <div class="container wow fadeIn">
-<%--        ERRORE SESSIONE         --%>
-<%--        <% if (errorMessage != null) { %>--%>
-<%--        <div class="alert alert-danger" role="alert">--%>
-<%--            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>--%>
-<%--            <%=errorMessage%>--%>
-<%--        </div>--%>
-<%--        <% } %>--%>
+        <% if (errorMessage != null) { %>
+        <div class="alert alert-danger" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <span><%=errorMessage%></span>
+        </div>
+        <% } %>
         <div class="section-header">
             <h3 class="section-title">Disponibilità</h3>
         </div>
@@ -133,7 +133,8 @@
                     <div>
                         <br>
                         <button type="button" class="btn btn-primary">
-                            <a href="${pageContext.request.contextPath}/_comuni/aule.jsp?edificio=<%=e.getNome()%>#services">Seleziona</a>
+                            <a id="goTo<%=e.getNome().strip().replace("\\s", "_")%>"
+                            href="${pageContext.request.contextPath}/_comuni/aule.jsp?edificio=<%=e.getNome()%>#services">Seleziona</a>
                         </button>
                     </div>
                 </div>
