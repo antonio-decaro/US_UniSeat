@@ -81,12 +81,7 @@
                                 Non ci sono prenotazioni <%=u.getTipoUtente().equals(TipoUtente.ADMIN) ? "" : "attive"%>
                             </h3>
                             <% } %>
-                            <% if (errorMessage != null) { %>
-                            <div class="alert alert-danger" role="alert">
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                <%=errorMessage%>
-                            </div>
-                            <% } %>
+
                         </div>
                         <% if (!prenotazioni.isEmpty()) { %>
                         <table class="table table-light table-responsive-md">
