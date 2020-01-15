@@ -17,7 +17,6 @@ function formValido() {
     var regxNome = /^[A-Z a-z 0-9]+$/;
     var verifica = true;
 
-
     if (nome === " " || nome.length < 1 || nome.length > 16) {
         $("#errNomeAula").text("Nome aula non valido");
         verifica = false;
