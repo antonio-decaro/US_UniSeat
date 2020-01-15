@@ -72,7 +72,7 @@ public class RegistrazioneServlet extends HttpServlet {
         try {
             utenteDAO.insert(utente);
             EmailManager emailManager = (EmailManager) req.getServletContext().getAttribute(EMAIL_PARAM);
-            new Thread(()->emailManager.inviaEmailConferma(utente)).start();
+            emailManager.inviaEmailConferma(utente);
             SessionManager.setMessage(session, "E-Mail di conferma inviata al tuo indirizzo di posta");
         } catch (ViolazioneEntityException e) {
             SessionManager.setError(session, e.getMessage());

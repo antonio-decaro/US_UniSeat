@@ -41,7 +41,7 @@ function formValido() {
     return verifica;
 }
 
-function inserisciNuovaAula(form) {
+function inserisciNuovaAula() {
 
     $.post("/inserisciAula", $("#insNewAula").serialize(), function (msg) {
         showMessage(msg);
@@ -50,7 +50,7 @@ function inserisciNuovaAula(form) {
     });
 }
 
-function modificaAula(form) {
+function modificaAula() {
 
     $.post("/modificaAula", $("#formModAula").serialize(), function (msg) {
         showMessage(msg);
@@ -60,15 +60,15 @@ function modificaAula(form) {
 }
 
 
-function controllaInsAula(form) {
+function controllaInsAula() {
     if (formValido()) {
-        inserisciNuovaAula(form);
+        inserisciNuovaAula();
     }
 }
 
-function controllaModAula(form) {
+function controllaModAula() {
     if (formValido()) {
-        modificaAula(form);
+        modificaAula();
     }
 }
 

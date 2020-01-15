@@ -11,6 +11,7 @@
 <%@ page import="model.pojo.Servizio" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.List" %>
+<%@ page import="control.utili.DisponibilitaManager" %>
 <%@ page contentType= "text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
@@ -23,6 +24,8 @@
     for (Edificio e : edifici) {
         int val = 0;
         for (Aula a : e.getAule()) {
+            if (new DisponibilitaManager(a, null).isInManutenzione())
+                continue;
             nAule += 1;
             nPosti += a.getPosti();
             if (a.getServizi().contains(Servizio.COMPUTER)) {

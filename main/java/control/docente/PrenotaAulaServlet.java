@@ -123,8 +123,8 @@ public class PrenotaAulaServlet extends HttpServlet {
 
             EmailManager emailManager = (EmailManager) req.getServletContext().getAttribute(EMAIL_MANAGER);
             for (Prenotazione p : prenotazioniDaEliminare) {
-                // associo l'operazione ad un thread per evitare overhead dovuto al servizio email.
-                new Thread(() -> emailManager.comunicaPrenotazione(p.getUtente(), prenotazione)).start();
+
+               emailManager.comunicaPrenotazione(p.getUtente(), prenotazione);
 
                 if (p.getOraInizio().before(prenotazione.getOraInizio())) {
                     p.setOraFine(prenotazione.getOraInizio());

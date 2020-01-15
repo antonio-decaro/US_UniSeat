@@ -3,6 +3,7 @@
 <%@ page import="model.database.DBEdificioDAO" %>
 <%@ page import="model.pojo.Aula" %>
 <%@ page import="model.pojo.Edificio" %>
+<%@ page import="control.utili.DisponibilitaManager" %>
 
 <%
     Utente u = SessionManager.getUtente(session);
@@ -88,13 +89,24 @@
                     <div class="icon"><i class="fa fa-pencil"></i></div>
                     <h4 class="title"><%=a.getNome()%>
                     </h4>
-                    <div class="counters"><%=a.getPosti() - a.getPostiOccupati()%> posti disponibili</div>
+                    <div class="counters">
+                        <%= new DisponibilitaManager(a, null).isInManutenzione() ? 0 : a.getPosti() - a.getPostiOccupati()%> posti disponibili</div>
                     <div>
                         <br>
+                        <%if (new DisponibilitaManager(a, null).isInManutenzione()) { %>
+                            <% if (isAdmin) { %>
+                            <button type="button" class="btn btn-primary disabled">
+                                <a href="${pageContext.request.contextPath}/_admin/ModificaAula.jsp?id=<%=a.getId()%>"></a>
+                            </button>
+                            <% } else {%>
+                            <button type="button" class="btn btn-primary disabled">Non disponibile</button>
+                            <% } %>
+                        <% } else { %>
                         <button name="toggle_prenotazione" type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#prenotazione" value="<%=a.getId()%>">
                             <%= u == null || isAdmin ? "Info" : ("Prenota " + (isDocente ? "Aula" : "Posto"))%>
                         </button>
+                        <% } %>
                     </div>
                 </div>
             </div>

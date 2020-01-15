@@ -91,22 +91,24 @@ public class EmailManager {
             }
         });
 
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("noreply@jamammo.it"));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(to));
-            message.setSubject(subject);
-            message.setText(body,"UTF-8", "html");
+        new Thread(() -> {
+            try {
+                MimeMessage message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("noreply@jamammo.it"));
+                message.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(to));
+                message.setSubject(subject);
+                message.setText(body,"UTF-8", "html");
 
-            logger.log(Level.INFO, "Trying to send an email to " + to);
+                logger.log(Level.INFO, "Trying to send an email to " + to);
 
-            Transport.send(message);
+                Transport.send(message);
 
-            logger.log(Level.INFO, "Email sent");
+                logger.log(Level.INFO, "Email sent");
 
-        } catch (MessagingException e) {
-            logger.log(Level.SEVERE, "Message: {0}\nCause: {1}", new Object[]{e.getMessage(), e.getCause()});
-        }
+            } catch (MessagingException e) {
+                logger.log(Level.SEVERE, "Message: {0}\nCause: {1}", new Object[]{e.getMessage(), e.getCause()});
+            }
+        }).start();
     }
 }

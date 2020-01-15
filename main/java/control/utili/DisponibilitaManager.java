@@ -41,6 +41,21 @@ public class DisponibilitaManager {
     }
 
     /**
+     * Questo metodo controlla se l'aula è in manutenzione e quindi non agibile da nessuno
+     *
+     * @return true se l'aula è in manutenzione, false altrimenti
+     * @since v 0.1
+     * */
+    public boolean isInManutenzione() {
+        String template1 = "{\"intervalli\":[[],[],[],[],[],[],[]]}";
+        String template2 = "{\"intervalli\":[[],[],[],[],[],[]]}";
+        String template3 = "{\"intervalli\":[[],[],[],[],[]]}";
+
+        String dispAula = aula.getDisponibilita().strip().replaceAll("\\s", "");
+        return dispAula.equals(template1) || dispAula.equals(template2) || dispAula.equals(template3);
+    }
+
+    /**
      * Questo metodo controlla se il posto di un aulta è disponibile ad una determinata ora di un determinato giorno.
      *
      * @param data data in cui controllare la disponibilità
