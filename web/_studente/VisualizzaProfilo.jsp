@@ -15,6 +15,7 @@
     }
     if (u == null) {
         response.sendRedirect(request.getContextPath() + "/_comuni/login.jsp");
+        return;
     }
     if (!u.getTipoUtente().equals(TipoUtente.STUDENTE)) {
     response.sendRedirect(request.getContextPath() + "/index.jsp");
