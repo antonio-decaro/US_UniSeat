@@ -82,7 +82,7 @@ Header
                             <div class="card-body">
                                 <div class="form">
                                     <div id="exercitationrormessage"></div>
-                                    <form method="post" role="form" name="formModA" class="contactForm">
+                                    <form method="post" role="form" name="formModA" class="contactForm" id="formModAula">
                                         <div class="form-group">
                                             <label for="selectEdificio">Edificio</label>
                                             <select name="edificio" class="form-control" id="selectEdificio">
@@ -148,7 +148,7 @@ Header
                                             </div>
                                         </div>
                                         <button type="button" class="btn btn-lg btn-primary btn-block text-uppercase"
-                                                id="submitButton">Modifica
+                                                onclick="controllaModAula(formModA)" id="submitButton">Modifica
                                         </button>
 
                                     </form>

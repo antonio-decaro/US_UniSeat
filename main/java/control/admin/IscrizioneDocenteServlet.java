@@ -109,10 +109,10 @@ public class IscrizioneDocenteServlet extends HttpServlet {
         utente.setCodiceVerifica(rand.nextInt());
         try {
             utenteDAO.insert(utente);
+            SessionManager.setMessage(session, "Utente registrato con successo");
         } catch (ViolazioneEntityException e) {
             SessionManager.setError(session, e.getMessage());
         }
-        SessionManager.setMessage(session, "Utente registrato con successo");
         resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");
     }
 

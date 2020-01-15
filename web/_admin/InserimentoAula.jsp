@@ -65,7 +65,7 @@ Header
                             <div class="card-body">
                                 <div class="form">
                                     <div id="exercitationrormessage"></div>
-                                    <form method="post" role="form" name="formInsA" class="contactForm">
+                                    <form method="post" role="form" name="formInsA" class="contactForm" id="insNewAula">
                                         <div class="form-group">
                                             <label for="selectEdificio">Edificio</label>
                                             <select name="edificio" class="form-control" id="selectEdificio">
@@ -78,8 +78,8 @@ Header
                                         </div>
                                         <div class="form-group">
                                             <label for="nomeAula">Nome</label>
-                                            <input type="text" name="nome_aula" class="form-control" id="nomeAula"
-                                                   placeholder="Nome">
+                                            <input type="text" name="nome_aula" class="form-control"
+                                                   onclick="blankLabel('errNomeAula')" id="nomeAula" placeholder="Nome">
                                             <h6 id="errNomeAula" style="color: #bd2130"></h6>
                                         </div>
                                         <div class="form-group">
@@ -129,7 +129,7 @@ Header
                                             </div>
                                         </div>
                                         <button type="button" class="btn btn-lg btn-primary btn-block text-uppercase"
-                                                id="submitButton">Inserisci
+                                                onclick="controllaInsAula(formInsA)" id="submitButton">Inserisci
                                         </button>
 
                                     </form>

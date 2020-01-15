@@ -47,16 +47,8 @@
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 </head>
 <body>
-<header id="header">
-    <div class="container">
+<%@ include file="../_fragments/header.jsp" %>
 
-        <div id="logo" class="pull-left">
-            <h1><a href="${pageContext.request.contextPath}web/index.jsp">Uni Seat</a></h1>
-        </div>
-        <nav id="nav-menu-container">
-        </nav>
-    </div>
-</header>
 <section id="hero">
     <div class="hero-container">
         <div class="container wow fadeInUp">
