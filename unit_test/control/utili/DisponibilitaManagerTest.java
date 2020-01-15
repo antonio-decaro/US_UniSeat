@@ -38,7 +38,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAulaDisponibile1() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 50, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-30");
         Time oraInizio = Time.valueOf("11:00:00");
@@ -49,7 +49,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAulaDisponibile2() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 50, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-30");
         Time oraInizio = Time.valueOf("09:00:00");
@@ -60,7 +60,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAulaDisponibile3() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 50, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-31");
         Time oraInizio = Time.valueOf("09:00:00");
@@ -71,7 +71,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAulaDisponibile4() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 50, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-31");
         Time oraInizio = Time.valueOf("17:00:00");
@@ -82,7 +82,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAulaDisponibile5() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 50, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-31");
         Time oraInizio = Time.valueOf("17:00:00");
@@ -93,7 +93,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAulaDisponibile6() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 50, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-30");
         Time oraInizio = Time.valueOf("11:00:00");
@@ -108,7 +108,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAulaDisponibile7() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 50, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-30");
         Time oraInizio = Time.valueOf("11:00:00");
@@ -123,7 +123,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAulaDisponibile8() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 50, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-30");
         Time oraInizio = Time.valueOf("11:00:00");
@@ -138,7 +138,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAula_InManutenzione_Disponibile() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula2.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula2.json"));
         Aula aula = new Aula("Aula1", 50, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-30");
         Time oraInizio = Time.valueOf("11:00:00");
@@ -149,7 +149,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAulaDisponibileThrows() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 50, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-30");
         Time oraInizio = Time.valueOf("11:00:00");
@@ -162,7 +162,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsAulaDisponibileTuttiPostiOccupati() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 100, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-31");
         Time oraInizio = Time.valueOf("11:00:00");
@@ -173,7 +173,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsPostoDisponibile1() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 99, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-30");
         Time oraInizio = Time.valueOf("11:00:00");
@@ -184,7 +184,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsPostoDisponibile2() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula1.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula1.json"));
         Aula aula = new Aula("Aula1", 100, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-30");
         Time oraInizio = Time.valueOf("11:00:00");
@@ -195,7 +195,7 @@ class DisponibilitaManagerTest {
 
     @Test
     void testIsPostoDisponibile3() throws Exception {
-        String disp = Files.readString(Paths.get("./test/resources/DisponibiltaManagerRes/aula2.json"));
+        String disp = Files.readString(Paths.get("./unit_test/resources/DisponibiltaManagerRes/aula2.json"));
         Aula aula = new Aula("Aula1", 80, 100, disp, mockEdifcio);
         Date data = Date.valueOf("2019-12-30");
         Time oraInizio = Time.valueOf("11:00:00");

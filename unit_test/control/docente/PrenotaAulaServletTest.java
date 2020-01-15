@@ -92,7 +92,7 @@ class PrenotaAulaServletTest {
         }).when(session).setAttribute(anyString(), any());
 
         Edificio ed = edificioDAO.retriveByName("F3");
-        String dispP3 = Files.readString(Paths.get("./test/resources/TC_4/disp_aulaP3.json"));
+        String dispP3 = Files.readString(Paths.get("./unit_test/resources/TC_4/disp_aulaP3.json"));
         Aula aulaP3 = new Aula("P3", 70, 100, dispP3, ed);
         aulaP3.setId(1);
         ed.getAule().add(aulaP3);

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>TC_1.01</name>
+   <tag></tag>
+   <comment></comment>
+   <testCaseGuid>15b84d07-3d20-436a-9a4e-46949fc62c2f</testCaseGuid>
+   <variable>
+      <defaultValue>'Il campo Nome non rispetta la lunghezza'</defaultValue>
+      <description></description>
+      <id>05cb70e4-2c7e-4d50-a920-4d42450742ab</id>
+      <masked>false</masked>
+      <name>expected</name>
+   </variable>
+</TestCaseEntity>
