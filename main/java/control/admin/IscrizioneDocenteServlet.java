@@ -111,6 +111,7 @@ public class IscrizioneDocenteServlet extends HttpServlet {
             utenteDAO.insert(utente);
         } catch (ViolazioneEntityException e) {
             SessionManager.setError(session, e.getMessage());
+            return;
         }
         SessionManager.setMessage(session, "Utente registrato con successo");
         resp.sendRedirect(req.getServletContext().getContextPath() + "/_admin/inserisciDocente.jsp");

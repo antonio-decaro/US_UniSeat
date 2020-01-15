@@ -172,6 +172,9 @@ public class PrenotaPostoServlet extends HttpServlet {
     }
 
     private Edificio parseEdificio(String param, EdificioDAO edificioDAO) throws IllegalArgumentException {
+        if (param == null || param.strip().equals("")) {
+            throw new IllegalArgumentException("Edificio non valido");
+        }
         Edificio edificio = edificioDAO.retriveByName(param);
         if (edificio == null) {
             throw new IllegalArgumentException("Edificio non valido");
