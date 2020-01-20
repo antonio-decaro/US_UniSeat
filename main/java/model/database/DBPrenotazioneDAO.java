@@ -22,8 +22,6 @@ import java.util.logging.Logger;
  * @see PrenotazioneDAO
  * */
 public class DBPrenotazioneDAO implements PrenotazioneDAO {
-    private static Logger logger = Logger.getLogger(DBAulaDAO.class.getName());
-    private static DBPrenotazioneDAO dao;
 
     /**
      * Ritorna un oggetto singleton di tipo DBEdificioDAO.
@@ -41,8 +39,6 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
     private DBPrenotazioneDAO(Connection connection) {
         this.connection = connection;
     }
-
-    private Connection connection;
 
     @Override
     public Prenotazione retriveById(int id) throws IllegalArgumentException {
@@ -395,6 +391,10 @@ public class DBPrenotazioneDAO implements PrenotazioneDAO {
         }
     }
 
+    private Connection connection;
+
+    private static Logger logger = Logger.getLogger(DBAulaDAO.class.getName());
+    private static DBPrenotazioneDAO dao;
     private static final String PULISCI = "pulisci";
     private static final String OCCUPA = "occupa";
 }

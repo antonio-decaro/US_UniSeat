@@ -96,7 +96,7 @@
                         <%if (new DisponibilitaManager(a, null).isInManutenzione()) { %>
                             <% if (isAdmin) { %>
                             <button type="button" class="btn btn-primary disabled">
-                                <a href="${pageContext.request.contextPath}/_admin/ModificaAula.jsp?id=<%=a.getId()%>"></a>
+                                <a style="color: white" href="${pageContext.request.contextPath}/_admin/ModificaAula.jsp?id=<%=a.getId()%>">Non disponibile</a>
                             </button>
                             <% } else {%>
                             <button type="button" class="btn btn-primary disabled">Non disponibile</button>
