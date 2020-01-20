@@ -43,7 +43,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/it/java</source>
+                                <source>unit_test</source>
                             </sources>
                         </configuration>
                     </execution>
